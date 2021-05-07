@@ -1,0 +1,72 @@
+﻿@page "/AssignRolls/Delete"
+@using MalaikaSchool.Data.Models
+
+
+
+
+
+<div class="row">
+    <div class="box box-block bg-white col-md-6">
+
+
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    Student Name
+                </dt>
+
+                <dd>
+                    @Model.Student.UserStudent.UserName
+                </dd>
+
+                <dt>
+                    Student Class
+                </dt>
+
+                <dd>
+                    @Model.StudentClass.ClassName
+                </dd>
+
+                <dt>
+                    Role
+                </dt>
+
+                <dd>
+                    @Model.Roll
+                </dd>
+
+
+            </dl>
+
+            <form action="/" method="post">
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    <NavLink href="/AssignRolls/Index">Back to List</NavLink>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <NavLink href="/AssignRolls/Index" class="btn btn-warning">Back to List</NavLink>
+</div>
+
+@code {
+
+    private AssignRoll Model;
+
+
+    protected override Task OnInitializedAsync()
+    {
+        Model = new AssignRoll();
+
+        return base.OnInitializedAsync();
+    }
+
+}
+
+

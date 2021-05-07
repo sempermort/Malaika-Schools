@@ -1,0 +1,115 @@
+﻿@page "/Exam/Index"
+@inherits OwningComponentBase<StudentsService>
+
+
+@if (Model != null)
+{
+
+    <DataGrid TItem="Exam" Data="@Model" Sortable="true" Filterable="true"
+              Editable="true" ShowPager="true" PageSize="3" UseInternalEditing="true"
+              EditMode="DataGridEditMode.Inline"
+              RowUpdated="@OnRowUpdated"
+              RowInserted="@OnRowInserted"
+              RowRemoved="@OnRowRemoved"
+              NewItemDefaultSetter="@OnNewItemDefaultSetter">
+        <DataGridCommandColumn TItem="Exam">
+            <NewCommandTemplate>
+                <Blazorise.Button Color="Blazorise.Color.Success" Clicked="@context.Clicked">New</Blazorise.Button>
+            </NewCommandTemplate>
+            <SaveCommandTemplate>
+                <Blazorise.Button Color="Blazorise.Color.Success" Clicked="@context.Clicked">Save</Blazorise.Button>
+            </SaveCommandTemplate>
+            <EditCommandTemplate>
+                <Blazorise.Button Color="Blazorise.Color.Primary" Clicked="@context.Clicked">Edit</Blazorise.Button>
+            </EditCommandTemplate>
+            <DeleteCommandTemplate>
+                <Blazorise.Button Color="Blazorise.Color.Danger" Clicked="@context.Clicked">Delete</Blazorise.Button>
+            </DeleteCommandTemplate>
+            <CancelCommandTemplate>
+                <Blazorise.Button Color="Blazorise.Color.Secondary" Clicked="@context.Clicked">Cancel</Blazorise.Button>
+            </CancelCommandTemplate>
+        </DataGridCommandColumn>
+        <DataGridSelectColumn TItem="Exam" CellsEditableOnEditCommand="true"  Field="@nameof(Exam.StudentId)" Caption="Name" Editable="true">
+            @*<DisplayTemplate>
+                @{
+                        var targetname = (context as Exam).Student?.Name;
+
+                    @targetname
+                }
+            </DisplayTemplate>*@ 
+            <EditTemplate> 
+                 <Select TValue="int" SelectedValue="@((int)(((CellEditContext)context).CellValue))" 
+                            SelectedValueChanged="@(v => ((CellEditContext)context).CellValue = v)">
+                                                               
+                 @foreach (var stc in Students)
+                 {
+                   <SelectItem TValue="int" value="@(stc.Id)">@stc.Name</SelectItem>
+                 }
+                </Select>
+                                                       
+            </EditTemplate>                       
+        </DataGridSelectColumn>
+        <DataGridColumn TItem="Exam" Field="@nameof(Exam.Mark)" Caption="Marks"></DataGridColumn>
+        <DataGridColumn TItem="Exam" Field="@nameof(Exam.Grade)" Caption="Grade"></DataGridColumn>
+    </DataGrid>
+
+    }
+    else
+    {
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    }
+    @code {
+
+        private List<Exam> Model;
+
+        private List<Student> Students =new List<Student>();
+
+
+        protected override async Task OnInitializedAsync()
+        {
+            Model = await Service.ExamIndex();
+            Students = await Service.Index();
+        }
+
+        private async Task OnRowInserted(SavedRowItem<Exam, Dictionary<string, object>> e)
+        {
+            //Save
+            Exam ExamM = new Exam();
+            ExamM=   e.Item;
+            foreach (var ele in e.Values)
+            {
+                var k= (int)ele.Value;
+
+                ExamM.StudentId = k;
+            }
+            await Service.CreateExam(ExamM);
+            Model = await Service.ExamIndex();
+            StateHasChanged();
+        }
+
+        private async Task OnRowUpdated(SavedRowItem<Exam, Dictionary<string, object>> e)
+        {
+            //Update
+            var ExamM = e.Item;
+            await Service.EditExam(ExamM);
+            Model = await Service.ExamIndex();
+            StateHasChanged();
+        }
+        private async Task OnRowRemoved(Exam Exam)
+        {
+            //Delete
+            await Service.ExamDeleteConfirmed(Exam.Id);
+            Model = await Service.ExamIndex();
+            StateHasChanged();
+        }
+        private void OnNewItemDefaultSetter(Exam Exam)
+        {
+            //Default Value Set
+            StateHasChanged();
+
+        }
+    }

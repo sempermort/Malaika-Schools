@@ -1,0 +1,78 @@
+﻿@page "/ExamTitles/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+
+
+<div class="row">
+    <div class="page-header">
+        <h1>
+            Edit
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/ExamTitles/Index" class="btn btn-warning">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white col-md-6">
+        <form action="/ExamTitles/Edit/{Id:int}" method="post" id="SubmitForm"></form>
+            @*<DataAnnotationsValidator />*@
+
+
+        <div class="form-horizontal">
+               @*<ValidationSummary />*@
+
+            <input type="hidden" for="Id" @bind="Model.Id">
+
+            <div class="form-group">
+                <label for="TitleName" class="control-label">Class</label>
+                <InputText for="TitleName" class="form-control" bind-Value="@Model.TitleName" />
+            </div>
+
+       
+            <div class="form-group">
+                <label for="EducationLevelId" class="control-label">Student</label>
+                <select for="EducationLevelId" class="form-control" bind="@Model.EducationLevelId">
+                    <option value="@Model.EducationLevelId">@Model.</option>
+                    @if (educationLevels != null)
+                    {
+                        @foreach (var stc in educationLevels)
+                        {
+                            <option value="@stc.Id">@stc.EducationLevelName</option>
+                        }
+                    }
+                </select>
+
+            </div>
+
+     
+            <div class="form-group row">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                </div>
+            </div>
+        </div>
+        }
+
+    </div>
+</div>
+
+
+
+
+@code {
+
+    private ExamTitle Model;
+    private List<EducationLevel> educationLevels;
+
+    protected override  Task OnInitializedAsync()
+    {
+        Model = new ExamTitle();
+        educationLevels = new List<EducationLevel>();
+
+
+        return base.OnInitializedAsync();
+    }
+
+}

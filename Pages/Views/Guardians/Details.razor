@@ -1,0 +1,70 @@
+﻿@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="">
+    <div class="box box-block bg-white">
+        
+        <div>
+            @if (Model == null || Model.GuardianType == null||students==null)
+            {
+                <div class="spinner"></div>
+            }
+            else
+            {
+                <dl class="dl-horizontal">
+                    <dt>Guardian Name</dt>
+                    <dd>@Model.Name</dd>
+                    <dt>Student Name</dt>
+                    <dd>
+                        @foreach (var student in students)
+                    {
+                        @if (student.Id == Model.StudentId)
+                        {
+                            @student.Name
+                        }
+                    }
+
+                    </dd>
+                    <dt>GuardianType</dt>
+                    <dd>@Model.GuardianType.Name</dd>
+                    <dt>PhoneNumber</dt>
+                    <dd>@Model.PhoneNumber</dd>
+                    <dt>Email</dt>
+                    <dd>@Model.Email</dd>
+                    <dt>NIDA Number</dt>
+                    <dd>@Model.NID</dd>
+
+                </dl>
+            }
+            </div>
+    </div>
+
+</div>
+
+<div>
+    <p>
+        <NavLink href="/Guardians/Edit/{Id:int}" class="btn btn-warning">Edit</NavLink>
+        <NavLink href="/Guardians/Index" class="btn btn-warning">Back to List</NavLink>
+    </p>
+</div>
+
+@code {
+
+    private Guardian Model=new Guardian();
+    private List<Student> students = new List<Student>();
+
+    [Parameter]
+    public int Id { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.GetGuardian(Id);
+
+        students = await Service.Index();
+    }
+
+}
+
+

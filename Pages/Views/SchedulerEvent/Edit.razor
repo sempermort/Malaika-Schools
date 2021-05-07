@@ -1,0 +1,126 @@
+﻿@page "/Scheduler/Edit/{Id:int}"
+@inherits OwningComponentBase<StudentsService>
+
+@if (Classes != null)
+{
+    <div class="">
+        <div class="page-header">
+            <h4>
+                Edit Event
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right"></i>
+
+                    <NavLink href="/Scheduler/Index" class="btn btn-warning float-right">Back to List</NavLink>
+
+                </small>
+            </h4>
+        </div>
+        <div class="box box-block bg-white ">
+            <hr>
+            <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="SchedulerEventForm" class="col-md-7 m-auto">
+                @*<DataAnnotationsValidator />*@
+
+
+                <div class="form-horizontal">
+                    @*<ValidationSummary />*@
+                    <div class="form-group">
+                        <label for="Text" class="control-label">Event</label>
+                        <InputText for="Text" class="form-control" @bind-Value="@Model.Text" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="StartDate" class="control-label">Starting Date and Time</label>
+                        <InputDate for="DOB" class="form-control" @bind-Value="@Model.StartDate" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Duration" class="control-label">Duration of Event</label>
+                        <InputNumber for="Duration" class="form-control" @bind-Value="@Model.Duration" />
+                    </div>
+
+                    <div class="form-group ">
+                        <label for="SchedulerEventClassId" class="control-label">SchedulerEvent Class</label>
+                        <InputSelect for="SchedulerEventClassId" class="form-control" @bind-Value="@Model.StudentClassId">
+                            <option value="">Class</option>
+                            @if (Classes != null)
+                                {
+                                @foreach (var stc in Classes)
+                                    {
+
+                                    <option value="@stc.Id">@stc.ClassName</option>
+                                    }
+                                }
+                        </InputSelect>
+
+                    </div>
+
+                    <div class="form-group float-right">
+                        <div class="col-md-offset-4 col-md-8">
+                            <small>
+                                <input type="submit" class="btn btn-info" value="Create" />
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
+
+        </div>
+    </div>
+}
+else
+{
+
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+    @inject NavigationManager NavigationManager
+    private SchedulerEvent Model = new SchedulerEvent();
+    private List<StudentClass> Classes = new List<StudentClass>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Classes = await Service.StudentClassIndex();
+    }
+
+
+    //Hamdle SchedulerEvents photo
+
+
+
+    //Submit Data
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        SchedulerEvent SchedulerEvent = new SchedulerEvent();
+        try
+        {
+            SchedulerEvent = Model;
+
+            var result = await Service.EditSchedulerEvent(SchedulerEvent);
+            // Clear the form.
+           
+                NavigationManager.NavigateTo("/Scheduler/Index");
+           
+            Model = new SchedulerEvent();
+            // Show the Toast.
+            //await callBack.InvokeAsync(result);
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

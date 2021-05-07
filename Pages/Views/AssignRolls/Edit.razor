@@ -1,0 +1,114 @@
+﻿@page "/AssignRolls/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+
+
+<div class="row">
+    <div class="page-header">
+        <h1>
+            Edit Roll Assigning of Student
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/AssignRolls/Index" class="btn btn-warning">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white col-md-6">
+        <form action="/AssignRolls/Edit/{Id:int}" method="post" id="SubmitForm"></form>
+            @*<DataAnnotationsValidator />*@
+
+
+        <div class="form-horizontal">
+               @*<ValidationSummary />*@
+
+
+
+            <div class="form-group">
+                <label for="Roll" class="control-label">Date</label>
+                <InputText for="Roll" class="form-control" bind-Value="@Model.Roll" />
+            </div>
+            <div class="form-group">
+                <label for="SessionId" class="control-label">Session</label>
+                <select for="SessionId" class="form-control" bind="@Model.SessionId">
+                    <option value="@Model.SessionId">@Model.Session.Name</option>
+                    @if (sessions != null)
+                    {
+                        @foreach (var stc in sessions)
+                        {
+
+                            <option value="@stc.Id">@stc.Name</option>
+                        }
+                    }
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label for="StudentClassId" class="control-label">Student Class</label>
+                <select for="StudentClassId" class="form-control" bind="@Model.StudentClassId">
+                    <option value="@Model.StudentClassId">@Model.StudentClass.ClassName</option>
+                    @if (studentClasses != null)
+                    {
+                        @foreach (var stc in studentClasses)
+                        {
+
+                            <option value="@stc.Id">@stc.ClassName</option>
+                        }
+                    }
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label for="StudentId" class="control-label">Student</label>
+                <select for="StudentId" class="form-control" bind="@Model.StudentId">
+                    <option value="@Model.StudentId">@Model.Student.UserStudent.UserName</option>
+                    @if (students != null)
+                    {
+                        @foreach (var stc in students)
+                        {
+                            <option value="@stc.Id">@stc.UserStudent.UserName</option>
+                        }
+                    }
+                </select>
+
+            </div>
+
+
+
+            <div class="form-group row">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                </div>
+            </div>
+        </div>
+        }
+
+    </div>
+</div>
+
+
+
+
+@code {
+
+    private AssignRoll Model;
+    private List<Session> sessions;
+    private List<StudentClass> studentClasses;
+    private List<Student> students;
+
+
+    protected override Task OnInitializedAsync()
+    {
+        Model = new AssignRoll();
+        sessions = new List<Session>();
+        studentClasses = new List<StudentClass>();
+        students = new List<Student>();
+
+
+        return base.OnInitializedAsync();
+    }
+
+}

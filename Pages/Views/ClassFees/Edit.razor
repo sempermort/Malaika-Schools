@@ -1,0 +1,50 @@
+﻿@using MalaikaSchool.Data.Models
+@page "/ClassFee/Edit/{Id:int}"
+
+<div class="row">
+  
+    <div class="box box-block bg-white col-md-6">
+        <form action="/ClassFee/Edit/{Id:int}" method="post" id="SubmitForm"></form>
+            @*<DataAnnotationsValidator />*@
+
+
+        <div class="form-horizontal">
+               @*<ValidationSummary />*@
+
+
+            <div class="form-group">
+                <label for="Amount" class="control-label">Date</label>
+                <InputText for="Amount" class="form-control" bind-Value="@Model.Amount"></InputText>
+            </div>          
+
+            <div class="form-group row">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                </div>
+            </div>
+        </div>
+      </div>
+</div>
+
+
+
+
+@code {
+
+    private ClassFee Model=new ClassFee();
+
+    private List<StudentClass> studentClass= new List<StudentClass>();
+
+
+
+    //protected override void OnInitializedAsync()
+    //{
+    //    Model = new ClassFee();
+
+    //    studentClass = new List<StudentClass>();
+
+
+    //}
+
+}

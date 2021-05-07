@@ -1,0 +1,75 @@
+﻿@page "/StaffAttendance/Create"
+@using MalaikaSchool.Data.Services
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="">
+    <div class="page-header">
+        <h1>
+           Add Staff 
+            <small>
+                <i class="ace-icon fa fa-angle-double-right "></i>
+                <NavLink href="/StaffAttendance/Index" class="btn btn-warning float-right">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white ">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <div class="form-Group">
+                    <label for="Name" class="control-label">Class</label>
+                    <InputText for="Name" class="form-control" @bind-Value="@Model.Instructor.Name" />
+                </div>
+
+            </div>
+            <div class="form-Group row">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" class="btn btn-primary" value="Save"  />
+
+                </div>
+            </div>
+            </EditForm>
+    </div>
+
+
+</div>
+
+
+
+
+
+@code {
+
+    private StaffAttendance Model=new StaffAttendance();
+
+    
+    //Submit Data
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        StaffAttendance StaffAttendance = new StaffAttendance();
+        try
+        {
+            StaffAttendance = Model;
+
+            var result = await Service.CreateStaffAttendance(StaffAttendance);
+            // Clear the form.
+            Model = new StaffAttendance();
+            // Show the Toast.
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+
+}

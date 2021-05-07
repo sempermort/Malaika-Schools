@@ -1,0 +1,91 @@
+﻿@page "/Subject/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+@using MalaikaSchool.Data.Services
+@inherits OwningComponentBase<StudentsService>
+
+<div class="">
+   
+    <div class="box box-block bg-white ">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <div class="form-group">
+                    <label for="SubjectName" class="control-label">Subject</label>
+                    <InputText for="SubjectName" class="form-control" @bind-Value="@Model.Name" />
+                </div>
+
+                <div class="form-group">
+                    <label for="Code" class="control-label">Code</label>
+                    <InputText for="Code" class="form-control" @bind-Value="@Model.Code" />
+                </div>
+
+
+                <div class="form-group">
+                    <label for="ClassNameId" class="control-label">Student Class</label>
+                    <select for="ClassIdNameId" class="form-control" @bind="@Model.ClassNameId">
+                        <option value="@Model.ClassNameId">@Model.ClassNameId</option>
+                        @if (StudentClasses != null)
+                        {
+                            @foreach (var stc in StudentClasses)
+                            {
+
+                                <option value="@stc.Id">@stc.ClassName</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                    </div>
+                </div>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
+
+
+
+
+
+@code {
+    public int Id { get; set; }
+    private Subject Model= new Subject();
+    private List<StudentClass> StudentClasses= new List<StudentClass>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.GetSubject(Id);
+        StudentClasses = await Service.StudentClassIndex();
+    }
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        Subject Subject = new Subject();
+        try
+        {
+            Subject = Model;
+
+            var result = Service.EditSubject(Subject);
+
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

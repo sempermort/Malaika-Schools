@@ -1,0 +1,214 @@
+﻿@page "/Student/StudentCreate"
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="">
+    <div class="page-header">
+        <h1>
+            Add Student
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/Student/Index" class="btn btn-warning float-right">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white ">
+        <hr>
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@dent" Id="studentForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+                <div class="form-group">
+                    <label for="Name" class="control-label">Student's Name</label>
+                    <InputText for="Name" class="form-control" @bind-Value="@dent.Name" />
+                </div>
+
+                <div class="form-group">
+                    <label for="DOB" class="control-label">Date of Birth</label>
+                    <input type="date" for="DOB" class="form-control" @bind="@dent.DateOfBirth" />
+                </div>
+
+                <div class="form-group">
+                    <InputSelect for="Gender" class="form-control" @bind-Value="@dent.Gender">
+                        <option value=""> Gender </option>
+
+                        @foreach (var gender in Enum.GetNames(typeof(Gender)))
+                        {
+
+                            <option value="@gender">@gender</option>
+                        }
+
+                    </InputSelect>
+
+                </div>
+
+
+                <div class="form-group">
+                    <InputSelect for="Religion" class="form-control" @bind-Value="@dent.Religion">
+                        <option value=""> Religion </option>
+
+                        @foreach (var religion in Enum.GetNames(typeof(Religion)))
+                        {
+
+                            <option value="@religion">@religion</option>
+                        }
+
+                    </InputSelect>
+
+                </div>
+
+                <div class="form-group">
+                    <InputSelect for="MaritalStatus" class="form-control" @bind-Value="@dent.Nationality">
+                        <option value="">Nationality</option>
+
+                        @foreach (var country in CountryArrays.Names)
+                        {
+
+                            <option value="@country">@country</option>
+                        }
+
+                    </InputSelect>
+
+                </div>
+                <div class="form-group">
+                    <label for="Father'sName" class="control-label">Father's Name</label>
+                    <InputText for="FatherNmame" class="form-control" @bind-Value="@dent.FatherName" />
+                </div>
+                <div class="form-group">
+                    <label for="Mother'sName" class="control-label">Mother's Name</label>
+                    <InputText for="MotherName" class="form-control" @bind-Value="@dent.MotherName" />
+                </div>
+                <div class="form-group">
+                    <label for="PresentAddress" class="control-label">Current Address</label>
+                    <InputText for="PresentAddress" class="form-control" @bind-Value="@dent.PresentAddress" />
+                </div>
+                <div class="form-group">
+                    <label for="PermanentAddress" class="control-label">Permanent Address</label>
+                    <InputText for="PermanentAddress" class="form-control" @bind-Value="@dent.ParmanentAddress" />
+                </div>
+                <div class="form-group ">
+                    <label for="StudentClassId" class="control-label">Student Class</label>
+                    <InputSelect for="StudentClassId" class="form-control" @bind-Value="@dent.StudentClassId">
+                        <option value="">Class</option>
+                        @if (studentClasses != null)
+                        {
+                            @foreach (var stc in studentClasses)
+                            {
+
+                                <option value="@stc.Id">@stc.ClassName</option>
+                            }
+                        }
+                    </InputSelect>
+
+                </div>
+                <div class="form-group">
+                    <label for="Image" class="control-label d-block">Students Photo</label>
+                    <div class="form-control-file">
+
+                        <img src="@imgUrl" class="img-responsive img-thumbnail">
+
+                    </div>
+                    <InputFile type="file" OnChange="@LoadFiles" class="d-block" @bind-Value="@dent.Image" />
+
+                </div>
+                <div class="form-group float-right">
+                    <div class="col-md-offset-4 col-md-8">
+                        <small>
+                            <input type="submit" class="btn btn-info" value="Create" />
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+
+    </div>
+</div>
+
+
+
+
+@code {
+
+    [Parameter]
+    public EventCallback<Student> callBack { get; set; }
+    @inject NavigationManager NavigationManager
+    private Student dent = new Student();
+    private List<StudentClass> studentClasses = new List<StudentClass>();
+    public bool isLoading;
+    string exceptionMessage;
+    string imgUrl = string.Empty;
+    const int maxFileSize = 10485760;
+
+    protected override async Task OnInitializedAsync()
+    {
+        studentClasses = await Service.StudentClassIndex();
+    }
+
+
+    //Hamdle students photo
+    async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        exceptionMessage = "";
+
+        try
+        {
+
+            IBrowserFile imgFile = e.File;
+            var buffers = new byte[imgFile.Size];
+            using (var stream = imgFile.OpenReadStream(maxFileSize))
+            {
+                using (var mstream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(mstream);
+                    buffers = mstream.ToArray();
+                }
+            }
+            string imageType = imgFile.ContentType;
+            imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
+
+
+            dent.Image = buffers;
+
+        }
+        catch (Exception ex)
+        {
+            exceptionMessage = ex.Message;
+        }
+
+        isLoading = false;
+    }
+
+
+    //Submit Data
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        Student student = new Student();
+        try
+        {
+            student = dent;
+
+            var result = await Service.CreateStudent(student);
+            // Clear the form.
+            if (result != null)
+            {
+                NavigationManager.NavigateTo("/Student/Index");
+            }
+            dent = new Student();
+            // Show the Toast.
+            await callBack.InvokeAsync(result);
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

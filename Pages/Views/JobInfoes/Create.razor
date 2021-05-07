@@ -1,0 +1,94 @@
+﻿@page "/JobInfos/Create"
+@inherits OwningComponentBase<StudentsService>
+@inject NavigationManager  NavigationManager 
+
+
+<div class="row">
+    <div class="page-header">
+        <h2>
+            Add JobInfo
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+                <NavLink href="/JobInfoes/Index" class="btn btn-warning float-right">Back to List</NavLink>
+            </small>
+        </h2>
+    </div>
+    <div class="box box-block bg-white ">
+
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="DesignationForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <div class="form-group ">
+                    <label for="DesignationId" class="control-label">Designation</label>
+                    <InputSelect for="DesignationId" class="form-control" @bind-Value="@Model.DesignationId">
+                        <option value="">Appointment</option>
+                        @if (Designations != null)
+                        {
+                            @foreach (var stc in Designations)
+                            {
+
+                                <option value="@stc.Id">@stc.Name</option>
+                            }
+                        }
+                    </InputSelect>
+
+                </div>
+                <div class="form-group">
+                    <label for="Salary" class="control-label">Salary</label>
+                    <InputNumber for="Salary" class="form-control" @bind-Value="@Model.Salary" />
+                </div>
+              
+                <div class="form-group ">
+                    <input type="submit" class="btn btn-primary" value="Create" />
+                </div>
+            </div>
+        </EditForm>
+
+    </div>
+</div>
+
+
+
+
+@code {
+
+    private JobInfo Model;
+    private List<Designation> Designations;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = new JobInfo();
+        Designations = await Service.DesignationIndex();
+    }
+
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        JobInfo JobInfo = new JobInfo();
+        try
+        {
+            JobInfo = Model;
+
+            var result =await Service.CreateJobInfo(JobInfo);
+
+            if (result != null)
+            {
+                NavigationManager.NavigateTo("/Designation/Index");
+            }
+
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

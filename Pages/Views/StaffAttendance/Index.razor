@@ -1,0 +1,69 @@
+﻿@page "/StaffAttendance/Index"
+@using MalaikaSchool.Data.Services
+@inherits OwningComponentBase<StudentsService>
+
+
+
+<p>
+    <NavLink href="/StaffAttendance/Create">Create New</NavLink>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Stuff's Name
+        </th>
+
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Instructor.Name
+            </td>
+            <td class="d-flex">
+                <div class="form-check ">
+                    <input id="checkbox3" type="checkbox" checked="checked">
+                    <label for="checkbox3">Present</label>
+                </div>
+                <div class="form-check ">
+                    <input id="checkbox3" type="checkbox" checked="checked">
+                    <label for="checkbox3">Absent</label>
+                </div>
+            </td>
+
+            <td>
+                <NavLink href="@($"/StaffAttendance/Edit/{item.Id}")">Edit</NavLink> |
+                <NavLink href="" @onclick="()=>ClickDetailed(item.Id)">Details</NavLink> |
+                <NavLink href="" @onclick="()=>ClickDeleted(item.Id)">Delete</NavLink>
+            </td>
+        </tr>
+    }
+
+</table>
+@code {
+
+    private List<StaffAttendance> Model = new List<StaffAttendance>();
+    [CascadingParameter]
+    public IModalService StaffModal { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model =await Service.StaffAttendanceIndex();
+    }
+    public void ClickDetailed(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Details.Id), id);
+        StaffModal.Show<Details>("Detail of Staff", parameters);
+    }
+
+    public void ClickDeleted(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Delete.Id), id);
+        StaffModal.Show<Delete>("Delete Staff", parameters);
+    }
+}

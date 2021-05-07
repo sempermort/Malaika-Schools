@@ -1,0 +1,88 @@
+﻿
+@inherits OwningComponentBase<StudentsService>
+
+
+
+<div class="">
+    <NavLink href="/Student/Index" class="btn btn-warning float-left">Back to List</NavLink>
+    <div class="pb-3 col-md-8 m-auto">
+        @if (Model != null)
+        {
+            <div class="card">
+                <img class="card-img-top" src="@imgUrl" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">   Name of Student:  @Model.Name</h5>
+                    <p class="card-text">
+
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">  Name of Student: @Model.Name </li>
+                    <li class="list-group-item">  Date of Birth: @Model.DateOfBirth </li>
+                    <li class="list-group-item">  Nationality: @Model.Nationality </li>
+                    <li class="list-group-item">  Religion: @Model.Religion </li>
+                    <li class="list-group-item">  present Address: @Model.PresentAddress </li>
+                </ul>
+                <div class="card-body">
+
+
+                    <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+
+
+                        <div class="form-actions no-color">
+                            <input type="submit" value="Delete" class="btn btn-default" />
+                        </div>
+                    </EditForm>
+
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int StudentId { get; set; }
+
+    private Student Model =new Student();
+    string imgUrl = string.Empty;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (StudentId > 0)
+        {
+
+            Model = await Service.GetStudent(StudentId);
+
+            imgUrl = $"data:png;base64,{Convert.ToBase64String(Model.Image)}";
+        }
+
+    }
+    //Submit Data
+    public async Task HandleValidSubmit(EditContext context)
+    {
+        try
+        {
+             await Service.DeleteConfirmed(Model.Id);           
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+
+
+}
+
+

@@ -1,0 +1,88 @@
+﻿@page "/Schools/Delete"
+@using MalaikaSchool.Data.Models
+
+
+
+<div class="row">
+    <div class="box box-block bg-white col-md-6">
+
+
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    School Name
+                </dt>
+                <dd>
+                    @Model.Name
+                </dd>
+                <dt>
+                    Address
+                </dt>
+                <dd>
+                    @Model.Address
+                </dd>
+                <dt>
+                    Primary Phone Number
+                </dt>
+                <dd>
+                    @Model.PhonePrimary
+                </dd>
+                <dt>
+                    PhoneNumber Alternative
+                </dt>
+                <dd>
+                    @Model.PhoneAlt
+                </dd>
+                <dt>
+                    Email
+                </dt>
+                <dd>
+                    @Model.Email
+                </dd>
+
+                <dt>
+                    School Logo
+                </dt>
+                <dd>
+                    @if (Model.Logo != null)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Logo);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                        <img src='@imgSrc' style="max-width:100px; max-height:100px;" />
+                    }
+                </dd>
+
+            </dl>
+
+            <form action="/" method="post">
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    <NavLink href="/Schools/Index">Back to List</NavLink>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <NavLink href="/Schools/Index" class="btn btn-warning">Back to List</NavLink>
+</div>
+
+@code {
+
+    private School Model;
+
+
+    protected override  Task OnInitializedAsync()
+    {
+        Model = new School();
+
+        return base.OnInitializedAsync();
+    }
+
+}
+
+

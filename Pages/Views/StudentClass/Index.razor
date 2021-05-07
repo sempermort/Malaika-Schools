@@ -1,0 +1,72 @@
+﻿@page "/StudentClass/Index"
+@using MalaikaSchool.Data.Services
+@inherits OwningComponentBase<StudentsService>
+@inject IModalService Modal
+<h2>Index</h2>
+
+<p>
+    <NavLink href="/StudentClass/Create">Create New</NavLink>
+</p>
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>
+                Section Name
+            </th>
+            <th>
+                Shift Name
+            </th>
+            <th>
+                Class Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @if (Model.Count > 0)
+        {
+            @foreach (var item in Model)
+            {
+        <tr>
+
+            <td>
+                @item.ClassName
+            </td>
+            <td>
+                <NavLink href="@($"/StudentClass/Edit/{item.Id}")">Edit</NavLink> |
+                <button class="btn btn-link" @onclick="()=>ClickDetailed(item.Id)">Details</button> |
+                <button class="btn btn-link" @onclick="()=>ClickDeleted(item.Id)">Delete</button>
+            </td>
+        </tr>
+
+            }
+        }
+    </tbody>
+</table>
+
+
+@code {
+
+    private List<StudentClass> Model = new List<StudentClass>();
+    private void ClickDetailed(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Details.Id), id);
+        Modal.Show<Details>("Detail of Class", parameters);
+    }
+
+    private void ClickDeleted(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Delete.Id), id);
+        Modal.Show<Delete>("Delete Class", parameters);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.StudentClassIndex();
+    }
+
+}

@@ -1,0 +1,99 @@
+﻿@using MalaikaSchool.Data.Models
+@page "/Employee/Delete/{Id:int}"
+
+
+<div class="row">
+    <div class="box box-block bg-white col-md-6">
+
+
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <dl class="dl-horizontal">
+
+
+                <dt>
+                    Name of Employee
+                </dt>
+
+                <dd>
+                    @Model.AppUser.UserName
+                </dd>
+
+                <dt>
+                    Date of Birth
+                </dt>
+                <dd>
+                    @Model.DOB
+                </dd>
+                <dt>
+                    Religion
+                </dt>
+                <dd>
+                    @Model.Religion
+                </dd>
+                <dt>
+                    Marital Status
+                </dt>
+                <dd>
+                    @Model.MaritalStatus
+                </dd>
+                <dt>
+                    Nationality
+                </dt>
+                <dd>
+                    @Model.Nationality
+                </dd>
+                <dt>
+                    NIDA
+                </dt>
+                <dd>
+                    @Model.NID
+                </dd>
+                <dt>
+                    Current Address
+                </dt>
+                <dd>
+                    @Model.PresentAddress
+                </dd>
+
+                <dt>
+                    Parmanent Address
+                </dt>
+                <dd>
+                    @Model.PermanentAddress
+                </dd>
+
+            </dl>
+
+            <form action="/" method="post">
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    <NavLink href="/AssignRolls/Index">Back to List</NavLink>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <NavLink href="/AppAccount/Index" class="btn btn-warning">Back to List</NavLink>
+</div>
+
+@code {
+
+    private Employee Model;
+
+
+    protected override  Task OnInitializedAsync()
+    {
+        Model = new Employee();
+
+
+        return base.OnInitializedAsync();
+    }
+
+}
+
+

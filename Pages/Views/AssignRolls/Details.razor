@@ -1,0 +1,69 @@
+﻿@page "/AssignRolls/Details"
+@using MalaikaSchool.Data.Models
+
+
+
+
+
+<div class="row">
+    <div class="box box-block bg-white col-md-6">
+
+
+        <h3>Details</h3>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    Student Name
+                </dt>
+
+                <dd>
+                    @Model.Student.UserStudent.UserName
+                </dd>
+
+                <dt>
+                    Student Class
+                </dt>
+
+                <dd>
+                    @Model.StudentClass.ClassName
+                </dd>
+
+                <dt>
+                    Role
+                </dt>
+
+                <dd>
+                    @Model.Roll
+                </dd>
+
+
+            </dl>
+
+
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <p>
+        <NavLink href="/AssignRolls/Edit/{Id:int}" class="btn btn-warning">Edit</NavLink>
+        <NavLink href="/AssignRolls/Index" class="btn btn-warning">Back to List</NavLink>
+    </p>
+</div>
+
+@code {
+
+    private AssignRoll Model;
+
+
+    protected override Task OnInitializedAsync()
+    {
+        Model = new AssignRoll();
+
+        return base.OnInitializedAsync();
+    }
+
+}
+
+

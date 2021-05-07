@@ -1,0 +1,170 @@
+﻿@page "/Scheduler/Index"
+@inherits OwningComponentBase<StudentsService>
+
+
+
+
+<p>
+    <NavLink href="Student/StudentCreate">Create New</NavLink>
+</p>
+
+
+<form id="tribe-bar-form" class="tribe-clearfix tribe-bar-full" name="tribe-bar-form" method="post" action="http://in-conference.cmsmasters.net/events/list?post_type=tribe_events&amp;eventDisplay=list">
+
+    <!-- Mobile Filters Toggle -->
+    <div id="tribe-bar-collapse-toggle" aria-expanded="true" class="tribe-bar-filters-open">
+        Find Events<span class="tribe-bar-toggle-arrow"></span>
+    </div>
+
+
+    <div class="tribe-bar-filters" aria-hidden="false">
+        <div class="tribe-bar-filters-inner tribe-clearfix">
+            <div class="tribe-bar-date-filter">
+                <label class="label-tribe-bar-date" for="tribe-bar-date">Events From</label>
+                <input type="text" name="tribe-bar-date" style="position: relative;" id="tribe-bar-date" aria-label="Search for Events by Date. Please use the format 4 digit year hyphen 2 digit month hyphen 2 digit day." value="2021-04-29" placeholder="Date"><input type="hidden" name="tribe-bar-date-day" id="tribe-bar-date-day" class="tribe-no-param" value="2021-04-29">
+            </div>
+            <div class="tribe-bar-search-filter">
+                <label class="label-tribe-bar-search" for="tribe-bar-search">Search</label>
+                <input type="text" name="tribe-bar-search" id="tribe-bar-search" aria-label="Search for Events by Keyword." value="" placeholder="Keyword">
+            </div>
+            <div class="tribe-bar-geoloc-filter">
+                <label class="label-tribe-bar-geoloc" for="tribe-bar-geoloc">Near</label>
+                <input type="hidden" name="tribe-bar-geoloc-lat" id="tribe-bar-geoloc-lat" value=""><input type="hidden" name="tribe-bar-geoloc-lng" id="tribe-bar-geoloc-lng" value=""><input type="text" name="tribe-bar-geoloc" id="tribe-bar-geoloc" value="" placeholder="Location">						<div id="tribe-geo-options" style="display: none;"><div id="tribe-geo-links"></div></div>
+            </div>
+            <div class="tribe-bar-submit">
+                <label>&nbsp;</label>
+                <input class="tribe-events-button tribe-no-param" type="submit" name="submit-bar" value="Find Events">
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Views -->
+    <div id="tribe-bar-views">
+        <div class="tribe-bar-views-inner tribe-clearfix">
+            <h3 class="tribe-events-visuallyhidden">Event Views Navigation</h3>
+            <label class="button">View As<span></span></label>
+            <select class="tribe-bar-views-select tribe-no-param" name="tribe-bar-view" style="display: none;">
+                <option selected="" value="http://in-conference.cmsmasters.net/events/list/" data-view="list">
+                    List
+                </option>
+                <option tribe-inactive="" value="http://in-conference.cmsmasters.net/events/month/" data-view="month">
+                    Month
+                </option>
+                <option tribe-inactive="" value="http://in-conference.cmsmasters.net/events/week/" data-view="week">
+                    Week
+                </option>
+                <option tribe-inactive="" value="http://in-conference.cmsmasters.net/events/today/" data-view="day">
+                    Day
+                </option>
+                <option tribe-inactive="" value="http://in-conference.cmsmasters.net/events/map/" data-view="map">
+                    Map
+                </option>
+                <option tribe-inactive="" value="http://in-conference.cmsmasters.net/events/photo/" data-view="photo">
+                    Photo
+                </option>
+            </select><button id="tribe-bar-views-toggle" class="tribe-bar-views-toggle" data-view="list" aria-haspopup="listbox" aria-labelledby="tribe-bar-views-label tribe-bar-views-toggle">
+                <span class="tribe-icon-list" aria-hidden="true" role="none"></span>
+                List
+            </button><ul class="tribe-bar-views-list" tabindex="-1" role="listbox" aria-labelledby="tribe-bar-views-label">
+                <li id="tribe-bar-views-option-list" class="tribe-bar-views-option tribe-bar-active" role="option" tabindex="-1" data-tribe-bar-order="0" data-view="list" aria-labelledby="tribe-bar-views-label tribe-bar-views-option-list">
+                    <span class="tribe-icon-list" aria-hidden="true" role="none"></span>
+                    List
+                </li>
+                <li id="tribe-bar-views-option-month" class="tribe-bar-views-option" role="option" tabindex="-1" data-tribe-bar-order="1" data-view="month" aria-labelledby="tribe-bar-views-label tribe-bar-views-option-month">
+                    <span class="tribe-icon-month" aria-hidden="true" role="none"></span>
+                    Month
+                </li>
+                <li id="tribe-bar-views-option-week" class="tribe-bar-views-option" role="option" tabindex="-1" data-tribe-bar-order="2" data-view="week" aria-labelledby="tribe-bar-views-label tribe-bar-views-option-week">
+                    <span class="tribe-icon-week" aria-hidden="true" role="none"></span>
+                    Week
+                </li>
+                <li id="tribe-bar-views-option-day" class="tribe-bar-views-option" role="option" tabindex="-1" data-tribe-bar-order="3" data-view="day" aria-labelledby="tribe-bar-views-label tribe-bar-views-option-day">
+                    <span class="tribe-icon-day" aria-hidden="true" role="none"></span>
+                    Day
+                </li>
+                <li id="tribe-bar-views-option-map" class="tribe-bar-views-option" role="option" tabindex="-1" data-tribe-bar-order="4" data-view="map" aria-labelledby="tribe-bar-views-label tribe-bar-views-option-map">
+                    <span class="tribe-icon-map" aria-hidden="true" role="none"></span>
+                    Map
+                </li>
+                <li id="tribe-bar-views-option-photo" class="tribe-bar-views-option" role="option" tabindex="-1" data-tribe-bar-order="5" data-view="photo" aria-labelledby="tribe-bar-views-label tribe-bar-views-option-photo">
+                    <span class="tribe-icon-photo" aria-hidden="true" role="none"></span>
+                    Photo
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</form>
+
+<div>
+
+    <div class="updated published time-details cmsmasters_events_start_date">
+        <span class="cmsmasters_event_day">04</span>
+        <span class="cmsmasters_event_month_week">
+            <span class="cmsmasters_event_month">July</span>
+            <span class="cmsmasters_event_week">Sunday</span>
+        </span>
+    </div>
+
+    <div class="cmsmasters_events_list_event_info">
+        <!-- Event Title -->
+        <h2 class="tribe-events-list-event-title entry-title summary">
+            <a class="url" href="http://in-conference.cmsmasters.net/event/software-applications-services/" title="Software Applications &amp; Services" rel="bookmark">
+                Software Applications &amp; Services
+            </a>
+        </h2>
+
+        <!-- Event Meta -->
+        <div class="tribe-events-event-meta vcard">
+            <div class="author  location">
+
+                <!-- Schedule & Recurrence Details -->
+                <div class="updated published time-details cmsmasters_events_start_end_date">
+                    <span class="cmsmasters_event_start">04 July 2021, 00:00</span>
+                    <span class="cmsmasters_event_end"> - 17 January 2023, 23:59</span>
+                </div>
+
+                <!-- Venue Display Info -->
+                <div class="tribe-events-venue-details">
+                    <a href="http://in-conference.cmsmasters.net/venue/empire-state-building/" title="Empire State Building">Empire State Building</a>, <span class="tribe-address">
+
+                        <span class="tribe-street-address">350 5th Ave</span>
+
+                        <br>
+                        <span class="tribe-locality">New York</span><span class="tribe-delimiter">,</span>
+
+                        <abbr class="tribe-region tribe-events-abbr" title="New York">NY</abbr>
+
+
+                        <span class="tribe-country-name">United States</span>
+
+                    </span>
+                </div> <!-- .tribe-events-venue-details -->
+
+            </div>
+        </div><!-- .tribe-events-event-meta -->
+    </div>
+
+    <div class="tribe-events-read-more-wrap">
+        <a href="http://in-conference.cmsmasters.net/event/software-applications-services/" class="tribe-events-read-more button" rel="bookmark">Learn more</a>
+    </div>
+</div>
+
+
+
+
+@code {
+
+    private List<SchedulerEvent> Model = new List<SchedulerEvent>();
+    [CascadingParameter]
+    public IModalService StudentModal { get; set; }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.SchedulerEventIndex();
+    }
+
+}

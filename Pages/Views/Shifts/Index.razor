@@ -1,0 +1,47 @@
+﻿@page "/Shifts/Index"
+@using MalaikaSchool.Data.Models
+
+<h2>Index</h2>
+
+<p>
+    <NavLink href="/Shifts/Create">Create New</NavLink>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Shift
+        </th>
+       
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @item.Name
+    </td>
+   
+
+    <td>
+        <NavLink href="/Shifts/Edit/{Id:int}" @key="@item.Id">Edit</NavLink>|
+        <NavLink href="/Shifts/Details" @key="@item.Id">Details</NavLink>|
+        <NavLink href="/Shifts/Delete" @key="@item.Id">Delete</NavLink>
+    </td>
+</tr>
+    }
+
+</table>
+@code {
+
+    private List<Shift> Model;
+
+
+    protected override Task OnInitializedAsync()
+    {
+        Model = new List<Shift>();
+
+        return base.OnInitializedAsync();
+    }
+
+}

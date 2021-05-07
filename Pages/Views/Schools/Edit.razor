@@ -1,0 +1,87 @@
+﻿@page "/Schools/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+
+<div class="row">
+    <div class="page-header">
+        <h1>
+            Edit
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+                <NavLink href="/Schools/Index" class="btn btn-warning">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white col-md-6">
+        <form action="/Schools/Edit/{Id:int}" method="post" id="SubmitForm"></form>
+            @*<DataAnnotationsValidator />*@
+
+
+        <div class="form-horizontal">
+               @*<ValidationSummary />*@
+
+
+            <div class="form-group">
+                <label for="Name" class="control-label">School Name</label>
+                <InputText for="Name" class="form-control" bind-Value="@Model.Name" />
+            </div>
+            <div class="form-group">
+                <label for="Address" class="control-label">Salary</label>
+                <InputText for="Adress" class="form-control" bind-Value="@Model.Address" />
+            </div>
+            <div class="form-group">
+                <label for="Email" class="control-label">AppointmentExt</label>
+                <InputText for="Email" class="form-control" bind-Value="@Model.Email" />
+            </div>
+            <div class="form-group">
+                <label for="PhonePrimary " class="control-label">Total Leave</label>
+                <InputText for="PhonePrimary" class="form-control" bind-Value="@Model.PhonePrimary" />
+            </div>
+            <div class="form-group">
+                <label for="PhoneAlt" class="control-label">Promotion</label>
+                <InputText for="Phonealt" class="form-control" bind-Value="@Model.PhoneAlt" />
+            </div>
+
+            <div class="form-group">
+                @if(Model.Logo !=null)
+                {
+                var base64 = Convert.ToBase64String(Model.Logo);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                <img src='@imgSrc' style="max-width:100px; max-height:100px;" />
+                }
+                <label for="Logo" class="control-label">Logo</label>
+                <InputText for="Logo" class="form-control" bind="@Model.Logo" />
+            </div>
+
+
+
+            <div class="form-group row">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                </div>
+            </div>
+        </div>
+        }
+
+    </div>
+</div>
+
+
+
+
+@code {
+
+    private School Model;
+    private List<Designation> designations;
+
+
+    protected override  Task OnInitializedAsync()
+    {
+        Model = new School();
+        designations = new List<Designation>();
+
+        return base.OnInitializedAsync();
+    }
+
+}

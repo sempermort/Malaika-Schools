@@ -1,0 +1,204 @@
+﻿@page "/FindResult/Create"
+@using MalaikaSchool.Data.Models
+@using MalaikaSchool.Data.ViewModels
+
+
+<div class="row">
+   
+
+        <div class="page-header">
+            <h1>
+
+                Search Student Result
+            </h1>
+        </div>
+        <form action="/FindResult/Create" method="post" id="SubmitForm"></form>
+      @*<DataAnnotationsValidator />*@
+    <div class="  input-group mb-3">
+        @*<ValidationSummary />*@
+
+
+
+       
+        <div class="input-group-prepend">
+            <select for="SessionId" class="Custom-select form-control" bind="@model.SessionId">
+                <option value="" selected>Session </option>
+                @if (sessions != null)
+                {
+                    @foreach (var stc in sessions)
+                    {
+
+                        <option value="@stc.Id">@stc.Name</option>
+                    }
+                }
+            </select>
+
+
+
+
+
+            <select for="StudentClassId" class="Custom-select form-control" bind="@model.StudentClassId">
+                <option value="">  Section</option>
+                @if (studentClasses != null)
+                {
+                    @foreach (var stc in studentClasses)
+                    {
+
+                        <option value="@stc.Id">@stc.ClassName</option>
+                    }
+                }
+            </select>
+
+
+
+
+
+            <select for="StudentId" class="Custom-select form-control" bind="@model.StudentId">
+                <option value="">Class </option>
+                @if (students != null)
+                {
+                    @foreach (var stc in students)
+                    {
+                        <option value="@stc.Id">@stc.UserStudent.UserName</option>
+                    }
+                }
+            </select>
+        </div>
+        <input type="text" class="form-control" placeholder="Search Students Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+
+            <button class="btn btn-info" type="button">Search</button>
+        </div>
+    </div>
+
+  
+</div>
+<div id="divToPrint">
+    @if (Model != null)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Student Info</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+
+
+                    @foreach (var data in Model)
+                    {
+                    foreach (var item in data.StudentInfoVM)
+                    {
+                    <tr>
+                        <th>Student Name:</th>
+                        <td colspan="3">@item.StudentName</td>
+                    </tr>
+                    <tr>
+                        <th>Father Name</th>
+                        <td colspan="3">@item.FatherName</td>
+                    </tr>
+                    <tr>
+                        <th>Mother Name:</th>
+                        <td colspan="3">@item.MotherName</td>
+                    </tr>
+                    <tr>
+                        <th>Date of Birth</th>
+                        <td colspan="3">@item.BirtDate</td>
+                    </tr>
+                    <tr>
+                        <th> Session</th>
+                        <td> @item.Session</td>
+                        <th> Shift</th>
+                        <td>@item.Shift</td>
+                    </tr>
+
+                    <tr>
+                        <th>Section</th>
+                        <td>@item.Section</td>
+                        <th>Group</th>
+                        <td>@item.GroupName</td>
+                    </tr>
+                    <tr>
+                        <th>Class</th>
+                        <td>@item.ClassName</td>
+                        <th>Roll</th>
+                        <td>@item.Roll</td>
+                    </tr>
+                    }
+                    }
+                    
+                </table>
+
+            </div>
+        </div>
+    }
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"> Result</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                            <th text-align="Center" colspan=" 3">Marks</th>
+                            <th>Total</th>
+                            <th>Grade</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2"></th>
+                            <th>Theory</th>
+                            <th>MCQ</th>
+                            <th>Practical</th>
+                            <th colspan="2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                foreach (var data in item.ResultVM)
+                                {
+                                    <tr>
+                                        <td>@data.SubjectCode</td>
+                                        <td>@data.SubjectName</td>
+                                        <td>@data.Total</td>
+                                        <td>@data.Grade</td>
+                                    </tr>
+                                }
+
+                            }
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+<button id='print' style='margin-top: 10px; padding: 10px; border: none; text-align: center; background: Green; border-radius: 4px; color: #fff; font-weight: bold; cursor: pointer;'>PRINT Result</button>
+
+
+
+
+
+@code {
+
+    private StudentResultVM model;
+    private List<StudentResultVM> Model;
+    private List<Session> sessions;
+    private List<Student> students;
+    private List<StudentClass> studentClasses;
+
+    protected override Task OnInitializedAsync()
+    {
+        Model = new List<StudentResultVM>();
+        model = new StudentResultVM();
+        students = new List<Student>();
+        sessions = new List<Session>();
+        studentClasses = new List<StudentClass>();
+
+        return base.OnInitializedAsync();
+
+    }
+}

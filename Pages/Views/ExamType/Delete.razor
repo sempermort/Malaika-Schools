@@ -1,0 +1,78 @@
+﻿@page "/ExamType/Delete/{Id:int}"
+@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
+
+
+
+
+
+<div class="">
+    <div class="box box-block bg-white ">
+
+
+        <h3>Are you sure you want to delete this?</h3>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    ExamType
+                </dt>
+                <dd>
+                    @Model.ExType
+                </dd>
+
+            </dl>
+
+            <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
+
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    <NavLink href="/ExamType/Index">Back to List</NavLink>
+                </div>
+                </EditForm>
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <NavLink href="/ExamType/Index" class="btn btn-warning">Back to List</NavLink>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ExamType Model;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.GetExamType(Id);
+    }
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        ExamType ExamType = new ExamType();
+        try
+        {
+            ExamType = Model;
+
+             await Service.ExamTypeDeleteConfirmed(ExamType.Id);
+            // Clear the form.
+            Model = new ExamType();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}
+
+}
+
+

@@ -1,0 +1,192 @@
+﻿@page "/StudentClass/Create"
+@page "/StudentClass/Create/{Id:int}"
+@using MalaikaSchool.Pages.Views.ClassFees
+@inherits OwningComponentBase<StudentsService>
+@inject IToastService toastService
+
+
+<div class="">
+    <div class="box box-block bg-white ">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+            <div class="page-header">
+                <h1>
+                    Add Class
+                    <small>
+                        <i class="ace-icon fa fa-angle-double-right float-right"></i>
+                    </small>
+                </h1>
+
+            </div>
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <div class="form-group">
+                    <label for="StudentClass" class="control-label">Student Class</label>
+                    <div class="d-flex">
+                        <InputSelect for="StudentClassId" @onchange="GetId" class="form-control" @bind-Value="Model.Id">
+                            @if (model!=null) {
+                            <option value="@model.Id">@model.ClassName</option>
+                            }
+                            @if (StudentClasses != null)
+                            {
+                                @foreach (var stc in StudentClasses)
+                                {
+
+                                    <option value="@stc.Id">@stc.ClassName</option>
+                                }
+                            }
+                        </InputSelect>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GuardianTypeModal2">
+                            <i class="fa fa-plus">  </i>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="GuardianTypeId3" class="control-label">fees</label>
+                    <div class="d-flex">
+                        <InputSelect for="ClassFeeId" class="form-control" @bind-Value="@Model.ClassFeeId">
+                            @if (classFees != null)
+                            {
+                                @foreach (var stc in classFees)
+                                {
+                                    <option value="@stc.Id">@stc.Name <b>@stc.Amount</b></option>
+                                }
+                            }
+                        </InputSelect>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GuardianTypeModal">
+                            <i class="fa fa-plus">  </i>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save " data-dismiss="modal" 
+                      @onclick="@(() => toastService.ShowSuccess("Yor Guardian Type is added Successfuly!"))" />
+                </div>
+            </div>
+        </EditForm>
+
+        <div class="modal fade" id="GuardianTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Fee</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <Create Id="Id" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="GuardianTypeModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Fee</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <AddClass />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private StudentClass Model = new StudentClass();
+    private StudentClass model = new StudentClass();
+    private List<ClassFee> classFees = new List<ClassFee>();
+    private List<StudentClass> StudentClasses = new List<StudentClass>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            StudentClasses = await Service.StudentClassIndex();
+            model = StudentClasses.Find(n => n.Id == Id);
+            if (model != null)
+            {
+                var k = await Service.ClassFeeIndex();
+                classFees = k.Where(n => n.Id == Id).ToList();
+            }
+            else
+            {
+                classFees = await Service.ClassFeeIndex();
+            }
+        }
+        catch (Exception ex)
+        { }
+
+
+    }
+    public async Task GetId()
+    {
+        var k =  await Service.ClassFeeIndex();
+        classFees = k.Where(n => n.Id == Id).ToList();
+    }
+
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        StudentClass StudentClass = new StudentClass();
+        try
+        {
+            StudentClass = Model;
+
+            var result = await Service.EditStudentClass(StudentClass);
+            // Clear the form.
+            Model = new StudentClass();
+            // Show the Toast.
+
+            toastService.ShowInfo("StudentClass Added");
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+    public async Task HandleValidSubmit2(EditContext context)
+    {
+
+        StudentClass StudentClass = new StudentClass();
+        try
+        {
+            StudentClass = Model;
+
+            var result = await Service.CreateStudentClass(StudentClass);
+            // Clear the form.
+
+            Model = new StudentClass();
+            // Show the Toast.
+
+            toastService.ShowInfo("StudentClass Added");
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

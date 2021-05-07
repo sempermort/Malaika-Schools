@@ -1,0 +1,87 @@
+﻿@page "/Schools/Index"
+@using MalaikaSchool.Data.Models
+
+<h2>Index</h2>
+
+<p>
+    <NavLink href="/Schools/Create">Create New</NavLink>
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            Schoool Name
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+           Phonenumber 
+        </th>
+        <th>
+           Altenative Phonenumber
+        </th>
+        <th>
+           Email
+        </th>
+        <th>
+          Logo
+        </th>
+      
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Address
+            </td>
+            <td>
+                @item.PhonePrimary
+            </td>
+            <td>
+                @item.PhoneAlt
+            </td>
+            <td>
+                @item.Email
+            </td>
+            <td>
+                @if (item.Logo != null)
+                {
+                    var base64 = Convert.ToBase64String(item.Logo);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <img src='@imgSrc' style="max-width:100px; max-height:100px;" />
+                }
+            </td>
+            <td>
+                <NavLink href="/Schools/Edit/{Id:int}" @key="@item.Id">Edit</NavLink>|
+                <NavLink href="/Schools/Details" @key="@item.Id">Details</NavLink>|
+                <NavLink href="/Schools/Delete" @key="@item.Id">Delete</NavLink>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+@code {
+
+    private List<School> Model;
+
+
+    protected override  Task OnInitializedAsync()
+    {
+        Model = new List<School>();
+
+        return base.OnInitializedAsync();
+    }
+
+}

@@ -1,0 +1,73 @@
+﻿@inherits OwningComponentBase<StudentsService>
+@page "/Designations/Index"
+
+
+<div class="panel panel-info w-75 m-auto">
+    <div class="panel-heading">
+        <h4 class="text-center">Personnel Designation</h4>
+        <p>
+            <NavLink href="/Designations/Create" class="float-right">Create New</NavLink>
+        </p>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>
+                    Designation
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+
+
+                    <td>
+                        <NavLink href="@($"/Designations/Edit/{item.Id}")">Edit</NavLink> |
+                        <NavLink href="" @onclick="() => ClickDetailed(item.Id)">Details</NavLink> |
+                        <NavLink href="" @onclick="() => ClickDeleted(item.Id)">Delete</NavLink>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>
+
+
+
+
+
+@code {
+
+    private  List<IdentityRole> Model;
+    @inject RoleManager<IdentityRole> roleManager
+    [CascadingParameter]
+    public IModalService RoleModal { get; set; }
+
+    private void ClickDetailed(string id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Details.Id), id);
+        RoleModal.Show<Details>("Detail of Role", parameters);
+    }
+
+    private void ClickDeleted(string id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Delete.Id), id);
+        RoleModal.Show<Delete>("Delete Role", parameters);
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        Model =  roleManager.Roles.ToList();
+
+        return base.OnInitializedAsync();
+    }
+
+}

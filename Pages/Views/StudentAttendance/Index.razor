@@ -1,0 +1,70 @@
+﻿        @page "/StudentAttendance/Index"
+        @using MalaikaSchool.Data.Services
+        @inherits OwningComponentBase<StudentsService>
+
+
+
+        <p>
+            <NavLink href="/StudentAttendance/Create">Create New</NavLink>
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    Student's Name
+                </th>
+
+                <th></th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td class="">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="@item.Id" id="inlineRadio1" value="option1">
+                            <label class="form-check-label" for="inlineRadio1">Present</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="@item.Id" id="inlineRadio2" value="option2">
+                            <label class="form-check-label" for="inlineRadio2">Absent</label>
+                        </div>
+                    </td>
+
+                    <td>
+                        <NavLink href="@($"/StudentAttendance/Edit/{item.Id}")">Edit</NavLink> |
+                        <NavLink href="" @onclick="()=>ClickDetailed(item.Id)">Details</NavLink> |
+                        <NavLink href="" @onclick="()=>ClickDeleted(item.Id)">Delete</NavLink>
+                    </td>
+                </tr>
+            }
+
+        </table>
+        @code {
+
+            private List<Student> Model = new List<Student>();
+            [CascadingParameter]
+            public IModalService StaffModal { get; set; }
+
+            protected override async Task OnInitializedAsync()
+            {
+                Model = await Service.Index();
+            }
+            public void ClickDetailed(int id)
+            {
+                var parameters = new ModalParameters();
+                parameters.Add(nameof(Details.Id), id);
+                StaffModal.Show<Details>("Detail of Staff", parameters);
+            }
+
+            public void ClickDeleted(int id)
+            {
+                var parameters = new ModalParameters();
+                parameters.Add(nameof(Delete.Id), id);
+                StaffModal.Show<Delete>("Delete Staff", parameters);
+            }
+        }
+     

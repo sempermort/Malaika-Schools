@@ -1,0 +1,49 @@
+﻿@page "/ExamType/Details/{Id:int}"
+@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
+
+
+
+
+
+<div class="row">
+    <div class="box box-block bg-white col-md-6">
+        <h3>Details</h3>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    ExamType
+                </dt>
+                <dd>
+                    @Model.ExType
+                </dd>
+
+
+            </dl>
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <p>
+        <NavLink href="/ExamType/Edit/{Id:int}" class="btn btn-warning">Edit</NavLink>
+        <NavLink href="/ExamType/Index" class="btn btn-warning">Back to List</NavLink>
+    </p>
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private ExamType Model;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.GetExamType(Id);
+    }
+
+   
+}
+
+

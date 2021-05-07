@@ -1,0 +1,80 @@
+﻿@page "/Designations/Create"
+@inherits OwningComponentBase<StudentsService>
+@inject IHttpContextAccessor httpContextAccessor
+
+
+<div class="panel panel-info w-75 m-auto">
+    <div class="panel-heading">
+        <h3>
+            Add IdentityRole
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/Designations/Index" class="btn btn-warning float-right">Back to List</NavLink>
+
+            </small>
+        </h3>
+    </div>
+    <div class="panel-body">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="DesignatonForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+
+
+                <div class="form-group">
+                    <label for="Name" class="control-label">IdentityRole</label>
+                    <InputText for="Name" class="form-control" @bind-Value="@Model.Name" />
+                </div>
+                <div class="form-group ">
+                    <input type="submit" class="btn btn-primary float-right" value="Create" />
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+
+
+@code {
+  
+    private IdentityRole Model = new IdentityRole();
+    @inject RoleManager<IdentityRole> _userRole
+    @inject NavigationManager NavigationManager
+
+   
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        IdentityRole IdentityRole = new IdentityRole();
+        try
+        {
+            IdentityRole = Model;
+            if (IdentityRole != null)
+            {
+                IdentityResult result = await _userRole.CreateAsync(IdentityRole);
+
+
+                if (result != null)
+                {
+                    NavigationManager.NavigateTo("/Designations/Index");
+                }
+            }
+            Model = new IdentityRole();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+
+
+}

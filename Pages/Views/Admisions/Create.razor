@@ -1,0 +1,228 @@
+﻿@page "/Admissions/Create"
+@using MalaikaSchool.Data.ViewModels
+@using MalaikaSchool.Data.Enum
+@using MalaikaSchool.Pages.Views.Students
+@using MalaikaSchool.Pages.Views.Guardians
+@using MalaikaSchool.Pages.Views.StudentClass
+@inherits OwningComponentBase<StudentsService>
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS;
+
+<div class="page-header">
+    <div class="d-flex justify-content-between mt-5">
+        <h3 class="">
+            New Admission
+            <i class="ace-icon fa fa-angle-double-right"></i>
+        </h3>
+
+
+    </div>
+</div>
+<!-- /.page-header -->
+
+
+<div class="row">
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+
+            <li class="nav-item"><NavLink class="nav-link active" id="tab1" data-toggle="tab" href="#tab-1"> Admission info</NavLink></li>
+            <li class="nav-item"><NavLink class="nav-link" id="tab2" data-toggle="tab" href="#tab-2"> Guardian Info</NavLink></li>
+            <li class="nav-item"><NavLink class="nav-link" id="tab3" data-toggle="tab" href="#tab-3"> More Info</NavLink></li>
+        </ul>
+
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane active">
+                    <div class="panel-body">
+                        <div class="form-horizontal">
+
+                            <StudentCreate callBack="HandleStudent" />
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-2" class="tab-pane">
+                    <div class="panel-body">
+
+                        <div class="form-horizontal">
+
+                            <GuardianCreate dent="@dent" />
+
+                        </div>
+
+                    </div>
+                </div>
+                <div id="tab-3" class="tab-pane">
+                    <div class="panel-body">
+                        @if (students.Count > 0 && classes.Count > 0)
+                        {
+                            <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianForm" class="col-md-7 m-auto">
+
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label for="StudentId" class="control-label">Student</label>
+                                        <InputSelect for="StudentId" class="form-control" @bind-Value="@Model.StudentId">
+                                            <option value="@dent.Id">@dent.Name</option>
+                                            @if (students != null)
+                                                    {
+                                                @foreach (var stc in students)
+                                                        {
+                                                    <option value="@stc.Id">@stc.Name</option>
+                                                        }
+                                                    }
+                                        </InputSelect>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="AdmissionDate" class="control-label">Admission Date</label>
+                                        <input for="AdmissionDate" type="date" class="form-control" @bind="@Model.AdmissionDate" />
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="StudentClassid" class="control-label">Student Class</label>
+                                        <div class=" d-flex">
+                                            <InputSelect for="StudentClassId" class="form-control" @bind-Value="@Model.StudentClassId">
+                                                <option value="">-- Select Class --</option>
+                                                @if (classes != null)
+                                                        {
+                                                    @foreach (var stc in classes)
+                                                            {
+
+                                                        <option value="@stc.Id">@stc.ClassName</option>
+                                                            }
+                                                        }
+                                            </InputSelect>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateClass">
+                                                <i class="fa fa-plus">  </i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="GroupId" class="control-label">Group</label>
+                                        <select for="GroupId" class="form-control" @bind="@Model.GroupId">
+                                            <option value="">-- Select Group --</option>
+                                            @if (groups != null)
+                                            {
+                                                @foreach (var grp in groups)
+                                                {
+
+                                                    <option value="@grp.Id">@grp.Name</option>
+                                                }
+                                            }
+                                        </select>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="PreviousSchool" class="control-label">Name of Previous School</label>
+                                        <input for="PreviousSchool" class="form-control" @bind="@Model.PreviousSchool" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="PreviousSchoolAddrs" class="control-label">Previous School Address</label>
+                                        <input for="PreviousSchoolAddrs" class="form-control" @bind="@Model.PreviousSchoolAddrs" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="PreviousSchoolDocument" class="control-label d-block">Previous School Documents</label>
+
+                                        <input type="file" name="Document" class="d-block" />
+
+                                    </div>
+                                    <div class="form-group float-right">
+                                        <div class="col-md-offset-4 col-md-8">
+                                            <small>
+                                                <input type="submit" class="btn btn-info" value="Save" />
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </EditForm>}
+                        else
+                        {
+
+                        }
+                        <div class="modal fade" id="CreateClass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <StudentClassCreate />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string link { get; set; }
+    private Admission Model = new Admission();
+    private Student dent = new Student();
+    private List<Student> students = new List<Student>();
+    private List<StudentClass> classes = new List<StudentClass>();
+    private List<Group> groups = new List<Group>();
+    protected override async Task OnInitializedAsync()
+    {
+        Model.StudentId = dent.Id;
+        classes = await Service.StudentClassIndex();
+        groups = await Service.GroupIndex();
+        students = await Service.Index();
+
+
+    }
+    public void HandleStudent(Student modelent)
+    {
+        Model.StudentId = modelent.Id;
+
+    }
+
+
+
+
+    //Submit Data
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        Admission Admission = new Admission();
+        try
+        {
+            Admission = Model;
+
+            var result = Service.CreateAdmission(Admission);
+            if (result.IsCompletedSuccessfully)
+            {
+                JS.InvokeVoidAsync("tab1");
+            }
+            if (result != null)
+            {
+                NavigationManager.NavigateTo("/Employee/Index");
+            }
+            // Clear the form.
+            Model = new Admission();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+
+}

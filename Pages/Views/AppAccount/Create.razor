@@ -1,0 +1,140 @@
+﻿@page "/AppAccount/Create"
+@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
+@inject NavigationManager NavigationManager
+
+
+<div class="">
+    <div class="box box-block bg-white">
+        <div class="page-header">
+            <h1>
+               Payments
+                <small>
+                    <i class="ace-icon fa fa-angle-double-right "></i>
+                    <NavLink href="/AppAccount/Index" class="btn btn-warning float-right">Back to List</NavLink>
+                </small>
+            </h1>
+        </div>
+
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianForm" class="col-md-7 m-auto">
+
+
+            @*<DataAnnotationsValidator />*@
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <div class="form-group">
+                    <label for="Date" class="control-label">Date</label>
+                    <input type="Date" for="Date" class="form-control" @bind="@Model.Date" />
+                </div>
+
+                <div class="form-group">
+                    <label for="StudentClassid" class="control-label">Student Class</label>
+                        <InputSelect for="StudentClassId" class="form-control" @bind-Value="@Model.StudentClassId">
+                            <option value=""> Classes </option>
+                            @if (classes != null)
+                            {
+                                @foreach (var stc in classes)
+                                {
+
+                                    <option value="@stc.Id">@stc.ClassName</option>
+                                }
+                            }
+                        </InputSelect>                   
+                </div>
+
+                <div class="form-group">
+                        <label for="StudentId" class="control-label">Student</label>
+                        <InputSelect for="StudentId" class="form-control" @bind-Value="@Model.StudentId">
+                            <option value="">Students</option>
+                            @if (students != null)
+                            {
+                                @foreach (var stc in students)
+                                {
+                                    <option value="@stc.Id">@stc.Name</option>
+                                }
+                            }
+                        </InputSelect>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="AccountGroupId" class="control-label">Student Class</label>
+                        <select for="AccountGroupId" class="form-control" @bind="@Model.AccountGroupId">
+                            <option value="">-- Select Class --</option>
+                            @if (Model.AccountGroup != null)
+                            {
+                                @foreach (var stc in accountGroups)
+                                {
+
+                                    <option value="@stc.Id">@stc.Name</option>
+                                }
+                            }
+                        </select>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="OpeningBalance" class="control-label">Opening Balance</label>
+                        <input for="OpeningBalance" class="form-control" @bind="@Model.OpeningBalance" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="CurrentBalance" class="control-label">Current Balance</label>
+                        <input for="CurrentBalance" class="form-control" @bind="@Model.CurrentBalance" />
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-offset-4 col-md-8">
+                            <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                        </div>
+                    </div>
+                </div>
+</EditForm>
+
+    </div>
+</div>
+
+
+
+
+@code {
+
+    private AccountList Model = new AccountList();
+    private List<AccountGroup> accountGroups=new List<AccountGroup>();
+    private List<Student> students = new List<Student>();
+    private List<StudentClass> classes = new List<StudentClass>();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        classes = await Service.StudentClassIndex();
+        students = await Service.Index();
+
+    }
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        AccountList AccountList = new AccountList();
+        try
+        {
+            AccountList = Model;
+
+            var result = Service.CreateAccountList(AccountList);
+
+            // Clear the form.
+            Model = new AccountList();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

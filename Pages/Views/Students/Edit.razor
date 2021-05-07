@@ -1,0 +1,241 @@
+﻿@page "/Student/Edit/{Id:int}"
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="">
+    <div class="page-header">
+        <h1>
+            Edit
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/Student/Index" class="btn btn-warning float-right">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white ">
+        <hr>   @if (Model != null)
+        {
+            <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+                <DataAnnotationsValidator />
+
+
+                <div class="form-horizontal">
+                    @*<ValidationSummary />*@
+
+                    <div class="form-group">
+                        <label for="Name" class="control-label">Name</label>
+                        <InputText for="Name" class="form-control" @bind-Value="@Model.Name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DateOfBirth" class="control-label">Date of Birth</label>
+                        <input type="date" for="DateOfBirth" class="form-control" @bind="@Model.DateOfBirth" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Gender" class="control-label">Student's Gender </label>
+                        <InputSelect for="Gender" class="form-control" @bind-Value="@Model.Gender">
+                            @if (Model.Gender != null)
+                            {
+                                <option value="@Model.Gender">@Model.Gender</option>
+                            }
+                            else
+                            {
+                                <option value="">Gender</option>
+                            }
+                            @foreach (var gend in Enum.GetNames(typeof(Gender)))
+                            {
+
+                                <option value="@gend">@gend</option>
+                            }
+
+                        </InputSelect>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Religion" class="control-label">Students Religion</label>
+                        <InputSelect for="Religion" class="form-control" @bind-Value="@Model.Religion">
+                            @if (Model.Religion != null)
+                            {
+                                <option value="@Model.Religion">@Model.Religion</option>
+                            }
+                            else
+                            {
+                                <option value="">Religion</option>
+                            }
+                            @foreach (var religion in Enum.GetNames(typeof(Religion)))
+                            {
+
+                                <option value="@religion">@religion</option>
+                            }
+
+                        </InputSelect>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Nationality" class="control-label">Nationality</label>
+                        <InputText for="Nationality" class="form-control" @bind-Value="@Model.Nationality" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Father'sName" class="control-label">Father's Name</label>
+                        <InputText for="Father'sName" class="form-control" @bind-Value="@Model.FatherName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Mother'sName" class="control-label">Mother's Name</label>
+                        <InputText for="Mother'sName" class="form-control" @bind-Value="@Model.MotherName" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="PresentAddress" class="control-label">Current Address</label>
+                        <InputText for="PresentAddress" class="form-control" @bind-Value="@Model.PresentAddress" />
+                    </div>
+                    <div class="form-group">
+                        <label for="PermanentAddress" class="control-label">Permanent Address</label>
+                        <InputText for="PermanentAddress" class="form-control" @bind-Value="@Model.ParmanentAddress" />
+                    </div>
+
+                    <div class="form-group ">
+                    <label for="StudentClassId" class="control-label">Student Class</label>
+                    <InputSelect for="StudentClassId" class="form-control" @bind-Value="@Model.StudentClassId">
+                        @if (studentClasses != null)
+                            {
+                            @if (Model.StudentClassId != null)
+                                {
+                                <option value="@Model.StudentClassId">@studentClasses.Find(n => n.Id == Model.StudentClassId).ClassName</option>
+                                }
+                                else
+                                {
+                                <option value="">Class</option>
+                                }
+
+                            @foreach (var stc in studentClasses)
+                                {
+
+                                <option value="@stc.Id">@stc.ClassName</option>
+                                }
+                            }
+
+                    </InputSelect>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="Image" class="control-label d-block">Students Photo</label>
+                        <div class="form-control-file">
+
+                            <img src="@imgUrl" class="img-responsive img-thumbnail">
+
+                        </div>
+                        <InputFile type="file" OnChange="@LoadFiles" class="d-block" @bind-Value="@Model.Image" />
+
+                    </div>
+
+
+                    <div class="form-group float-right">
+                        <input type="submit" class="btn btn-primary" value="Save" />
+
+                    </div>
+
+                </div>
+            </EditForm>
+        }
+        else { 
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+        }
+        </div>
+</div>
+
+
+
+
+@code {
+
+
+    [Parameter]
+    public int Id { get; set; }
+    private Student Model = new Student();
+    private List<StudentClass> studentClasses = new List<StudentClass>();
+    public bool isLoading;
+    string exceptionMessage;
+    string imgUrl = string.Empty;
+    const int maxFileSize = 10485760;
+    @inject  NavigationManager NavigationManager;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+            Model = await Service.GetStudent(Id);
+            imgUrl = $"data:png;base64,{Convert.ToBase64String(Model.Image)}";
+        }
+
+        studentClasses = await Service.StudentClassIndex();
+    }
+
+
+    //Hamdle students photo
+    async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        exceptionMessage = "";
+
+        try
+        {
+
+            IBrowserFile imgFile = e.File;
+            var buffers = new byte[imgFile.Size];
+            using (var stream = imgFile.OpenReadStream(maxFileSize))
+            {
+                using (var mstream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(mstream);
+                    buffers = mstream.ToArray();
+                }
+            }
+            string imageType = imgFile.ContentType;
+            imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
+
+
+            Model.Image = buffers;
+
+        }
+        catch (Exception ex)
+        {
+            exceptionMessage = ex.Message;
+        }
+
+        isLoading = false;
+    }
+
+
+    //Submit Data
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        Student student = new Student();
+        try
+        {
+            student = Model;
+
+            var result = Service.EditStudent(student);
+
+            NavigationManager.NavigateTo("Student/Index");
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

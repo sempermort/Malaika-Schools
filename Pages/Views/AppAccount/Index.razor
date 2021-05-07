@@ -1,0 +1,98 @@
+﻿@page "/AppAccount/Index"
+@using MalaikaSchool.Data.Services
+@inherits OwningComponentBase<StudentsService>
+@inject IModalService Modal
+
+
+<p>
+    <NavLink href="/AppAccount/Create">Create New</NavLink>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Student Name
+        </th>
+        <th>
+            Class
+        </th>
+        <th>
+            Date
+        </th>
+
+        <th>
+            Fee Type
+        </th>
+        <th>
+            Opening Balance
+        </th>
+        <th>
+            Current Balance
+        </th>
+        <th>
+            Total Due
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Student.Name
+            </td>
+            <td>
+                @item.StudentClass.ClassName
+            </td>
+            <td>
+                @item.FeeType.Name
+            </td>
+            <td>
+                @item.OpeningBalance
+            </td>
+            <td>
+                @item.CurrentBalance
+            </td>
+            <td>
+                @item.TotalDue
+            </td>
+
+            <td>
+                <NavLink href="@($"/Student/Edit/{item.Id}")">Edit</NavLink> |
+                <NavLink href="" @onclick="() => ClickDetailed(item.Id)">Details</NavLink> |
+                <NavLink href="" @onclick="() => ClickDeleted(item.Id)">Delete</NavLink>
+            </td>
+        </tr>
+    }
+
+</table>
+@code {
+
+    private List<AccountList> Model;
+    [CascadingParameter]
+    public IModalService AccModal { get; set; }
+
+
+    protected override Task OnInitializedAsync()
+    {
+        Model = new List<AccountList>();
+
+        return base.OnInitializedAsync();
+    }
+
+    private void ClickDetailed(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Details.Id), id);
+        AccModal.Show<Details>("Detail of Student", parameters);
+    }
+
+    private void ClickDeleted(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Delete.Id), id);
+        AccModal.Show<Delete>("Delete Student", parameters);
+
+    }
+}

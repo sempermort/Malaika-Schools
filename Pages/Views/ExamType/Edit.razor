@@ -1,0 +1,84 @@
+﻿@page "/ExamType/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="">
+    <div class="page-header">
+        <h1>
+            Edit
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/ExamType/Index" class="btn btn-warning float-right">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white ">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
+
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <input type="hidden" for="Id" @bind="Model.Id">
+
+                <div class="form-Group">
+                    <label for="ExType" class="control-label">Class</label>
+                    <InputText for="ExType" class="form-control" bind="@Model.ExType" />
+                </div>
+
+                <div class="form-Group row">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                    </div>
+                </div>
+            </div>
+            </EditForm>
+
+    </div>
+</div>
+
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ExamType Model = new ExamType();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.GetExamType(Id);
+    }
+
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        ExamType ExamType = new ExamType();
+        try
+        {
+            ExamType = Model;
+
+          var result = await Service.EditExamType(ExamType);
+            // Clear the form.
+            Model = new ExamType();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}
+
+}

@@ -1,0 +1,151 @@
+﻿@page "/Admissions/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+@using MalaikaSchool.Data.Enum
+@using MalaikaSchool.Data.Services
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="row">
+    <div class="page-header">
+        <h1>
+            Add Employee
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/Admissionss/Index" class="btn btn-warning">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white ">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+                <div class="form-group">
+                    <label for="StudentId" class="control-label">Student</label>
+                    <InputSelect for="StudentId" class="form-control" @bind-Value="@Model.StudentId">
+                        <option value="@dent.Id">@dent.Name</option>
+                        @if (students != null)
+                        {
+                            @foreach (var stc in students)
+                            {
+                                <option value="@stc.Id">@stc.Name</option>
+                            }
+                        }
+                    </InputSelect>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="AdmissionDate" class="control-label">Admission Date</label>
+                    <input for="AdmissionDate" type="date" class="form-control" @bind="@Model.AdmissionDate" />
+
+                </div>
+
+                <div class="form-group">
+                    <label for="StudentClassid" class="control-label">Student Class</label>
+                    <div class=" d-flex">
+                        <InputSelect for="StudentClassId" class="form-control" @bind-Value="@Model.StudentClassId">
+                            <option value="">-- Select Class --</option>
+                            @if (classes != null)
+                            {
+                                @foreach (var stc in classes)
+                                {
+
+                                    <option value="@stc.Id">@stc.ClassName</option>
+                                }
+                            }
+                        </InputSelect>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CreateClass">
+                            <i class="fa fa-plus">  </i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="GroupId" class="control-label">Group</label>
+                    <select for="GroupId" class="form-control" @bind="@Model.GroupId">
+                        <option value="">-- Select Group --</option>
+                        @if (groups != null)
+                        {
+                            @foreach (var grp in groups)
+                            {
+
+                                <option value="@grp.Id">@grp.Name</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="PreviousSchool" class="control-label">Name of Previous School</label>
+                    <input for="PreviousSchool" class="form-control" @bind="@Model.PreviousSchool" />
+                </div>
+
+                <div class="form-group">
+                    <label for="PreviousSchoolAddrs" class="control-label">Previous School Address</label>
+                    <input for="PreviousSchoolAddrs" class="form-control" @bind="@Model.PreviousSchoolAddrs" />
+                </div>
+
+                <div class="form-group">
+                    <label for="PreviousSchoolDocument" class="control-label d-block">Previous School Documents</label>
+
+                    <input type="file" name="Document" class="d-block" />
+
+                </div>
+                <div class="form-group float-right">
+                    <div class="col-md-offset-4 col-md-8">
+                        <small>
+                            <input type="submit" class="btn btn-info" value="Save" />
+                        </small>
+                    </div>
+                </div>
+            </div>
+            </EditForm>
+
+    </div>
+</div>
+
+
+
+
+@code {
+    public int Id { get; set; }
+    private Admission Model = new Admission();
+    private Student dent = new Student();
+    private List<Student> students = new List<Student>();
+    private List<StudentClass> classes = new List<StudentClass>();
+    private List<Group> groups = new List<Group>();
+    protected override async Task OnInitializedAsync()
+    {
+        Model.StudentId = dent.Id;
+        classes = await Service.StudentClassIndex();
+        groups = await Service.GroupIndex();
+        students = await Service.Index();
+
+
+    }
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        Admission Admission = new Admission();
+        try
+        {
+            Admission = Model;
+
+            var result = Service.EditAdmission(Admission);
+
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

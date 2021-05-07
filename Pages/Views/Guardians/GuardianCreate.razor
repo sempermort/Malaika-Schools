@@ -1,0 +1,197 @@
+﻿@using MalaikaSchool.Pages.Views.GuardianTypes
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="">
+    <div class="page-header">
+        <h1>
+            Add Guardian
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/Guardians/Index" class="btn btn-warning float-right">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white">
+        <hr>
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianForm" class="col-md-7 m-auto">
+
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <div class="form-group">
+                    <label for="Name" class="control-label">Guardian's Name</label>
+                    <InputText for="Name" class="form-control" @bind-Value="@Model.Name" />
+                </div>
+                <div class="form-group">
+                    <label for="Image" class="control-label d-block">Guardians Photo</label>
+                    <div class="form-control-file">
+
+                        <img src="@imgUrl" class="img-responsive img-thumbnail">
+
+                    </div>
+                    <InputFile type="file" OnChange="@LoadFiles" class="d-block" @bind-Value="@Model.Image" />
+
+                </div>
+                <div class="form-group">
+                    <label for="Email" class="control-label">Email</label>
+                    <InputText for="Email" class="form-control" @bind-Value="@Model.Email" />
+                </div>
+                <div class="form-group">
+                    <label for="StudentId" class="control-label">Student</label>
+                    <select for="StudentId" class="form-control" @bind="@Model.StudentId">
+                        <option value="@dent.Id">@dent.Name</option>
+                        @if (students != null)
+                        {
+                            @foreach (var stc in students)
+                            {
+                                <option value="@stc.Id">@stc.Name</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+                @*<div class="form-group">
+            <label for="Phonenumber" class="control-label">Class</label>
+            <InputText for="Phonenumber" class="form-control" @bind-Value="@Model.PhoneNumber" />
+        </div>*@
+                <div class="form-group">
+                    <label for="NID" class="control-label">NIDA Number</label>
+                    <InputText for="NID" class="form-control" @bind-Value="@Model.NID" />
+                </div>
+
+                <div class="form-group">
+                    <label for="GuardianTypeId" class="control-label">Guardian Type</label>
+                    <div class="d-flex">
+                        <select for="GuardianTypeId" class="form-control" @bind="@Model.GuardianTypeId">
+                            @if (guardianTypes != null)
+                            {
+                                @foreach (var stc in guardianTypes)
+                                {
+                                    <option value="@stc.Id">@stc.Name</option>
+                                }
+                            }
+                        </select>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GuardianTypeModal">
+                            <i class="fa fa-plus">  </i>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="form-group float-right">
+                    <div class="col-md-offset-4 col-md-8">
+                        <small>
+                            <input type="submit" class="btn btn-info" value="Save" />
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+
+
+        <div class="modal fade" id="GuardianTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                       <CreateGuardianType/>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@code {
+
+    [Parameter]
+    public Student dent { get; set; }
+    private Guardian Model=new Guardian();
+    private List<GuardianType> guardianTypes =new List<GuardianType>();
+    private List<Student> students =new List<Student>();
+    public bool isLoading;
+    string exceptionMessage;
+    string imgUrl = string.Empty;
+    const int maxFileSize = 10485760;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model.StudentId = dent.Id;
+        guardianTypes = await Service.GuardianTypeIndex();
+        students =await Service.Index();
+    }
+
+    async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        exceptionMessage = "";
+
+        try
+        {
+
+            IBrowserFile imgFile = e.File;
+            var buffers = new byte[imgFile.Size];
+            using (var stream = imgFile.OpenReadStream(maxFileSize))
+            {
+                using (var mstream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(mstream);
+                    buffers = mstream.ToArray();
+                }
+            }
+            string imageType = imgFile.ContentType;
+            imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
+
+
+            Model.Image = buffers;
+
+        }
+        catch (Exception ex)
+        {
+            exceptionMessage = ex.Message;
+        }
+
+        isLoading = false;
+    }
+
+    //Submit Data
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        Guardian Guardian = new Guardian();
+        try
+        {
+            Guardian = Model;
+
+            var result = Service.CreateGuardian(Guardian);
+            // Clear the form.
+            Model = new Guardian();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+
+}

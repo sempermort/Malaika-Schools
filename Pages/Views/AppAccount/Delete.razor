@@ -1,0 +1,98 @@
+﻿@page "/AppAccount/Delete/{Id:int}"
+@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
+@inject NavigationManager NavigationManager
+
+
+<div class="">
+    <div class="box box-block bg-white ">
+
+        @if (@Model != null)
+        {
+            <h5 class="text-danger">Details</h5>
+            <div>
+                <dl class="dl-horizontal">
+                    <dt>
+                        Student Name
+                    </dt>
+
+                    <dd>
+                        @if (Model.Student != null)
+                            @Model.Student.Name
+                    </dd>
+
+                    <dt>
+                        Class
+                    </dt>
+                    <dd>
+                        @if (Model.StudentClass != null)
+                            @Model.StudentClass.ClassName
+                    </dd>
+
+
+                    <dt>
+                        Balance
+                    </dt>
+
+                    <dd>
+                        @Model.OpeningBalance
+                    </dd>
+
+                    <dt>
+                        Total Amount
+                    </dt>
+
+                    <dd>
+                        @Model.TotalDue
+                    </dd>
+
+
+                </dl>
+
+            </div>
+        }
+    </div>
+
+</div>
+
+<div>
+    <NavLink href="/AppAccount/Index" class="btn btn-warning">Back to List</NavLink>
+</div>
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+    private AccountList Model = new AccountList();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.GetAccountList(Id);
+    }
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        AccountList AccountList = new AccountList();
+        try
+        {
+            AccountList = Model;
+
+            var result = Service.AccountListDeleteConfirmed(Id);
+
+            // Clear the form.
+            Model = new AccountList();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+
+}
+
+

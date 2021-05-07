@@ -1,0 +1,179 @@
+﻿@page "/Exam/Create"
+@using MalaikaSchool.Pages.Views.ExamType
+@inherits OwningComponentBase<StudentsService>
+@inject IToastService toastService
+
+
+
+<div class="">
+    <div class="page-header">
+        <h1>
+            Add Marks
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/Exam/Index" class="btn btn-warning float-right">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <hr>
+    <div class="box box-block bg-white ">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
+            <DataAnnotationsValidator />
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+                <div class="d-flex justify-content-between">
+                    <div class="form-group col-md-6 pl-0">
+                        <label for="StudentClassId" class="control-label">Student Class</label>
+                        <InputSelect for="StudentClassId" class="form-control" @onchange="Getclass"  @bind-Value="@Model.StudentClassId">
+                            <option value="">Class</option>
+                            @if (studentClasses != null)
+                            {
+                                @foreach (var stc in studentClasses)
+                                {
+
+                                    <option value="@stc.Id">@stc.ClassName</option>
+                                }
+                            }
+                        </InputSelect>
+
+                    </div>
+                    <div class="form-group col-md-6 pr-0">
+                        <label for="StudentId" class="control-label">Student </label>
+                        <select for="StudentId" class="form-control" @bind="@Model.StudentId">
+                            <option value="">Student</option>
+                            @if (students != null)
+                            {
+                                @foreach (var stc in students)
+                                {
+
+                                    <option value="@stc.Id">@stc.Name</option>
+                                }
+                            }
+                        </select>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Mark" class="control-label">Mark</label>
+                    <input for="Mark" class="form-control" @bind="@Model.Mark" />
+                </div>
+                <div class="form-group">
+                    <label for="DateTime" class="control-label">DateTime</label>
+                    <InputDate for="DateTime" class="form-control" @bind-Value="@Model.Datetime" />
+                </div>
+                <div class="form-group">
+                    <label for="SubjectId" class="control-label">Subject</label>
+                    <select for="SubjectId" class="form-control" @bind="@Model.SubjectId">
+                        <option value="">-- Select Subject --</option>
+                        @if (Subjects != null)
+                        {
+                            @foreach (var stc in Subjects)
+                            {
+                                <option value="@stc.Id">@stc.Name</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="ExamTypeId" class="control-label">Examination Name</label>
+                    <div class="d-flex">
+                        <InputSelect for="ExamTypeId" class="form-control" @bind-Value="Model.Id">
+
+                            @if (ExamTypes != null)
+                            {
+                                @foreach (var stc in ExamTypes)
+                                {
+
+                                    <option value="@stc.Id">@stc.ExType</option>
+                                }
+                            }
+                        </InputSelect>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExamTypeModal">
+                            <i class="fa fa-plus">  </i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="">
+                        <input type="submit" class="btn btn-info float-right" value="Save" />
+                    </div>
+                </div>
+
+            </div>
+        </EditForm>
+        <div class="modal fade" id="ExamTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Exam Name</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <CreateExamType />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@code {
+
+    @inject NavigationManager NavigationManager
+    private Exam Model = new Exam();
+    private List<ExamType> ExamTypes = new List<ExamType>();
+    private List<StudentClass> studentClasses = new List<StudentClass>();
+    private List<Subject> Subjects = new List<Subject>();
+    private List<Student> students = new List<Student>();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        studentClasses = await Service.StudentClassIndex();
+        Subjects = await Service.SubjectIndex();
+        ExamTypes = await Service.ExamTypeIndex();
+        students = await Service.Index();
+
+    }
+
+    private async Task Getclass() {
+
+     var st = await Service.StudentClassIndex();
+    }
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        Exam Exam = new Exam();
+        try
+        {
+            Exam = Model;
+
+            var result = await Service.CreateExam(Exam);
+            // Clear the form.
+            if (result != null)
+            {
+                NavigationManager.NavigateTo("/Employee/Index");
+            }
+            Model = new Exam();
+            // Show the Toast.
+
+            toastService.ShowInfo("Exam Added");
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+
+}

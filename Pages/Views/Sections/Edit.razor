@@ -1,0 +1,60 @@
+﻿@page "/Sections/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+
+
+<div class="row">
+    <div class="page-header">
+        <h1>
+            Edit
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/Sections/Index" class="btn btn-warning">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white col-md-6">
+        <form action="/Sections/Edit/{Id:int}" method="post" id="SubmitForm"></form>
+            @*<DataAnnotationsValidator />*@
+
+
+        <div class="form-horizontal">
+               @*<ValidationSummary />*@
+
+            <input type="hidden" for="Id" @bind="Model.Id">
+
+            <div class="form-Group">
+                <label for="Name" class="control-label">Class</label>
+                <InputText for="Name" class="form-control" bind="@Model.Name" />       
+            </div>
+                  
+            <div class="form-Group row">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                </div>
+            </div>
+        </div>
+        }
+
+    </div>
+</div>
+
+
+
+
+@code {
+
+    private Section Model;
+    private List<EducationLevel> educationLevels;
+
+    protected override  Task OnInitializedAsync()
+    {
+        Model = new Section();
+        educationLevels = new List<EducationLevel>();
+
+        return base.OnInitializedAsync();
+    }
+
+}

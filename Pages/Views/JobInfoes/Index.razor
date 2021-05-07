@@ -1,0 +1,97 @@
+﻿@page "/JobInfoes/Index"
+@using MalaikaSchool.Data.Models
+
+<h2>Index</h2>
+
+<p>
+    <NavLink href="/JobInfoes/Create">Create New</NavLink>
+</p>
+<table class="table">
+    <tr>
+
+        <th>
+            Designation
+        </th>
+        <th>
+            Staff Name
+        </th>
+        <th>
+            Joining Date
+        </th>
+        <th>
+            Salary
+        </th>
+        <th>
+            Total Leave
+        </th>
+        <th>
+           Promotion
+        </th>
+        <th>
+          Promotion Ext
+        </th>
+
+        <th>
+            Parmanent Address
+        </th>
+
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Designation.Name
+            </td>
+            <td>
+                @item.Employee.AppUser.UserName
+            </td>
+            <td>
+                @item.DOJ
+            </td>
+            <td>
+                @item.Salary
+            </td>
+            <td>
+                @item.TotalLeave
+            </td>
+            <td>
+                @item.Appointment
+            </td>
+            <td>
+                @item.Appointment
+            </td>
+
+            <td>
+                @item.AppointmentExt
+            </td>
+
+
+            <td>
+                <NavLink href="/JobInfoes/Edit/{Id:int}" @key="@item.Id">Edit</NavLink>|
+                <NavLink href="/JobInfoes/Details" @key="@item.Id">Details</NavLink>|
+                <NavLink href="/JobInfoes/Delete" @key="@item.Id">Delete</NavLink>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+
+
+@code {
+
+    private List<JobInfo> Model;
+
+
+    protected override  Task OnInitializedAsync()
+    {
+        Model = new List<JobInfo>();
+
+        return base.OnInitializedAsync();
+    }
+
+}

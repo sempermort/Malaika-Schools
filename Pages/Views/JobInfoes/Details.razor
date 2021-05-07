@@ -1,0 +1,86 @@
+﻿@page "/JobInfoes/Details"
+@using MalaikaSchool.Data.Models
+
+<div class="row">
+    <div class="box box-block bg-white col-md-6">
+
+
+        <h3>Details</h3>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>
+                    Designation
+                </dt> 
+                <dd>
+                    @Model.Designation.Name
+                </dd>
+                <dt>
+                    Staff Name
+                </dt>
+                <dd>
+                    @Model.Employee.AppUser.UserName
+                </dd>
+                <dt>
+                    Joining Date
+                </dt>
+                <dd>
+                    @Model.DOJ
+                </dd>
+                <dt>
+                    Salary
+                </dt>
+                <dd>
+                    @Model.Salary
+                </dd>
+                <dt>
+                    Total Leave
+                </dt>
+                <dd>
+                    @Model.TotalLeave
+                </dd>
+                <dt>
+                    Promotion
+                </dt>
+                <dd>
+                    @Model.Appointment
+                </dd>
+                <dt>
+                    Appointment EXp
+                </dt>
+                <dd>
+                    @Model.AppointmentExt
+                </dd>
+
+            </dl>
+
+            <form action="/" method="post">
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    <NavLink href="/JobInfoes/Index">Back to List</NavLink>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <NavLink href="/JobInfoes/Index" class="btn btn-warning">Back to List</NavLink>
+</div>
+
+@code {
+
+    private JobInfo Model;
+
+
+    protected override Task OnInitializedAsync()
+    {
+        Model = new JobInfo();
+
+        return base.OnInitializedAsync();
+    }
+
+}
+
+

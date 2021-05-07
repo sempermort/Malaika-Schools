@@ -1,0 +1,86 @@
+﻿@page "/Designations/Delete/{Id}"
+@inherits OwningComponentBase<StudentsService>
+
+<div class="panel panel-danger">
+    
+    <div class="panel-body">
+        @if (Model != null)
+        {
+            <div>
+                <dl class="dl-horizontal d-flex justify-content-between">
+
+
+                    <dt class="pr-2">
+                        Designation:
+                    </dt>
+
+                    <dd>
+                        @Model.Name
+                    </dd>
+
+
+                </dl>
+
+          
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        }
+    </div>
+    <div class=" panel-footer d-flex justify-content-between" >
+        <NavLink href="/Designations/Index" class="btn btn-default">Back to List</NavLink>
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="DesignationForm" class="">
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </div>
+        </EditForm>
+
+    </div>
+</div>
+
+@code {
+
+
+    private IdentityRole Model =new IdentityRole();
+    [Parameter]
+    public string Id { get; set; }
+
+
+    @inject RoleManager<IdentityRole> roleManager
+    @inject NavigationManager NavigationManager
+
+    protected override async Task OnInitializedAsync()
+        {
+            Model  = await roleManager.FindByIdAsync(Id);
+        }
+        public async Task HandleValidSubmit(EditContext context)
+        {
+            try
+            {
+                if (Model != null)
+                {
+                    IdentityResult result = await roleManager.DeleteAsync(Model);
+                    if (result != null)
+                    {
+                        NavigationManager.NavigateTo("/Designations/Index");
+                    }
+                }
+            
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+            //await this.ToastObj.Show();
+        }
+    }
+
+}
+
+
+

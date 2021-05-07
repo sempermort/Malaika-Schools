@@ -1,0 +1,63 @@
+﻿@page "/ExamType/CreateExamType"
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="">
+    <div class="box box-block bg-white ">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <div class="form-Group">
+                    <label for="ExType" class="control-label">Exam Name</label>
+                    <InputText for="ExType" class="form-control" @bind-Value="@Model.ExType" />
+                </div>
+
+
+            </div>
+            <div class="form-Group">
+                <div class="">
+                    <input type="submit" class="btn btn-info float-right mt-1" data-dismiss="modal" value="Save"  />
+                </div>
+            </div>
+        </EditForm>
+    </div>
+
+
+</div>
+
+
+
+
+
+@code {
+
+    private ExamType Model = new ExamType();
+
+
+
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        ExamType ExamType = new ExamType();
+        try
+        {
+            ExamType = Model;
+
+            var result = await Service.CreateExamType(ExamType);
+            // Clear the form.
+            Model = new ExamType();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

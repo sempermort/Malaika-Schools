@@ -1,0 +1,146 @@
+﻿@page "/Student/Index"
+@using MalaikaSchool.Data.Services
+@inherits OwningComponentBase<StudentsService>
+
+
+
+
+<p>
+    <NavLink href="Student/StudentCreate">Create New</NavLink>
+</p>
+@if (Model != null)
+{
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>
+                    Name of Student
+                </th>
+                <th>
+                    Date of Birth
+                </th>
+                <th>
+                    Religion
+                </th>
+
+                <th>
+                    Nationality
+                </th>
+
+                <th>
+                    Current Address
+                </th>
+
+                <th>
+                    Parmanent Address
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>
+                    Name of Student
+                </th>
+                <th>
+                    Date of Birth
+                </th>
+                <th>
+                    Religion
+                </th>
+
+                <th>
+                    Nationality
+                </th>
+
+                <th>
+                    Current Address
+                </th>
+
+                <th>
+                    Parmanent Address
+                </th>
+
+                <th></th>
+            </tr>
+        </tfoot>
+        <tbody>
+            @if (Model.Count > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.DateOfBirth
+                        </td>
+                        <td>
+                            @item.Religion
+                        </td>
+
+                        <td>
+                            @item.Nationality
+                        </td>
+
+                        <td>
+                            @item.PresentAddress
+                        </td>
+
+                        <td>
+                            @item.ParmanentAddress
+                        </td>
+
+
+                        <td>
+                            <NavLink href="@($"/Student/Edit/{item.Id}")">Edit</NavLink> |
+                            <NavLink href="" @onclick="() => ClickDetailed(item.Id)">Details</NavLink> |
+                            <NavLink href="" @onclick="() => ClickDeleted(item.Id)">Delete</NavLink>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+
+
+
+@code {
+
+    private List<Student> Model = new List<Student>();
+    [CascadingParameter]
+    public IModalService StudentModal { get; set; }
+
+
+    private void ClickDetailed(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Details.Id), id);
+        StudentModal.Show<Details>("Detail of Student", parameters);
+    }
+
+    private void ClickDeleted(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Delete.StudentId), id);
+        StudentModal.Show<Delete>("Delete Student", parameters);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.Index();
+    }
+
+}

@@ -1,0 +1,72 @@
+﻿@using MalaikaSchool.Data.Models
+@page "/ClassFee/Create"
+@page "/ClassFee/Create/{Id:int}"
+@inherits OwningComponentBase<StudentsService>
+@inject IToastService toastService
+@inject NavigationManager NVM
+
+<div class="">
+    <div class="box box-block bg-white ">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianTypeForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <div class="form-group">
+                    <label for="Name" class="control-label">Fees Name</label>
+                    <InputText for="Name" class="form-control" @bind-Value="@Model.Name" />
+                </div>
+                <div class="form-group">
+                    <label for="Amount" class="control-label">Admission Fee</label>
+                    <input for="Amount" class="form-control" @bind="@Model.Amount" />
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" class="btn btn-info" value="Create" @onclick="HandleValidSubmit" />
+
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ClassFee Model = new ClassFee();
+
+
+ 
+    public async Task HandleValidSubmit()
+    {
+
+        ClassFee ClassFee = new ClassFee();
+        try
+        {
+            Model.StudentClassId = Id;
+            ClassFee = Model;
+
+            var result = await Service.CreateClassFee(ClassFee);
+            // Clear the form.
+
+            // Show the Toast.
+            NVM.NavigateTo("StudentClass/Create", true);
+            toastService.ShowInfo("ClassFee Added");
+        }
+        catch (Exception ex)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+        Model = new ClassFee();
+    }
+}

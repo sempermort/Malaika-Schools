@@ -1,0 +1,65 @@
+﻿@page "/AssignRolls/Index"
+@using MalaikaSchool.Data.Models
+
+<h2>Index</h2>
+
+<p>
+    <NavLink href="/AssignRolls/Create">Create New</NavLink>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            student Name
+        </th>
+        <th>
+            Session
+        </th>
+        <th>
+          Class 
+        </th>
+        <th>
+            Role
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Student.UserStudent.UserName
+            </td>
+            <td>
+                @item.Session.Name
+            </td>
+            <td>
+                @item.StudentClass.ClassName
+            </td>
+            <td>
+                @item.Roll
+            </td>
+
+
+            <td>
+                <NavLink href="/AssignRolls/Edit/{Id:int}" @key="@item.Id">Edit</NavLink>|
+                <NavLink href="/AssignRolls/Details" @key="@item.Id">Details</NavLink>|
+                <NavLink href="/AssignRolls/Delete" @key="@item.Id">Delete</NavLink>
+            </td>
+        </tr>
+    }
+
+</table>
+@code {
+
+    private List<AssignRoll> Model;
+
+
+    protected override  Task OnInitializedAsync()
+    {
+        Model = new List<AssignRoll>();
+
+        return base.OnInitializedAsync();
+    }
+
+}

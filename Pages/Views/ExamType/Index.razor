@@ -1,0 +1,62 @@
+﻿@page "/ExamType/Index"
+@using MalaikaSchool.Data.Models
+@inject IModalService Modal
+
+<h2>Index</h2>
+
+<p>
+    <NavLink href="/ExamType/Create">Create New</NavLink>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ExamType
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.ExType
+            </td>
+
+
+            <td>
+                <NavLink href="@($"/Guardians/Edit/{item.Id}")">Edit</NavLink> |
+                <button class="btn btn-link" @onclick="()=>ClickDetailed(item.Id)">Details</button> |
+                <button class="btn btn-link" @onclick="()=>ClickDeleted(item.Id)">Delete</button>
+            </td>
+        </tr>
+    }
+
+</table>
+@code {
+
+    private List<ExamType> Model;
+
+
+    protected override Task OnInitializedAsync()
+    {
+        Model = new List<ExamType>();
+
+        return base.OnInitializedAsync();
+    }
+
+    private void ClickDetailed(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Details.Id), id);
+        Modal.Show<Details>("Detail of Exam type", parameters);
+    }
+
+    private void ClickDeleted(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Delete.Id), id);
+        Modal.Show<Delete>("Delete Exam type", parameters);
+    }
+
+}

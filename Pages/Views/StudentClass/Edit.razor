@@ -1,0 +1,75 @@
+﻿@page "/StudentClass/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
+
+<div class="">
+
+    <div class="box box-block bg-white">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            @*<ValidationSummary />*@
+
+          
+        
+
+
+
+            <div class="form-group row">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                </div>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
+
+
+
+
+@code {
+        [CascadingParameter]
+        ModalParameters Parameters { get; set; }
+
+    public int Id { get; set; }
+    private StudentClass Model = new StudentClass();
+    private List<StudentClass> StudentClasses = new List<StudentClass>();
+    private List<Section> sections = new List<Section>();
+    private List<Shift> shifts = new List<Shift>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Id = Parameters.Get<int>("StudentId");
+        if (Id > 0)
+        {
+            Model = await Service.GetStudentClass(Id);
+        }
+        StudentClasses =await Service.StudentClassIndex();
+        sections = await Service.SectionIndex();
+    }
+    //Submit Data
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        StudentClass StudentClass = new StudentClass();
+        try
+        {
+            StudentClass = Model;
+
+            var result = Service.EditStudentClass(StudentClass);
+
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}

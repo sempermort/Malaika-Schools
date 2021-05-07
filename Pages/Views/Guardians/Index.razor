@@ -1,0 +1,84 @@
+﻿@page "/Guardians/Index"
+@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
+@inject IModalService Modal
+
+<p>
+    <NavLink href="/Guardians/Create">Create New</NavLink>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Guardian Name</th>
+            <th>Student Name</th>
+            <th> Relation</th>
+            <th>Phone Number</th>
+            <th>Email</th>
+            <th>NID Number</th>
+            <th></th>
+        </tr>
+    </thead>
+   
+    <tbody>
+        @if (Model == null ||  students == null)
+        {
+            <div class="ace-spinner"></div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>
+
+                        @foreach (var student in students)
+                        {
+                            @if (student.Id == item.StudentId)
+                            {
+                                @student.Name
+                            }
+                        }
+                    </td>
+                    <td>@item.GuardianType</td>
+                    <td>@item.PhoneNumber</td>
+                    <td>@item.Email</td>
+                    <td>@item.NID</td>
+
+                    <td>
+                        <NavLink href="@($"/Guardians/Edit/{item.Id}")">Edit</NavLink> |
+                        <button class="btn btn-link" @onclick="()=>ClickDetailed(item.Id)">Details</button> |
+                        <button class="btn btn-link" @onclick="()=>ClickDeleted(item.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+
+</table>
+
+@code {
+
+    private List<Guardian> Model = new List<Guardian>();
+    private List<Student> students = new List<Student>();
+
+    private void ClickDetailed(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Details.Id), id);
+        Modal.Show<Details>("Detail of Student", parameters);
+    }
+
+    private void ClickDeleted(int id)
+    {
+        var parameters = new ModalParameters();
+        parameters.Add(nameof(Delete.Id), id);
+        Modal.Show<Delete>("Delete Student", parameters);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.GuardianIndex();
+        students = await Service.Index();
+    }
+}

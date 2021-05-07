@@ -1,0 +1,89 @@
+﻿@page "/JobInfoes/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+
+<div class="row">
+    <div class="page-header">
+        <h1>
+            Edit
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+                <NavLink href="/JobInfoes/Index" class="btn btn-warning">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white col-md-6">
+        <form action="/JobInfoes/Edit/{Id:int}" method="post" id="SubmitForm"></form>
+            @*<DataAnnotationsValidator />*@
+
+
+        <div class="form-horizontal">
+               @*<ValidationSummary />*@
+
+            <div class="form-group">
+                <label for="ClassNameId" class="control-label">Student Class</label>
+                <select for="ClassIdNameId" class="form-control" bind="@Model.DesignationId">
+                    <option value="@Model.DesignationId">@Model.Designation.Name</option>
+                    @if (designations != null)
+                    {
+                        @foreach (var stc in designations)
+                        {
+
+                            <option value="@stc.Id">@stc.Name</option>
+                        }
+                    }
+                </select>
+
+            </div>
+
+            <div class="form-group">
+                <label for="DOJ" class="control-label">Joining Date</label>
+                <InputText for="DOJ" class="form-control" bind-Value="@Model.DOJ" />
+            </div>
+            <div class="form-group">
+                <label for="Salary" class="control-label">Salary</label>
+                <InputText for="Salary" class="form-control" bind-Value="@Model.Salary" />
+            </div>
+            <div class="form-group">
+                <label for="TotalLeave " class="control-label">Total Leave</label>
+                <InputText for="TotalLeave" class="form-control" bind-Value="@Model.TotalLeave" />
+            </div>
+            <div class="form-group">
+                <label for="Appointment" class="control-label">Promotion</label>
+                <InputText for="Appointment" class="form-control" bind-Value="@Model.Appointment" />
+            </div>
+            <div class="form-group">
+                <label for="AppointmentExt" class="control-label">AppointmentExt</label>
+                <InputText for="AppointmentExt" class="form-control" bind-Value="@Model.AppointmentExt" />
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-md-offset-4 col-md-8">
+                    <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                </div>
+            </div>
+        </div>
+        }
+
+    </div>
+</div>
+
+
+
+
+@code {
+
+    private JobInfo Model;
+    private List<Designation> designations;
+
+
+    protected override  Task OnInitializedAsync()
+    {
+        Model = new JobInfo();
+        designations = new List<Designation>();
+        return base.OnInitializedAsync();
+    }
+
+}

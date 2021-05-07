@@ -1,0 +1,168 @@
+﻿@page "/Guardians/Edit/{Id:int}"
+@using MalaikaSchool.Data.Models
+@using MalaikaSchool.Data.Services
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="">
+    <div class="page-header">
+        <h1>
+            Edit
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="/Guardians/Index" class="btn btn-warning">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+    <div class="box box-block bg-white col-md-6">
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <input type="hidden" for="Id" @bind="Model.Id">
+
+                <div class="form-group">
+                    <label for="Name" class="control-label">Guardian Name</label>
+                    <InputText for="Name" class="form-control" @bind-Value="@Model.Name" />
+                </div>
+                <div class="form-group">
+                    <label for="Email" class="control-label">Email</label>
+                    <InputText for="Email" class="form-control" @bind-Value="@Model.Email" />
+                </div>
+                @*<div class="form-group">
+                    <label for="Phonenumber" class="control-label">Class</label>
+                    <InputText for="Phonenumber" class="form-control" @bind-Value="@Model.PhoneNumber" />
+                </div>*@
+                <div class="form-group">
+                    <label for="NID" class="control-label">NIDA</label>
+                    <InputText for="NID" class="form-control" @bind-Value="@Model.NID" />
+                </div>
+
+                <div class="form-group">
+                    <label for="GuardianTypeId" class="control-label">Guardian Type</label>
+                    <select for="GuardianTypeId" class="form-control" @bind="@Model.GuardianTypeId">
+                        @if (guardianTypes != null)
+                        {
+                            @foreach (var stc in guardianTypes)
+                            {
+                                <option value="@stc.Id">@stc.Name</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="StudentId" class="control-label">Student</label>
+                    <select for="StudentId" class="form-control" @bind="@Model.StudentId">
+                        
+                        @if (students != null)
+                        {
+                            @foreach (var stc in students)
+                            {
+                                <option value="@stc.Id">@stc.Name</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+
+    </div>
+</div>
+
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    public bool isLoading;
+    string exceptionMessage;
+    string imgUrl = string.Empty;
+    const int maxFileSize = 10485760;
+    private Guardian Model = new Guardian();
+    private List<GuardianType> guardianTypes = new List<GuardianType>();
+    private List<Student> students = new List<Student>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.GetGuardian(Id);
+        guardianTypes = new List<GuardianType>();
+        students = await Service.Index();
+        imgUrl = $"data:png;base64,{Convert.ToBase64String(Model.Image)}";
+    }
+
+
+
+
+    //Hamdle students photo
+    async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        exceptionMessage = "";
+
+        try
+        {
+
+            IBrowserFile imgFile = e.File;
+            var buffers = new byte[imgFile.Size];
+            using (var stream = imgFile.OpenReadStream(maxFileSize))
+            {
+                using (var mstream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(mstream);
+                    buffers = mstream.ToArray();
+                }
+            }
+            string imageType = imgFile.ContentType;
+            imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
+
+
+            Model.Image = buffers;
+
+        }
+        catch (Exception ex)
+        {
+            exceptionMessage = ex.Message;
+        }
+
+        isLoading = false;
+    }
+
+    //Submit Data
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        Guardian Guardian = new Guardian();
+        try
+        {
+            Guardian = Model;
+
+            var result = Service.EditGuardian(Guardian);
+
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}
