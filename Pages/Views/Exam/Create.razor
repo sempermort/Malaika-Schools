@@ -8,7 +8,6 @@
 <div class="">
     <div class="page-header">
         <h1>
-            Add Marks
             <small>
                 <i class="ace-icon fa fa-angle-double-right"></i>
 
@@ -26,7 +25,7 @@
                 <div class="d-flex justify-content-between">
                     <div class="form-group col-md-6 pl-0">
                         <label for="StudentClassId" class="control-label">Student Class</label>
-                        <InputSelect for="StudentClassId" class="form-control" @onchange="Getclass"  @bind-Value="@Model.StudentClassId">
+                        <InputSelect for="StudentClassId" class="form-control" @oninput="(e =>ClassStudents(e))"  @bind-Value="@Model.StudentClassId">
                             <option value="">Class</option>
                             @if (studentClasses != null)
                             {
@@ -141,13 +140,13 @@
         studentClasses = await Service.StudentClassIndex();
         Subjects = await Service.SubjectIndex();
         ExamTypes = await Service.ExamTypeIndex();
-        students = await Service.Index();
+     
 
     }
 
     private async Task Getclass() {
 
-     var st = await Service.StudentClassIndex();
+        var st = await Service.StudentClassIndex();
     }
     public async Task HandleValidSubmit(EditContext context)
     {
@@ -174,6 +173,13 @@
 
             //await this.ToastObj.Show();
         }
+    }
+
+    protected async Task ClassStudents(ChangeEventArgs e)
+    {
+        var ListStudent = await Service.Index();
+        students = ListStudent.Where(n => n.StudentClassId ==Convert.ToInt32(e.Value)).ToList();
+
     }
 
 }

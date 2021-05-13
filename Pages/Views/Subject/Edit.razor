@@ -6,7 +6,7 @@
 <div class="">
    
     <div class="box box-block bg-white ">
-        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+        <EditForm OnSubmit="@HandleValidSubmit" Model="@Model" Id="EditSubject" class="col-md-7 m-auto">
             @*<DataAnnotationsValidator />*@
 
 
@@ -26,8 +26,8 @@
 
                 <div class="form-group">
                     <label for="ClassNameId" class="control-label">Student Class</label>
-                    <select for="ClassIdNameId" class="form-control" @bind="@Model.ClassNameId">
-                        <option value="@Model.ClassNameId">@Model.ClassNameId</option>
+                    <select for="ClassIdNameId" class="form-control" @bind="@Model.StudentClassId">
+                        <option value="@Model.StudentClassId">@Model.StudentClass.ClassName</option>
                         @if (StudentClasses != null)
                         {
                             @foreach (var stc in StudentClasses)
@@ -43,7 +43,7 @@
 
                 <div class="form-group row">
                     <div class="col-md-offset-4 col-md-8">
-                        <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+                        <input type="submit" class="btn btn-primary" value="Save" @onclick="@HandleValidSubmit" />
 
                     </div>
                 </div>
@@ -68,7 +68,7 @@
         Model = await Service.GetSubject(Id);
         StudentClasses = await Service.StudentClassIndex();
     }
-    public void HandleValidSubmit(EditContext context)
+    public void HandleValidSubmit()
     {
 
         Subject Subject = new Subject();

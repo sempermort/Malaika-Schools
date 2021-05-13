@@ -76,7 +76,9 @@ namespace MalaikaSchool.Data
                .HasOne(b => b.Guardian)
                .WithOne(i => i.UserGuardian)
                .HasForeignKey<Guardian>(b => b.AppUserId);
-        }
+
+           
+            }
     }
 }
 

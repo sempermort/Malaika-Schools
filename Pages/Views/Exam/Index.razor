@@ -5,111 +5,101 @@
 @if (Model != null)
 {
 
-    <DataGrid TItem="Exam" Data="@Model" Sortable="true" Filterable="true"
-              Editable="true" ShowPager="true" PageSize="3" UseInternalEditing="true"
-              EditMode="DataGridEditMode.Inline"
-              RowUpdated="@OnRowUpdated"
-              RowInserted="@OnRowInserted"
-              RowRemoved="@OnRowRemoved"
-              NewItemDefaultSetter="@OnNewItemDefaultSetter">
-        <DataGridCommandColumn TItem="Exam">
-            <NewCommandTemplate>
-                <Blazorise.Button Color="Blazorise.Color.Success" Clicked="@context.Clicked">New</Blazorise.Button>
-            </NewCommandTemplate>
-            <SaveCommandTemplate>
-                <Blazorise.Button Color="Blazorise.Color.Success" Clicked="@context.Clicked">Save</Blazorise.Button>
-            </SaveCommandTemplate>
-            <EditCommandTemplate>
-                <Blazorise.Button Color="Blazorise.Color.Primary" Clicked="@context.Clicked">Edit</Blazorise.Button>
-            </EditCommandTemplate>
-            <DeleteCommandTemplate>
-                <Blazorise.Button Color="Blazorise.Color.Danger" Clicked="@context.Clicked">Delete</Blazorise.Button>
-            </DeleteCommandTemplate>
-            <CancelCommandTemplate>
-                <Blazorise.Button Color="Blazorise.Color.Secondary" Clicked="@context.Clicked">Cancel</Blazorise.Button>
-            </CancelCommandTemplate>
-        </DataGridCommandColumn>
-        <DataGridSelectColumn TItem="Exam" CellsEditableOnEditCommand="true"  Field="@nameof(Exam.StudentId)" Caption="Name" Editable="true">
-            @*<DisplayTemplate>
-                @{
-                        var targetname = (context as Exam).Student?.Name;
 
-                    @targetname
-                }
-            </DisplayTemplate>*@ 
-            <EditTemplate> 
-                 <Select TValue="int" SelectedValue="@((int)(((CellEditContext)context).CellValue))" 
-                            SelectedValueChanged="@(v => ((CellEditContext)context).CellValue = v)">
-                                                               
-                 @foreach (var stc in Students)
-                 {
-                   <SelectItem TValue="int" value="@(stc.Id)">@stc.Name</SelectItem>
-                 }
-                </Select>
-                                                       
-            </EditTemplate>                       
-        </DataGridSelectColumn>
-        <DataGridColumn TItem="Exam" Field="@nameof(Exam.Mark)" Caption="Marks"></DataGridColumn>
-        <DataGridColumn TItem="Exam" Field="@nameof(Exam.Grade)" Caption="Grade"></DataGridColumn>
-    </DataGrid>
+    <table id="" class="table b-datagrid">
+        <thead>
+            <tr>
+                <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#GuardianTypeModal2">New</button></th>
+                <th style="cursor: pointer">Name</th>
+                <th style="cursor: pointer">Marks</th>
+                <th style="cursor: pointer">Grade</th>
+            </tr>
+            <tr>
+                <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+                <th scope="col"><input type="text" class="form-control"></th>
+                <th scope="col"><input type="text" class="form-control"></th>
+                <th scope="col"><input type="text" class="form-control"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
 
-    }
-    else
-    {
+
+}
+else
+{
     <div class="d-flex justify-content-center">
         <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
+}
+
+
+<div class="modal fade" id="GuardianTypeModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Mark</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <Create/>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private List<Exam> Model;
+
+    private List<Student> Students = new List<Student>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.ExamIndex();
+        Students = await Service.Index();
     }
-    @code {
 
-        private List<Exam> Model;
-
-        private List<Student> Students =new List<Student>();
-
-
-        protected override async Task OnInitializedAsync()
+    private async Task OnRowInserted(SavedRowItem<Exam, Dictionary<string, object>> e)
+    {
+        //Save
+        Exam ExamM = new Exam();
+        ExamM = e.Item;
+        foreach (var ele in e.Values)
         {
-            Model = await Service.ExamIndex();
-            Students = await Service.Index();
-        }
+            var k = (int)ele.Value;
 
-        private async Task OnRowInserted(SavedRowItem<Exam, Dictionary<string, object>> e)
-        {
-            //Save
-            Exam ExamM = new Exam();
-            ExamM=   e.Item;
-            foreach (var ele in e.Values)
-            {
-                var k= (int)ele.Value;
-
-                ExamM.StudentId = k;
-            }
-            await Service.CreateExam(ExamM);
-            Model = await Service.ExamIndex();
-            StateHasChanged();
+            ExamM.StudentId = k;
         }
-
-        private async Task OnRowUpdated(SavedRowItem<Exam, Dictionary<string, object>> e)
-        {
-            //Update
-            var ExamM = e.Item;
-            await Service.EditExam(ExamM);
-            Model = await Service.ExamIndex();
-            StateHasChanged();
-        }
-        private async Task OnRowRemoved(Exam Exam)
-        {
-            //Delete
-            await Service.ExamDeleteConfirmed(Exam.Id);
-            Model = await Service.ExamIndex();
-            StateHasChanged();
-        }
-        private void OnNewItemDefaultSetter(Exam Exam)
-        {
-            //Default Value Set
-            StateHasChanged();
-
-        }
+        await Service.CreateExam(ExamM);
+        Model = await Service.ExamIndex();
+        StateHasChanged();
     }
+
+    private async Task OnRowUpdated(SavedRowItem<Exam, Dictionary<string, object>> e)
+    {
+        //Update
+        var ExamM = e.Item;
+        await Service.EditExam(ExamM);
+        Model = await Service.ExamIndex();
+        StateHasChanged();
+    }
+    private async Task OnRowRemoved(Exam Exam)
+    {
+        //Delete
+        await Service.ExamDeleteConfirmed(Exam.Id);
+        Model = await Service.ExamIndex();
+        StateHasChanged();
+    }
+    private void OnNewItemDefaultSetter(Exam Exam)
+    {
+        //Default Value Set
+        StateHasChanged();
+
+    }
+
+
+}

@@ -7,7 +7,7 @@
 
 <div class="">
     <div class="box box-block bg-white ">
-        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
+        <EditForm Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
             @*<DataAnnotationsValidator />*@
             <div class="page-header">
                 <h1>
@@ -24,15 +24,13 @@
                 <div class="form-group">
                     <label for="StudentClass" class="control-label">Student Class</label>
                     <div class="d-flex">
-                        <InputSelect for="StudentClassId" @onchange="GetId" class="form-control" @bind-Value="Model.Id">
-                            @if (model!=null) {
-                            <option value="@model.Id">@model.ClassName</option>
-                            }
+                        <InputSelect  class="form-control"  @oninput="(e =>SomeMethod(e))" @bind-Value="@Model.StudentClassId">
+                           <option value="">Class Room</option>
+                            
                             @if (StudentClasses != null)
                             {
                                 @foreach (var stc in StudentClasses)
                                 {
-
                                     <option value="@stc.Id">@stc.ClassName</option>
                                 }
                             }
@@ -44,42 +42,45 @@
                 </div>
 
 
-                <div class="form-group">
-                    <label for="GuardianTypeId3" class="control-label">fees</label>
-                    <div class="d-flex">
-                        <InputSelect for="ClassFeeId" class="form-control" @bind-Value="@Model.ClassFeeId">
-                            @if (classFees != null)
+                <div class="form-group mt-5 mb-5">
+                  
+                        <div class="card ">
+                            <div class="card-header">
+                                Class Fees
+                                <button type="button" class="btn btn-outline-primary btn-add float-right" data-toggle="modal" data-target="#GuardianTypeModal">
+                                    <span> add </span>  <i class="fa fa-plus">  </i>
+                                </button>
+                            </div>
+                            @if (classFees.Count > 0)
                             {
-                                @foreach (var stc in classFees)
-                                {
-                                    <option value="@stc.Id">@stc.Name <b>@stc.Amount</b></option>
-                                }
+                        <ul class="list-group list-group-flush">
+                            @foreach (var stc in classFees)
+                            {
+                                <li class="list-group-item d-flex justify-content-between"><span> @stc.Name </span>  <span>@stc.Amount</span></li>
+                                <hr style="background-color: aqua; margin:0;">
                             }
-                        </InputSelect>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GuardianTypeModal">
-                            <i class="fa fa-plus">  </i>
-                        </button>
+                        </ul>
+                            }
+                        </div>
+            
+
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" value="Save " data-dismiss="modal" 
-                      @onclick="@(() => toastService.ShowSuccess("Yor Guardian Type is added Successfuly!"))" />
-                </div>
+                
+
             </div>
         </EditForm>
 
         <div class="modal fade" id="GuardianTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
+                <div class="modal-content p-2">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add New Fee</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Class</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <Create Id="Id" />
+                        <Create Id="Id" OnClassFeeAdded="ClassFeeAdded" />
                     </div>
 
                 </div>
@@ -111,9 +112,8 @@
 
     [Parameter]
     public int Id { get; set; }
-
-    private StudentClass Model = new StudentClass();
-    private StudentClass model = new StudentClass();
+    private StudentClass Classroom = new StudentClass();
+    private ClassFeeVM Model = new ClassFeeVM();
     private List<ClassFee> classFees = new List<ClassFee>();
     private List<StudentClass> StudentClasses = new List<StudentClass>();
 
@@ -121,72 +121,36 @@
     {
         try
         {
+
             StudentClasses = await Service.StudentClassIndex();
-            model = StudentClasses.Find(n => n.Id == Id);
-            if (model != null)
+
+            if (Id > 0)
             {
-                var k = await Service.ClassFeeIndex();
-                classFees = k.Where(n => n.Id == Id).ToList();
+                Model.StudentClassId = Id;
             }
-            else
-            {
-                classFees = await Service.ClassFeeIndex();
-            }
+
+
+
+
         }
         catch (Exception ex)
         { }
 
 
     }
-    public async Task GetId()
+
+    protected async  Task  ClassFeeAdded()
     {
-        var k =  await Service.ClassFeeIndex();
-        classFees = k.Where(n => n.Id == Id).ToList();
+        var Listfee = await Service.ClassFeeIndex();
+        classFees = Listfee.Where(n => n.StudentClassId == Id).ToList();
     }
 
-    public async Task HandleValidSubmit(EditContext context)
+    public async Task SomeMethod(ChangeEventArgs e)
     {
-
-        StudentClass StudentClass = new StudentClass();
-        try
-        {
-            StudentClass = Model;
-
-            var result = await Service.EditStudentClass(StudentClass);
-            // Clear the form.
-            Model = new StudentClass();
-            // Show the Toast.
-
-            toastService.ShowInfo("StudentClass Added");
-        }
-        catch (Exception)
-        {
-            //ToastContent = ex.GetBaseException().Message;
-
-            //await this.ToastObj.Show();
-        }
+        var Listfee = await Service.ClassFeeIndex();
+        classFees = Listfee.Where(n => n.StudentClassId ==Convert.ToInt32(e.Value)).ToList();
+        Id = Convert.ToInt32(e.Value);
     }
-    public async Task HandleValidSubmit2(EditContext context)
-    {
 
-        StudentClass StudentClass = new StudentClass();
-        try
-        {
-            StudentClass = Model;
 
-            var result = await Service.CreateStudentClass(StudentClass);
-            // Clear the form.
-
-            Model = new StudentClass();
-            // Show the Toast.
-
-            toastService.ShowInfo("StudentClass Added");
-        }
-        catch (Exception)
-        {
-            //ToastContent = ex.GetBaseException().Message;
-
-            //await this.ToastObj.Show();
-        }
-    }
 }

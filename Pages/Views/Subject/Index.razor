@@ -1,86 +1,68 @@
 ﻿@page "/Subject/Index"
 @using MalaikaSchool.Data.Models
 
-<h2>Index</h2>
 
-<p>
-    <NavLink href="/Subject/Create">Create New</NavLink>
-</p>
-<table class="table">
-    <tr>
 
-        <th>
-            Class
-        </th>
+<table id="" class="table b-datagrid">
+    <thead>
+        <tr>
+            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#GuardianTypeModal1">New</button></th>
+            <th style="cursor: pointer">Class</th>
+            <th style="cursor: pointer">Subject Name</th>
+            <th style="cursor: pointer">Code</th>
+        </tr>
+        <tr>
+            <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+        </tr>
+    </thead>
+    <tbody>
 
-        <th>
-            Subject Name
-        </th>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @*@item.StudentClass.*@
+            </td>
 
-        <th>
-            Code
-        </th>
+            <td>
+                @item.Name
+            </td>
 
-        <th></th>
-    </tr>
+            <td>
+                @item.Code
+            </td>
 
-    @foreach (var item in Model)
-    {
-<tr>
-    <td>
-        @item.Name
-    </td>
-    <td>
-        @item.Name
-    </td>
-    <td>
-        @item.Code
-    </td>
+            <td>
+                <NavLink href="@($"/Subject/Edit/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>|
+                <NavLink href="@($"/Subject/Details/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>|
+                <NavLink href="@($"/Subject/Delete/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
+            </td>
 
-    <td>
-        <NavLink href="@($"/Subject/Edit/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>|
-        <NavLink href="@($"/Subject/Details/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>|
-        <NavLink href="@($"/Subject/Delete/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
-    </td>
 
-  
-</tr>
-    }
-
+        </tr>
+        }
+    </tbody>
 </table>
-<div class="modal fade" id="GuardianTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <Edit />
-            </div>
-
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="GuardianTypeModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Subject</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <Details />
+                <Create />
             </div>
 
         </div>
     </div>
 </div>
-<div class="modal fade" id="GuardianTypeModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="GuardianTypeModa2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -90,7 +72,39 @@
                 </button>
             </div>
             <div class="modal-body">
-                <Delete />
+                @*<Edit />*@
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="GuardianTypeModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*<Details />*@
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="GuardianTypeModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*<Delete />*@
             </div>
 
         </div>

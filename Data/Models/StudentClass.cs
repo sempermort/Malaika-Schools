@@ -8,7 +8,7 @@ namespace MalaikaSchool.Data.Models
 
         public string ClassName { get; set; }
 
-        public int ClassFeeId { get; set; }
+    
         public List<ClassFee> ClassFees { get; set; }
 
         public List<Student> Students { get; set; }

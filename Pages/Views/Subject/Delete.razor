@@ -1,10 +1,5 @@
 ﻿@page "/Subject/Delete"
-@using MalaikaSchool.Data.Models
-
-
-
-
-
+@inherits OwningComponentBase<StudentsService>
 <div class="row">
     <div class="box box-block bg-white col-md-6">
 
@@ -37,13 +32,14 @@
 
             </dl>
 
-            <form action="/" method="post">
+
+            <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="DeleteSubject" class="col-md-7 m-auto">
+
 
                 <div class="form-actions no-color">
-                    <input type="submit" value="Delete" class="btn btn-default" /> |
-                    <NavLink href="/Subject/Index">Back to List</NavLink>
+                    <input type="submit" value="Delete" class="btn btn-default" />
                 </div>
-            </form>
+            </EditForm>
         </div>
     </div>
 
@@ -58,13 +54,26 @@
     private Subject Model;
 
 
-    protected override  Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
         Model = new Subject();
 
         return base.OnInitializedAsync();
     }
 
+    public async Task HandleValidSubmit(EditContext context)
+    {
+        try
+        {
+            await Service.DeleteConfirmed(Model.Id);
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
 }
 
 

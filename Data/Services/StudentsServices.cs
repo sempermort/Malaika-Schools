@@ -390,7 +390,7 @@ namespace MalaikaSchool.Data.Services
                 _context.SaveChanges();
                 return await Task.FromResult(ClassFee);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 DetachAllEntities();
                 throw;
@@ -403,22 +403,42 @@ namespace MalaikaSchool.Data.Services
             return g;
         }
 
-        public Task<bool> EditClassFee(ClassFee ClassFee)
+        public async Task<bool> EditClassFee(ClassFee ClassFee)
         {
-            var ExistingClassFee = GetClassFee(ClassFee.Id);
+            var ExistingClassFee = await GetClassFee(ClassFee.Id);
+
             if (ExistingClassFee != null)
             {
+                ExistingClassFee.StudentClassId = ClassFee.StudentClassId;
 
-                _context.Entry(ClassFee).State = EntityState.Modified;
+                _context.Entry(ExistingClassFee).State = EntityState.Modified;
                 _context.SaveChanges();
             }
             else
             {
-                return Task.FromResult(false);
+                return await Task.FromResult(false);
             }
-            return Task.FromResult(true);
+            return await Task.FromResult(true);
         }
 
+        public async Task<bool> EditClassFeeVM(ClassFeeVM ClassFeeVM)
+        {
+            var ExistingClassFee = await GetClassFee(ClassFeeVM.ClassFeeId);
+            
+
+            if (ExistingClassFee != null)
+            {
+                ExistingClassFee.StudentClassId = ClassFeeVM.StudentClassId;
+
+                _context.Entry(ExistingClassFee).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            else
+            {
+                return await Task.FromResult(false);
+            }
+            return await Task.FromResult(true);
+        }
 
         //Delete ClassFee  
         public async Task ClassFeeDeleteConfirmed(int id)

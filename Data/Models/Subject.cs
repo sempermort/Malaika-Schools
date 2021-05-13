@@ -32,8 +32,8 @@ namespace MalaikaSchool.Data.Models
                 _total = value;
             }
         }
-        public int ClassNameId { get; set; }
+        public int StudentClassId { get; set; }
 
-         public List<StudentClass> StudentClass { get; set; }
+         public StudentClass StudentClass { get; set; }
     }
 }
