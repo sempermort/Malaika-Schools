@@ -1099,9 +1099,6 @@ namespace MalaikaSchool.Migrations
                     b.Property<int?>("AdmissionId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClassFeeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ClassName")
                         .HasColumnType("nvarchar(max)");
 
@@ -1119,9 +1116,6 @@ namespace MalaikaSchool.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ClassNameId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -1138,6 +1132,9 @@ namespace MalaikaSchool.Migrations
                     b.Property<int>("Practical")
                         .HasColumnType("int");
 
+                    b.Property<int>("StudentClassId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Theory")
                         .HasColumnType("int");
 
@@ -1145,6 +1142,8 @@ namespace MalaikaSchool.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentClassId");
 
                     b.ToTable("Subject");
                 });
@@ -1302,21 +1301,6 @@ namespace MalaikaSchool.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("StudentClassSubject", b =>
-                {
-                    b.Property<int>("StudentClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("StudentClassId", "SubjectsId");
-
-                    b.HasIndex("SubjectsId");
-
-                    b.ToTable("StudentClassSubject");
                 });
 
             modelBuilder.Entity("GuardianStudent", b =>
@@ -1686,6 +1670,17 @@ namespace MalaikaSchool.Migrations
                         .HasForeignKey("AdmissionId");
                 });
 
+            modelBuilder.Entity("MalaikaSchool.Data.Models.Subject", b =>
+                {
+                    b.HasOne("MalaikaSchool.Data.Models.StudentClass", "StudentClass")
+                        .WithMany("Subjects")
+                        .HasForeignKey("StudentClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StudentClass");
+                });
+
             modelBuilder.Entity("MalaikaSchool.Data.Models.UserImageFile", b =>
                 {
                     b.HasOne("MalaikaSchool.Data.Models.Gallery", null)
@@ -1744,21 +1739,6 @@ namespace MalaikaSchool.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("StudentClassSubject", b =>
-                {
-                    b.HasOne("MalaikaSchool.Data.Models.StudentClass", null)
-                        .WithMany()
-                        .HasForeignKey("StudentClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MalaikaSchool.Data.Models.Subject", null)
-                        .WithMany()
-                        .HasForeignKey("SubjectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("MalaikaSchool.Data.Models.Admission", b =>
                 {
                     b.Navigation("Session");
@@ -1813,6 +1793,8 @@ namespace MalaikaSchool.Migrations
                     b.Navigation("ClassFees");
 
                     b.Navigation("Students");
+
+                    b.Navigation("Subjects");
                 });
 #pragma warning restore 612, 618
         }

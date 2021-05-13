@@ -77,3 +77,6 @@ _[Ss]cripts
 *.v2
 Migrations/
 Migrations/MalaikaDbContextModelSnapshot.cs
+.vs/MalaikaSchool/config/applicationhost.config
+Migrations/MalaikaDbContextModelSnapshot.cs
+Migrations/MalaikaDbContextModelSnapshot.cs
