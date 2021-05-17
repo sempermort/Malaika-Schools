@@ -2,6 +2,64 @@
 @inherits OwningComponentBase<StudentsService>
 
 
+@if (Classes.Count > 0)
+{
+<div class="d-flex justify-content-around">
+    <div class="form-group w-25">
+        <label for="StudentClass" class="control-label">Student Class</label>
+        <div class="d-flex">
+            <select class="form-control" @oninput="(e => SomeMethod(e))" @bind="@StudentClassId">
+                <option value="0">Class Room</option>
+
+                @if (Classes != null)
+                {
+                    @foreach (var stc in Classes)
+                    {
+                        <option value="@stc.Id">@stc.ClassName</option>
+                    }
+                }
+            </select>
+
+        </div>
+    </div>
+
+
+    <div class="form-group w-25">
+        <label for="StudentClass" class="control-label">Subject</label>
+        <div class="d-flex">
+            <select class="form-control" @oninput="(e => SomeMethod2(e))" @bind="@ClassSubjectId">
+                <option value="0">Select Subject</option>
+
+                @if (ClassSubject != null)
+                {
+                    @foreach (var stc in ClassSubject)
+                    {
+                        <option value="@stc.Id">@stc.Name  Code: @stc.Code</option>
+                    }
+                }
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group w-25">
+        <label for="StudentClass" class="control-label">Exams</label>
+        <div class="d-flex">
+            <select class="form-control" @oninput="(e => SomeMethod3(e))" @bind="@ExamTitleId">
+                <option value="0">Select Exams</option>
+
+                @if (ETitles != null)
+                {
+                    @foreach (var stc in ETitles)
+                    {
+                        <option value="@stc.Id">@stc.ExType</option>
+                    }
+                }
+            </select>
+
+        </div>
+    </div>
+</div>
+}
 @if (Model != null)
 {
 
@@ -21,7 +79,34 @@
                 <th scope="col"><input type="text" class="form-control"></th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td></td>
+                    <td>
+                        @item.Student.Name
+                    </td>
+
+                    <td>
+                        @item.Mark
+                    </td>
+
+                    <td>
+                        @item.Grade
+                    </td>
+
+                    <td>
+                        <NavLink class=" btn btn-primary" href="@($"/Exam/Edit/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>
+                        <NavLink class=" btn btn-info" href="@($"/Exam/Details/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>
+                        <NavLink class=" btn btn-danger" href="@($"/Exam/Delete/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
     </table>
 
 
@@ -45,22 +130,27 @@ else
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <Create/>
+            <Create />
         </div>
     </div>
 </div>
 
 @code {
 
+    private List<ExamType> ETitles;
     private List<Exam> Model;
-
-    private List<Student> Students = new List<Student>();
+    private List<Subject> ClassSubject;
+    private int ClassSubjectId;
+    private int StudentClassId;
+    private int ExamTitleId;
+    private List<StudentClass> Classes = new List<StudentClass>();
 
 
     protected override async Task OnInitializedAsync()
     {
         Model = await Service.ExamIndex();
-        Students = await Service.Index();
+        ETitles = await Service.ExamTypeIndex();
+        Classes = await Service.StudentClassIndex();
     }
 
     private async Task OnRowInserted(SavedRowItem<Exam, Dictionary<string, object>> e)
@@ -101,5 +191,29 @@ else
 
     }
 
+
+    protected async Task SomeMethod(ChangeEventArgs e)
+    {
+        ExamTitleId = 0;
+        ClassSubjectId = 0;
+        var subjects = await Service.SubjectIndex();
+        ClassSubject = subjects.Where(n => n.StudentClassId == Convert.ToInt32(e.Value)).ToList();
+
+    }
+
+    protected async Task SomeMethod2(ChangeEventArgs e)
+    {
+        ExamTitleId = 0;
+        ClassSubjectId = 0;
+        var Exams = await Service.ExamIndex();
+        Model = Exams.Where(n => n.SubjectId == Convert.ToInt32(e.Value)).ToList();
+
+    }
+    protected void SomeMethod3(ChangeEventArgs e)
+    {
+        
+        Model = Model.Where(n => n.ExamTypeId == Convert.ToInt32(e.Value)).ToList();
+
+    }
 
 }

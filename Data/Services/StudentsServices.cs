@@ -648,7 +648,7 @@ namespace MalaikaSchool.Data.Services
 
         public async Task<List<Subject>> SubjectIndex()
         {
-            var Subject = _context.Subject.AsNoTracking();
+            var Subject = _context.Subject.Include(n=>n.StudentClass).AsNoTracking();
             return await Task.FromResult((Subject.ToList()));
         }
         //Create Subject
@@ -773,7 +773,7 @@ namespace MalaikaSchool.Data.Services
 
         public async Task<List<Exam>> ExamIndex()
         {
-            var Exam = _context.Exams.AsNoTracking();
+            var Exam = _context.Exams.Include(n=>n.Student).Include(m=>m.StudentClass).AsNoTracking();
             return await Task.FromResult((Exam.ToList()));
         }
         //Create Exam

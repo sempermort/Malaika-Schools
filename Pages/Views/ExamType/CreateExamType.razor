@@ -4,7 +4,7 @@
 
 <div class="">
     <div class="box box-block bg-white ">
-        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
+        <EditForm OnSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
             @*<DataAnnotationsValidator />*@
 
 
@@ -20,7 +20,7 @@
             </div>
             <div class="form-Group">
                 <div class="">
-                    <input type="submit" class="btn btn-info float-right mt-1" data-dismiss="modal" value="Save"  />
+                    <input type="submit" class="btn btn-info float-right mt-1" @onclick="@HandleValidSubmit" value="Save"  />
                 </div>
             </div>
         </EditForm>
@@ -39,7 +39,7 @@
 
 
 
-    public async Task HandleValidSubmit(EditContext context)
+    public async Task HandleValidSubmit()
     {
 
         ExamType ExamType = new ExamType();

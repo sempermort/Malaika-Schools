@@ -1,6 +1,5 @@
 ﻿@page "/Subject/Index"
-@using MalaikaSchool.Data.Models
-
+@inherits OwningComponentBase<StudentsService>
 
 
 <table id="" class="table b-datagrid">
@@ -22,27 +21,28 @@
 
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @*@item.StudentClass.*@
-            </td>
+            <tr>
+                <td></td>
+                <td>
+                    @item.StudentClass.ClassName
+                </td>
 
-            <td>
-                @item.Name
-            </td>
+                <td>
+                    @item.Name
+                </td>
 
-            <td>
-                @item.Code
-            </td>
+                <td>
+                    @item.Code
+                </td>
 
-            <td>
-                <NavLink href="@($"/Subject/Edit/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>|
-                <NavLink href="@($"/Subject/Details/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>|
-                <NavLink href="@($"/Subject/Delete/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
-            </td>
+                <td>
+                    <NavLink class=" btn btn-primary" href="@($"/Subject/Edit/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>
+                    <NavLink class=" btn btn-info" href="@($"/Subject/Details/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>
+                    <NavLink class=" btn btn-danger" href="@($"/Subject/Delete/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
+                </td>
 
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>
@@ -115,11 +115,9 @@
     private List<Subject> Model;
 
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        Model = new List<Subject>();
-
-        return base.OnInitializedAsync();
+        Model = await Service.SubjectIndex();
     }
 
 }

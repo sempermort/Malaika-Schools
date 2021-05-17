@@ -75,3 +75,32 @@ width:100%;
     border-radius: unset !important;
     border-right: unset !important;
 }
+
+
+.search-form {
+    background-color: #fff;
+    border: 1px solid #f0f1f2;
+    border-radius: .25rem;
+}
+.myflex {
+    flex: 1 1 0%;
+}
+.btnc {
+    text-align: center;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .5rem 1rem;
+    border-radius: .25rem;
+}
+.border-left-primary {
+    border-left-color: #2196f3 !important;
+}
+
+.border-left-3 {
+    border-left: 3px solid #f0f1f2 !important;
+}
+.search-form .form-control, .search-form .form-control:focus {
+    border-color: transparent;
+    box-shadow: none;
+}
+ 

@@ -1,6 +1,7 @@
 ﻿@page "/StudentClass/Create"
 @page "/StudentClass/Create/{Id:int}"
 @using MalaikaSchool.Pages.Views.ClassFees
+
 @inherits OwningComponentBase<StudentsService>
 @inject IToastService toastService
 
@@ -24,9 +25,9 @@
                 <div class="form-group">
                     <label for="StudentClass" class="control-label">Student Class</label>
                     <div class="d-flex">
-                        <InputSelect  class="form-control"  @oninput="(e =>SomeMethod(e))" @bind-Value="@Model.StudentClassId">
-                           <option value="">Class Room</option>
-                            
+                        <InputSelect class="form-control" @oninput="(e =>SomeMethod(e))" @bind-Value="@Model.StudentClassId">
+                            <option value="">Class Room</option>
+
                             @if (StudentClasses != null)
                             {
                                 @foreach (var stc in StudentClasses)
@@ -43,29 +44,29 @@
 
 
                 <div class="form-group mt-5 mb-5">
-                  
-                        <div class="card ">
-                            <div class="card-header">
-                                Class Fees
-                                <button type="button" class="btn btn-outline-primary btn-add float-right" data-toggle="modal" data-target="#GuardianTypeModal">
-                                    <span> add </span>  <i class="fa fa-plus">  </i>
-                                </button>
-                            </div>
-                            @if (classFees.Count > 0)
-                            {
-                        <ul class="list-group list-group-flush">
-                            @foreach (var stc in classFees)
-                            {
-                                <li class="list-group-item d-flex justify-content-between"><span> @stc.Name </span>  <span>@stc.Amount</span></li>
-                                <hr style="background-color: aqua; margin:0;">
-                            }
-                        </ul>
-                            }
-                        </div>
-            
 
+                    <div class="card ">
+                        <div class="card-header">
+                            Class Fees
+                            <button type="button" class="btn btn-outline-primary btn-add float-right" data-toggle="modal" data-target="#GuardianTypeModal">
+                                <span> add </span>  <i class="fa fa-plus">  </i>
+                            </button>
+                        </div>
+                        @if (classFees.Count > 0)
+                        {
+                            <ul class="list-group list-group-flush">
+                                @foreach (var stc in classFees)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between"><span> @stc.Name </span>  <span>@stc.Amount</span></li>
+                                    <hr style="background-color: aqua; margin:0;">
+                                }
+                            </ul>
+                        }
                     </div>
-                
+
+
+                </div>
+
 
             </div>
         </EditForm>
@@ -96,7 +97,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <AddClass />
+                    <AddClass/>
                 </div>
             </div>
         </div>
@@ -139,7 +140,7 @@
 
     }
 
-    protected async  Task  ClassFeeAdded()
+    protected async Task ClassFeeAdded()
     {
         var Listfee = await Service.ClassFeeIndex();
         classFees = Listfee.Where(n => n.StudentClassId == Id).ToList();
@@ -148,7 +149,7 @@
     public async Task SomeMethod(ChangeEventArgs e)
     {
         var Listfee = await Service.ClassFeeIndex();
-        classFees = Listfee.Where(n => n.StudentClassId ==Convert.ToInt32(e.Value)).ToList();
+        classFees = Listfee.Where(n => n.StudentClassId == Convert.ToInt32(e.Value)).ToList();
         Id = Convert.ToInt32(e.Value);
     }
 
