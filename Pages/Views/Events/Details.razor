@@ -1,0 +1,65 @@
+﻿@page "/Events/Details"
+@using MalaikaSchool.Data.Models
+
+
+
+
+
+<div class="row">
+    <div class=" col-md-8 pb-3 m-auto">
+        @if (Model != null)
+        {
+            <div class="card">
+                <img class="card-img-top" src="@imgUrl" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">   News Details  @Model.Name</h5>
+                    <p class="card-text">
+
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">  News Title:</li>
+                    <li class="list-group-item">  Created Date:</li>
+                    <li class="list-group-item">  Text Area: </li>
+                    
+                </ul>
+                <div class="card-body">
+                    <NavLink href="#" class="btn btn-warning float-left">Back to List</NavLink>
+
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private Student Model = new Student();
+
+    string imgUrl = string.Empty;
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id > 0)
+        {
+           
+            imgUrl = $"data:png;base64,{Convert.ToBase64String(Model.Image)}";
+        }
+    }
+
+}
+
+

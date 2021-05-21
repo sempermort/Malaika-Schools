@@ -1,0 +1,62 @@
+﻿@page "/AnnouncementCreate"
+@inherits OwningComponentBase<StudentsService>
+@inject IToastService toastService
+
+<div class="">
+   
+    <div class="box box-block bg-white ">
+      
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianTypeForm" class="col-md-7 m-auto">
+
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+
+                <div class="form-Group">
+                    <label for="Name" class="control-label">Guardian Type</label>
+                    <InputText for="Name" class="form-control" @bind-Value="@Model.Name" />
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-primary" value="Save " data-dismiss="modal" @onclick="@(() => toastService.ShowSuccess("Yor Guardian Type is added Successfuly!"))"/>
+            </div>
+          
+        </EditForm>
+    </div>
+</div>
+
+
+
+
+
+@code {
+
+    private GuardianType Model = new GuardianType();
+
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        GuardianType GuardianType = new GuardianType();
+        try
+        {
+            GuardianType = Model;
+
+            var result =await Service.CreateGuardianType(GuardianType);
+            // Clear the form.
+            Model = new GuardianType();
+            // Show the Toast.
+     
+            toastService.ShowInfo("GuardianType Added");
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+}
