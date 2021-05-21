@@ -97,7 +97,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <AddClass/>
+                    <AddClass AddedChanged="StudentClassAdded"/>
                 </div>
             </div>
         </div>
@@ -129,10 +129,6 @@
             {
                 Model.StudentClassId = Id;
             }
-
-
-
-
         }
         catch (Exception ex)
         { }
@@ -145,7 +141,10 @@
         var Listfee = await Service.ClassFeeIndex();
         classFees = Listfee.Where(n => n.StudentClassId == Id).ToList();
     }
-
+    protected async Task StudentClassAdded()
+    {
+        StudentClasses = await Service.StudentClassIndex();
+    }
     public async Task SomeMethod(ChangeEventArgs e)
     {
         var Listfee = await Service.ClassFeeIndex();

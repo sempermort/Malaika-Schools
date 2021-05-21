@@ -2,20 +2,15 @@
 @using MalaikaSchool.Data.Services
 @inherits OwningComponentBase<StudentsService>
 @inject IModalService Modal
-<h2>Index</h2>
+<h2>List of Classes</h2>
 
 <p>
     <NavLink href="/StudentClass/Create">Create New</NavLink>
 </p>
-<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+<table class="table b-datagrid"  >
     <thead>
         <tr>
-            <th>
-                Section Name
-            </th>
-            <th>
-                Shift Name
-            </th>
+         
             <th>
                 Class Name
             </th>
@@ -29,18 +24,21 @@
         {
             @foreach (var item in Model)
             {
-        <tr>
+                <tr>
 
-            <td>
-                @item.ClassName
-            </td>
-            <td>
-                <NavLink href="@($"/StudentClass/Edit/{item.Id}")">Edit</NavLink> |
-                <button class="btn btn-link" @onclick="()=>ClickDetailed(item.Id)">Details</button> |
-                <button class="btn btn-link" @onclick="()=>ClickDeleted(item.Id)">Delete</button>
-            </td>
-        </tr>
+                    <td>
+                        @item.ClassName
+                    </td>
+                    <td>
+                        <NavLink href="@($"/StudentClass/Edit/{item.Id}")">Edit</NavLink> |
+                        <button class="btn btn-link" @onclick="()=>ClickDetailed(item.Id)">Details</button> |
+                        <button class="btn btn-link" @onclick="()=>ClickDeleted(item.Id)">Delete</button>
+                    </td>
+                </tr>
 
+                <ConfirmDelete @ref="DeleteConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+                         ConfirmationMessage=@($"Are you sure you want to delete Class: \"{item.ClassName}\"")>
+                </ConfirmDelete>
             }
         }
     </tbody>
@@ -48,8 +46,23 @@
 
 
 @code {
-
+    protected MalaikaSchool.Shared.ConfirmDelete   DeleteConfirmation { get; set; }
     private List<StudentClass> Model = new List<StudentClass>();
+    private int idDeleted;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.StudentClassIndex();
+    }
+
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        if (deleteConfirmed)
+        {
+            await Service.StudentClassDeleteConfirmed(idDeleted);
+            Model = await Service.StudentClassIndex();
+        }
+    }
     private void ClickDetailed(int id)
     {
         var parameters = new ModalParameters();
@@ -59,14 +72,7 @@
 
     private void ClickDeleted(int id)
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Delete.Id), id);
-        Modal.Show<Delete>("Delete Class", parameters);
+        DeleteConfirmation.Show();
+        idDeleted = id;
     }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Model = await Service.StudentClassIndex();
-    }
-
 }

@@ -1,0 +1,186 @@
+﻿@page "/Results"
+@using System.Linq;
+@inherits OwningComponentBase<StudentsService>
+
+
+<div class="container-fluid page__container">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Parent Dashboard</li>
+    </ol>
+    <div class="card">
+        <div class="card-header">
+            <div class="media align-items-center">
+                <div class="media-body">
+                    <h4 class="card-title">Examianation Results</h4>
+
+                </div>
+                <div class="media-right">
+                    <p class="card-subtitle">
+                        Class: @if (SelectedClass != null)
+                        {@SelectedClass.ClassName}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @if (Classes.Count > 0)
+    {
+        <div class="d-flex justify-content-around">
+            <div class="form-group w-25">
+                <label for="StudentClass" class="control-label">Student Class</label>
+                <div class="d-flex">
+                    <select class="form-control" @oninput="(e => SomeMethod(e))" @bind="@StudentClassId">
+                        <option value="0">Class Room</option>
+
+                        @if (Classes != null)
+                        {
+                            @foreach (var stc in Classes)
+                            {
+                                <option value="@stc.Id">@stc.ClassName</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group w-25">
+                <label for="StudentClass" class="control-label">Exams</label>
+                <div class="d-flex">
+                    <select class="form-control" @oninput="(e => SomeMethod3(e))" @bind="@ExamTitleId">
+                        <option value="0">Select Exams</option>
+
+                        @if (ETitles != null)
+                        {
+                            @foreach (var stc in ETitles)
+                            {
+                                <option value="@stc.Id">@stc.ExType</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+            </div>
+        </div>
+    }
+
+
+    @if (Models.Count() > 0)
+    {
+        <table id="" class="table b-datagrid">
+            <thead>
+
+                <tr>
+                    <th scope="col"><button type="button" class="btn btn-link">Name</button></th>
+                    @foreach (var somo in grouped2)
+                    {
+                        if (somo != null)
+                        {
+                            arrayList.Add(somo.Key);
+                            <th scope="col">@somo.Key</th>
+                        }
+                    }
+                    <th><strong>average</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var group in grouped)
+                {
+                    <tr>
+                        <td>
+                            @group.Key
+                        </td>
+                        @for (int i = 0; i < grouped2.Count(); i++)
+                        {
+
+                            <td>
+                                @foreach (var marks in group)
+                                {
+                                    @if (arrayList[i] == marks.Subject.Name)
+                                    {
+                                        subCount++;
+                                        sum += marks.Mark;
+                                        @marks.Mark
+                                    }
+                                }
+                            </td>
+
+
+                        }
+                        <td>
+                            @(sum / subCount)
+
+                        </td>
+                    </tr>
+                    sum = 0;
+                    subCount = 0;
+
+                }
+            </tbody>
+        </table>
+    }
+    else { 
+<div class="text-center text-black-50">
+
+    <h3 class="mt-4">No Record Found</h3>
+
+</div>
+
+    
+    }
+
+</div>
+
+@code {
+    private List<ExamType> ETitles;
+    private List<Subject> ClassSubject;
+    private int ClassSubjectId;
+    private int StudentClassId;
+    private int ExamTitleId;
+    private List<Exam> Models = new List<Exam>();
+    private List<StudentClass> Classes = new List<StudentClass>();
+
+    private List<string> arrayList = new List<string>();
+
+    private double sum = 0;
+    private int subCount;
+    private StudentClass SelectedClass;
+    IEnumerable<IGrouping<String, Exam>> grouped;
+    IEnumerable<IGrouping<String, Exam>> grouped2;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ETitles = await Service.ExamTypeIndex();
+        Classes = await Service.StudentClassIndex();
+    }
+
+    protected async Task SomeMethod(ChangeEventArgs e)
+    {
+        grouped = new List<IGrouping<String, Exam>>();
+        grouped2 = new List<IGrouping<String, Exam>>();
+        ExamTitleId = 0;
+        var Exams = await Service.ExamIndex();
+        Models = Exams.Where(n => n.StudentClassId == Convert.ToInt32(e.Value)).ToList();
+        SelectedClass = Classes.Where(n=>n.Id == Convert.ToInt32(e.Value)).FirstOrDefault();
+        grouped = Models.GroupBy(n => n.Student.Name);
+        grouped2 = Models.GroupBy(n => n.Subject.Name);
+
+    }
+
+    protected void SomeMethod3(ChangeEventArgs e)
+    {
+        grouped = new List<IGrouping<String, Exam>>();
+        grouped2 = new List<IGrouping<String, Exam>>();
+
+        Models = Models.Where(n => n.ExamTypeId == Convert.ToInt32(e.Value)).ToList();
+        grouped = Models.GroupBy(n => n.Student.Name);
+        grouped2 = Models.GroupBy(n => n.Subject.Name);
+
+    }
+}

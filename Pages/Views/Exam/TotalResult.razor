@@ -1,0 +1,80 @@
+﻿@if (Models != null)
+{
+    <table id="" class="table b-datagrid">
+        <thead>
+
+            <tr>
+                <th scope="col"><button type="button" class="btn btn-link">Name</button></th>
+                @foreach (var somo in grouped2)
+                {
+                    if (somo != null)
+                    {
+                        arrayList.Add(somo.Key);
+                        <th scope="col">@somo.Key</th>
+                    }
+                }
+                <th><strong>average</strong></th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @foreach (var group in grouped)
+            {
+                <tr>
+                    <td>
+                        @group.Key
+                    </td>
+                    @for (int i = 0; i < arrayList.Count; i++)
+                    {
+
+                        <td>
+                            @foreach (var marks in group)
+                            {
+                                @if (arrayList[i] == marks.Subject.Name)
+                                {
+                                    subCount++;
+                                    sum += marks.Mark;
+                                    @marks.Mark
+                                }
+                            }
+                        </td>
+
+
+                    }
+                    <td>
+                        @(sum / subCount)
+
+                    </td>
+                </tr>
+                sum = 0;
+                subCount = 0;
+
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<string> arrayList = new List<string>();
+    [Parameter]
+    public List<Exam> Models { get; set; }
+
+    private double sum = 0;
+    private int subCount;
+
+    List<IGrouping<String, Exam>> grouped;
+    List<IGrouping<String, Exam>> grouped2;
+
+    protected override  Task OnInitializedAsync()
+    {
+        grouped = new List<IGrouping<String, Exam>>();
+        grouped2 = new List<IGrouping<String, Exam>>();
+
+        grouped = Models.GroupBy(n => n.Student.Name).ToList();
+        grouped2 = Models.GroupBy(n => n.Subject.Name).ToList();
+
+        return base.OnInitializedAsync();
+    }
+
+}
