@@ -1,4 +1,5 @@
 ﻿@page "/Student/Edit/{Id:int}"
+@page "/Student/Edit"
 @inherits OwningComponentBase<StudentsService>
 
 
@@ -15,7 +16,8 @@
         </h1>
     </div>
     <div class="box box-block bg-white ">
-        <hr>   @if (Model != null)
+        <hr>  
+        @if (Model != null)
         {
             <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
                 <DataAnnotationsValidator />
@@ -141,7 +143,7 @@
 
                 </div>
             </EditForm>
-        }
+         }
         else { 
     <div class="d-flex justify-content-center">
         <div class="spinner-border" role="status">

@@ -1,0 +1,151 @@
+﻿@page "/Events/Edit"
+@inherits OwningComponentBase<StudentsService>
+@inject IToastService toastService
+
+<div class="">
+    <div class="page-header">
+        <h1>
+            Edit Event
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="" class="btn btn-warning float-right">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+
+    <div class="box box-block bg-white ">
+        <hr>
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+                <div class="form-group">
+                    <label for="NT" class="control-label">News Title</label>
+                    <input type="text" for="NT" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="CD" class="control-label">Created Date</label>
+                <input type="date" for="CD" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="TA" class="control-label">Text Area</label>
+                <input TextArea type="text" for="TA" class="form-control" />
+            </div>
+            <div class="form-group">
+                <InputSelect for="cat" class="form-control" @bind-Value="@Model.CategoryId">
+                    <option value="">Category </option>
+
+                    @foreach (var cat in Categoryes)
+                    {
+
+                        <option value="@cat.Id">@cat.CName</option>
+                    }
+
+                </InputSelect>
+
+            </div>
+            <div class="form-group">
+                <label for="Image" class="control-label d-block">News Photo</label>
+                <div class="form-control-file">
+
+                    <img src="@imgUrl" class="img-responsive img-thumbnail">
+
+                </div>
+                <InputFile type="file" OnChange="@LoadFiles" class="d-block" />
+
+            </div>
+            <div class="form-group float-right">
+                <div class="col-md-offset-4 col-md-8">
+                    <small>
+                        <input type="submit" class="btn btn-info" value="Create" />
+                    </small>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+
+
+
+@code {
+    [Parameter]
+    public EventCallback<Student> callBack { get; set; }
+    @inject NavigationManager NavigationManager
+    private Event Model = new Event();
+    private List<Category> Categoryes = new List<Category>();
+    public bool isLoading;
+    string exceptionMessage;
+    string imgUrl = string.Empty;
+    const int maxFileSize = 10485760;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        Categoryes = await Service.CategoryIndex();
+    }
+    public async Task HandleValidSubmit(EditContext context)
+    {
+
+        Event Event = new Event();
+        try
+        {
+            Event = Model;
+
+            var result = await Service.CreateEvent(Event);
+            // Clear the form.
+            Model = new Event();
+            // Show the Toast.
+
+            toastService.ShowInfo("Event Added");
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+    //Hamdle students photo
+    async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+
+        exceptionMessage = "";
+
+        try
+        {
+
+            IBrowserFile imgFile = e.File;
+            var buffers = new byte[imgFile.Size];
+            using (var stream = imgFile.OpenReadStream(maxFileSize))
+            {
+                using (var mstream = new MemoryStream())
+                {
+                    await stream.CopyToAsync(mstream);
+                    buffers = mstream.ToArray();
+                }
+            }
+            string imageType = imgFile.ContentType;
+            imgUrl = $"data:{imageType};base64,{Convert.ToBase64String(buffers)}";
+
+
+            Model.Image = buffers;
+
+        }
+        catch (Exception ex)
+        {
+            exceptionMessage = ex.Message;
+        }
+
+        isLoading = false;
+    }
+
+}

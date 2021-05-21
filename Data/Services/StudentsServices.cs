@@ -327,7 +327,7 @@ namespace MalaikaSchool.Data.Services
                 _context.SaveChanges();
                 return await Task.FromResult(StudentClass);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 DetachAllEntities();
                 throw;
@@ -1332,6 +1332,137 @@ namespace MalaikaSchool.Data.Services
         }
 
         //---------------------------------End SchedulerEvent---------------------------------------------
+        
+
+
+
+        //--------------------------------Category-------------------------------------------------------------------
+
+        public async Task<List<Category>> CategoryIndex()
+        {
+            var Category = _context.Categories.AsNoTracking();
+            return await Task.FromResult((Category.ToList()));
+        }
+        //Create Category
+        public async Task<Category> CreateCategory(Category Category)
+        {
+            try
+            {
+                
+                _context.Categories.Add(Category);
+                _context.SaveChanges();
+                return await Task.FromResult(Category);
+            }
+            catch (Exception)
+            {
+                DetachAllEntities();
+                throw;
+            }
+        }
+
+        public async Task<Category> GetCategory(int? id)
+        {
+            var g = await _context.Categories.AsNoTracking().Where(n => n.Id == id).FirstOrDefaultAsync();
+            return g;
+        }
+
+        public Task<bool> EditCategory(Category Category)
+        {
+            var ExistingCategory = GetCategory(Category.Id);
+            if (ExistingCategory != null)
+            {
+
+                _context.Entry(Category).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
+            return Task.FromResult(true);
+        }
+
+
+        //Delete Category  
+        public async Task CategoryDeleteConfirmed(int id)
+        {
+            Category grdn = await GetCategory(id);
+            if (grdn != null)
+            {
+                _context.Categories.Remove(grdn);
+                _context.SaveChanges();
+            }
+
+
+        }
+
+        //---------------------------------End Category---------------------------------------------
+
+
+
+        //--------------------------------Events-------------------------------------------------------------------
+
+        public async Task<List<Event>> EventIndex()
+        {
+            var Event = _context.Events.AsNoTracking();
+            return await Task.FromResult((Event.ToList()));
+        }
+        //Create Event
+        public async Task<Event> CreateEvent(Event Event)
+        {
+            try
+            {
+             
+                _context.Events.Add(Event);
+                _context.SaveChanges();
+                return await Task.FromResult(Event);
+            }
+            catch (Exception)
+            {
+                DetachAllEntities();
+                throw;
+            }
+        }
+
+        public async Task<Event> GetEvent(int? id)
+        {
+            var g = await _context.Events.AsNoTracking().Where(n => n.Id == id).FirstOrDefaultAsync();
+            return g;
+        }
+
+        public Task<bool> EditEvent(Event Event)
+        {
+            var ExistingEvent = GetEvent(Event.Id);
+            if (ExistingEvent != null)
+            {
+
+                _context.Entry(Event).State = EntityState.Modified;
+                _context.SaveChanges();
+            }
+            else
+            {
+                return Task.FromResult(false);
+            }
+            return Task.FromResult(true);
+        }
+
+
+        //Delete Event  
+        public async Task EventDeleteConfirmed(int id)
+        {
+            Event grdn = await GetEvent(id);
+            if (grdn != null)
+            {
+                _context.Events.Remove(grdn);
+                _context.SaveChanges();
+            }
+
+
+        }
+
+        //---------------------------------End Event---------------------------------------------
+
+
 
         #region 
         public void DetachAllEntities()

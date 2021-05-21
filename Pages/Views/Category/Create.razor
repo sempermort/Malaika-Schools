@@ -1,0 +1,77 @@
+﻿@page "/Category"
+@inherits OwningComponentBase<StudentsService>
+@inject IToastService toastService
+
+<div class="">
+    <div class="page-header">
+        <h1>
+            Create
+            <small>
+                <i class="ace-icon fa fa-angle-double-right"></i>
+
+                <NavLink href="" class="btn btn-warning float-right">Back to List</NavLink>
+
+            </small>
+        </h1>
+    </div>
+
+    <div class="box box-block bg-white ">
+        <hr>
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
+            @*<DataAnnotationsValidator />*@
+
+
+            <div class="form-horizontal">
+                @*<ValidationSummary />*@
+                <div class="form-group">
+                    <label for="NT" class="control-label">News Title</label>
+                    <InputText for="NT" class="form-control"  @bind-Value="@Model.CName"/>
+                </div>
+            </div>
+            <div class="form-group float-right">
+                <div class="col-md-offset-4 col-md-8">
+                    <small>
+                        <input type="submit" class="btn btn-info" value="Create" @onclick="@HandleValidSubmit"/>
+                    </small>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+
+
+
+@code {
+    [Parameter]
+    public EventCallback<Student> callBack { get; set; }
+    @inject NavigationManager NavigationManager
+ 
+
+    private Category Model = new Category();
+
+    public async Task HandleValidSubmit()
+    {
+
+        Category Category = new Category();
+        try
+        {
+            Category = Model;
+
+            var result = await Service.CreateCategory(Category);
+            // Clear the form.
+            Model = new Category();
+            // Show the Toast.
+
+            toastService.ShowInfo("Category Added");
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+
+}

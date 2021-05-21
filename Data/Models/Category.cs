@@ -4,7 +4,7 @@ namespace  MalaikaSchool.Data.Models
 {
     public class Category
     {
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
      
         [Display(Name = "Category Name")]
         public string CName { get; set; }

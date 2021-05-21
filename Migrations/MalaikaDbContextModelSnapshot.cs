@@ -235,7 +235,7 @@ namespace MalaikaSchool.Migrations
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.Category", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -243,14 +243,14 @@ namespace MalaikaSchool.Migrations
                     b.Property<string>("CName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("NewsId")
+                    b.Property<int?>("EventId")
                         .HasColumnType("int");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("NewsId");
+                    b.HasIndex("EventId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.ClassFee", b =>
@@ -500,24 +500,31 @@ namespace MalaikaSchool.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ImageId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Place")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Timer")
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Massege")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ImageId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Events");
                 });
@@ -758,30 +765,6 @@ namespace MalaikaSchool.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("JobInfo");
-                });
-
-            modelBuilder.Entity("MalaikaSchool.Data.Models.News", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("Time")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("News");
                 });
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.PhoneNumber", b =>
@@ -1391,9 +1374,9 @@ namespace MalaikaSchool.Migrations
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.Category", b =>
                 {
-                    b.HasOne("MalaikaSchool.Data.Models.News", null)
+                    b.HasOne("MalaikaSchool.Data.Models.Event", null)
                         .WithMany("Category")
-                        .HasForeignKey("NewsId");
+                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.ClassFee", b =>
@@ -1446,11 +1429,11 @@ namespace MalaikaSchool.Migrations
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.Event", b =>
                 {
-                    b.HasOne("MalaikaSchool.Data.Models.UserImageFile", "Image")
+                    b.HasOne("MalaikaSchool.Data.Models.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("ImageId");
+                        .HasForeignKey("UserId");
 
-                    b.Navigation("Image");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.Exam", b =>
@@ -1768,6 +1751,11 @@ namespace MalaikaSchool.Migrations
                     b.Navigation("PhoneNumbers");
                 });
 
+            modelBuilder.Entity("MalaikaSchool.Data.Models.Event", b =>
+                {
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("MalaikaSchool.Data.Models.Gallery", b =>
                 {
                     b.Navigation("Image");
@@ -1776,11 +1764,6 @@ namespace MalaikaSchool.Migrations
             modelBuilder.Entity("MalaikaSchool.Data.Models.Guardian", b =>
                 {
                     b.Navigation("PhoneNumber");
-                });
-
-            modelBuilder.Entity("MalaikaSchool.Data.Models.News", b =>
-                {
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.Student", b =>

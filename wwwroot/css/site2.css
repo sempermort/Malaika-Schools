@@ -13,13 +13,7 @@ body{
 /*------------------------------------carousel on welcome page index---------------*/
 
 /*--------------welcome malaika nav----------------*/
-@media (min-width:600px) {
-    .navbar{
-        margin-right: 0px !important;
 
-    }
-    
-}
 .malaika-logo1{
     padding-left: 30px;
     margin-bottom: 5px;
@@ -51,856 +45,953 @@ body{
     position: absolute;
     
 }
-.malaika-logo{
-    padding-left: 70px;
-    padding-bottom: 0px;
-    padding-top: 0px;   
+
+@media only screen and (max-width:320px){
+    .malaika-logo {
+        padding-left: 52px;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        font-size:11px;
+        line-height:22px;
+        color:#333436;
+    }
+}
+@media only screen and (max-width:320px) {
+    .theme-icon0 {
+        padding-top: 0px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        margin-left: -13px;
+        position: absolute;
+    }
+}
+@media only screen and (min-width:320px) {
+    .malaika-logo {
+        padding-left: 52px;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        font-size: 11px;
+        line-height: 22px;
+        color: #333436;
+    }
 }
 
-.nav-item{
-    margin-left: 50px;
-    
-}
-@media (min-width:992px) {
-    .nav-item{
-        margin-left: 7px;
-        margin-right: 15px;
-        
+@media only screen and (min-width:320px) {
+    .theme-icon0 {
+        padding-top: 0px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        margin-left: -13px;
+        position: absolute;
     }
-    
 }
-@media (min-width:1200px) {
-    .nav-item{
+@media only screen and (min-width:375px) {
+    .malaika-logo {
+        padding-left: 65px;
+        padding-bottom: 0px;
+        padding-top: 0px;
+        font-size: 13px;
+        line-height: 25px;
+        color: #333436;
+    }
+}
+
+@media only screen and (min-width:375px) {
+    .theme-icon0 {
+        padding-top: 0px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        margin-left: 0px;
+        position: absolute;
+    }
+}
+@media only screen and (min-width:425px) {
+    .malaika-logo {
+        font-size: 16px;
+        line-height: 25px;
+    }
+}
+@media only screen and (min-width:600px) {
+    .malaika-logo {
+        font-size: 20px;
+        line-height: 25px;
+    }
+}
+
+
+    /*--------------------welcome malaika-------------*/
+    .welcome-content- {
+        background-color: #e6be1e;
+    }
+
+    .welcome-content-- {
+        background-color: #f2f2f2;
+    }
+
+    .welcome-content {
+        padding-top: 50px;
+        padding-bottom: 0px;
+    }
+
+    @media only screen and (max-width:320px) {
+        .welcome-content {
+            padding-top: 40px;
+            margin-bottom: 40px !important;
+        }
+
+        .welcome-content-, .welcome-content--, .welcome-content---, .welcome-content---- {
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+    }
+@media only screen and (max-width:320px) {
+    .welcome-content1, .welcome-content {
+        margin-left: -50px;
+        padding-top: 40px;
+        margin-bottom: 40px !important;
+    }
+}
+@media only screen and (min-width:320px) {
+    .welcome-content {
+        padding-top: 40px;
+        margin-bottom: 40px !important;
+    }
+
+    .welcome-content-, .welcome-content--, .welcome-content---, .welcome-content---- {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+}
+@media only screen and (min-width:320px) {
+    .welcome-content1, .welcome-content {
+        margin-left: -50px;
+        padding-top: 40px;
+        margin-bottom: 40px !important;
+    }
+}
+@media only screen and (min-width:375px) {
+    .welcome-content-, .welcome-content--, .welcome-content---, .welcome-content---- {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+}
+@media only screen and (min-width:425px) {
+    .welcome-content-, .welcome-content--, .welcome-content---, .welcome-content---- {
         margin-left: 50px;
-        
+        margin-right: 50px;
+    }
+}
+@media only screen and (min-width:576px) {
+    .welcome-content-, .welcome-content--, .welcome-content---, .welcome-content---- {
+        margin-left: 0px;
+        margin-right: 0px;
         
     }
-    
-}
-.nav-link{
-    color: #333436;
-}
-
-
-/*--------------------welcome malaika-------------*/
-
-.welcome-content {
-    padding-top: 50px;
-    padding-bottom: 0px;
-}
-@media only screen and (max-width:600px) {
-    .welcome-content{
-        margin-left: -50px;
-        padding-top: 40px;
-        margin-bottom: 40px !important;
-    }    
 }
 @media only screen and (min-width:600px) {
-    .welcome-content{
+    .welcome-content-, .welcome-content--, .welcome-content---, .welcome-content---- {
         margin-left: 0px;
-        padding-top: 40px;
-        margin-bottom: 40px !important;
-    }   
+        margin-right: 0px;
+    }
 }
 
-@media only screen and (max-width:600px) {
-    .welcome-content1{
-        margin-left: -50px;
-        padding-top: 40px;
-        margin-bottom: 40px !important;
-    }
-    
-}
-@media only screen and (min-width:600px) {
-    .welcome-content1{
-        margin-left: 0px;
-        padding-top: 40px;
-        margin-bottom: 40px !important;
-    }
-    
-}
-@media only screen and (min-width:768px) {
-    .welcome-content{
-        margin-left: -60px;
-        padding-top: 40px;
-        margin-bottom: 40px !important;
 
-    }
     
-}
-@media (min-width:768px) {
-    .malaika-heading{
-        font-size:15px !important;
-        margin-left: -20px !important;
-        line-height: 23px !important;
 
+    @media only screen and (min-width:768px) {
+        .welcome-content {
+            margin-left: -60px;
+            padding-top: 40px;
+            margin-bottom: 40px !important;
+        }
     }
-    
-}
-@media (min-width:768px) {
-    .malaika-text{
-        margin-left: 5px !important;
-        margin-top: 20px !important;
 
+    @media (min-width:768px) {
+        .malaika-heading {
+            font-size: 15px !important;
+            margin-left: -20px !important;
+            line-height: 23px !important;
+        }
     }
-    
-}
-@media (min-width:768px) {
-    .welcome-content{
-        margin-left: -50px;
-        padding-top: 40px;
-        margin-bottom: 40px !important;
-    }   
-}
 
-@media (min-width:768px) {
-    .welcome-content1{
-        margin-left: -50px;
-        padding-top: 40px;
-        margin-bottom: 40px !important;
-    }   
-}
-@media only screen and (min-width:992px) {
-    .welcome-content1{
-        margin-left: -50px !important;
-        padding-top: 40px !important;
-        margin-bottom: 40px !important;
-    }   
-}
-@media only screen and (min-width:992px) {
-    .welcome-content{
-        margin-left: -50px !important;
-        padding-top: 40px !important;
-        margin-bottom: 40px !important;
-    }   
-}
-@media only screen and (min-width:1200px) {
-    .welcome-content{
-        margin-left: 0px !important;
-        padding-top: 40px !important;
-        margin-bottom: 40px !important;
-    }   
-}
-@media only screen and (min-width:1200px) {
-    .welcome-content1{
-        margin-left: 0px !important;
-        padding-top: 40px !important;
-        margin-bottom: 40px !important;
-        
-    }   
-}
-@media (min-width:768px) {
-    .theme-icon{
-        padding-top: 5px !important;
-        padding-right: 5px !important;
-        padding-bottom: 5px !important;
-        padding-left: 5px !important;
-        margin-left: 50px !important;
-        position: absolute !important;
-        background-color: #ffffff !important;
+    @media (min-width:768px) {
+        .malaika-text {
+            margin-left: 5px !important;
+            margin-top: 20px !important;
+        }
     }
-    
-}
-@media (min-width:768px) {
-    .theme-icon1{
-        padding-top: 6px !important;
-        padding-right: 6px !important;
-        padding-bottom: 6px !important;
-        padding-left: 6px !important;
-        margin-left: 50px !important;
-        position: absolute !important;
-        background-color: #6c98e1 !important;
+
+    @media (min-width:768px) {
+        .welcome-content {
+            margin-left: -58px;
+            padding-top: 70px;
+            margin-bottom: 40px;
+        }
     }
-    
-}
-@media (min-width:768px) {
-    .theme-icon2{
-        padding-top: 6px !important;
-        padding-right: 6px !important;
-        padding-bottom: 6px !important;
-        padding-left: 6px !important;
-        margin-left: 50px !important;
-        position: absolute !important;
-        background-color:  #d93ad0 !important;
+
+    @media (min-width:768px) {
+        .welcome-content1 {
+            margin-left: -58px;
+            padding-top: 70px;
+            margin-bottom: 40px;
+        }
     }
-    
-}
-@media (min-width:768px) {
-    .theme-icon3{
-        padding-top: 6px !important;
-        padding-right: 6px !important;
-        padding-bottom: 6px !important;
-        padding-left: 6px !important;
-        margin-left: 50px !important;
-        position: absolute !important;
-        background-color:  #84c54e !important;
+
+    @media only screen and (min-width:992px) {
+        .welcome-content1 {
+            margin-left: -50px ;
+            padding-top: 70px ;
+            margin-bottom: 40px ;
+        }
     }
-    
-}
-.theme-icon{
-    padding-top: 13px;
-    padding-right: 13px;
-    padding-bottom: 13px;
-    padding-left: 13px;
-    margin-left: 50px;
-    position: absolute;
-    background-color: #ffffff;
-}
-.malaika-heading{
-    padding-left: 140px;
-    margin-bottom: 5px;
-    margin-top: 5px;   
-}
-.theme-icon1{
-    padding-top: 13px;
-    padding-right: 13px;
-    padding-bottom: 13px;
-    padding-left: 13px;
-    margin-left: 50px;
-    position: absolute;
-    background-color: #6c98e1;
-}
-.theme-icon2{
-    padding-top: 13px;
-    padding-right: 13px;
-    padding-bottom: 13px;
-    padding-left: 13px;
-    margin-left: 50px;
-    position: absolute;
-    background-color: #d93ad0;
-}
-.theme-icon3{
-    padding-top: 13px;
-    padding-right: 13px;
-    padding-bottom: 13px;
-    padding-left: 13px;
-    margin-left: 50px;
-    position: absolute;
-    background-color: #84c54e;
-}
-.malaika-text{
-    padding-left: 40px;
-    margin-top: 30px;   
-}
-@media (max-width:480px){
-    .malaika-text{
-        padding-left:50px !important;
+
+    @media only screen and (min-width:992px) {
+        .welcome-content {
+            margin-left: -50px;
+            padding-top: 70px;
+            margin-bottom: 40px;
+        }
     }
-}
-@media (min-width:480px) {
+
+    @media only screen and (min-width:1200px) {
+        .welcome-content {
+            margin-left: 0px;
+            padding-top: 70px;
+            margin-bottom: 40px;
+        }
+    }
+
+    @media only screen and (min-width:1200px) {
+        .welcome-content1 {
+            margin-left: 0px;
+            padding-top: 70px;
+            margin-bottom: 40px;
+        }
+    }
+
+    @media (min-width:768px) {
+        .theme-icon {
+            padding-top: 5px !important;
+            padding-right: 5px !important;
+            padding-bottom: 5px !important;
+            padding-left: 5px !important;
+            margin-left: 50px !important;
+            position: absolute !important;
+            background-color: #ffffff !important;
+        }
+    }
+
+    @media (min-width:768px) {
+        .theme-icon1 {
+            padding-top: 6px !important;
+            padding-right: 6px !important;
+            padding-bottom: 6px !important;
+            padding-left: 6px !important;
+            margin-left: 50px !important;
+            position: absolute !important;
+            background-color: #6c98e1 !important;
+        }
+    }
+
+    @media (min-width:768px) {
+        .theme-icon2 {
+            padding-top: 6px !important;
+            padding-right: 6px !important;
+            padding-bottom: 6px !important;
+            padding-left: 6px !important;
+            margin-left: 50px !important;
+            position: absolute !important;
+            background-color: #d93ad0 !important;
+        }
+    }
+
+    @media (min-width:768px) {
+        .theme-icon3 {
+            padding-top: 6px !important;
+            padding-right: 6px !important;
+            padding-bottom: 6px !important;
+            padding-left: 6px !important;
+            margin-left: 50px !important;
+            position: absolute !important;
+            background-color: #84c54e !important;
+        }
+    }
+
+    .theme-icon {
+        padding-top: 13px;
+        padding-right: 13px;
+        padding-bottom: 13px;
+        padding-left: 13px;
+        margin-left: 50px;
+        position: absolute;
+        background-color: #ffffff;
+    }
+
+    .malaika-heading {
+        padding-left: 140px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+
+    .theme-icon1 {
+        padding-top: 13px;
+        padding-right: 13px;
+        padding-bottom: 13px;
+        padding-left: 13px;
+        margin-left: 50px;
+        position: absolute;
+        background-color: #6c98e1;
+    }
+
+    .theme-icon2 {
+        padding-top: 13px;
+        padding-right: 13px;
+        padding-bottom: 13px;
+        padding-left: 13px;
+        margin-left: 50px;
+        position: absolute;
+        background-color: #d93ad0;
+    }
+
+    .theme-icon3 {
+        padding-top: 13px;
+        padding-right: 13px;
+        padding-bottom: 13px;
+        padding-left: 13px;
+        margin-left: 50px;
+        position: absolute;
+        background-color: #84c54e;
+    }
+
     .malaika-text {
-        padding-left: 50px !important;
+        padding-left: 40px;
+        margin-top: 30px;
     }
-}
-.malaika-heading a{
-    border: none;
-    text-decoration: none !important;
-    color: inherit;
-}
+
+    @media (max-width:480px) {
+        .malaika-text {
+            padding-left: 50px !important;
+        }
+    }
+
+    @media (min-width:480px) {
+        .malaika-text {
+            padding-left: 50px !important;
+        }
+    }
+
+    .malaika-heading a {
+        border: none;
+        text-decoration: none !important;
+        color: inherit;
+    }
 
 
-/*--------------------learning facilities-------------*/
-.learing-facilities{
-    margin-top: 20px;
-    margin-left: 50px;
-}
-@media only screen and (max-width:600px) {
-    .learing-facilities{
-        margin-top: 20px;
-        margin-left: 0px !important;
-       
+    /*--------------------learning facilities-------------*/
+    .welcome-content--- {
+        background-color: #eeeeee;
     }
-       
-}
-@media only screen and (max-width:600px) {
-    .learing-facilities p {
-        font-size: 18px !important;
-    }
-}
-@media only screen and (min-width:600px) {
-    .learing-facilities{
+
+    .learing-facilities {
         margin-top: 20px;
-        margin-left: 50px !important;
         
     }
-       
-}
-@media only screen and (max-width:600px) {
-    .yael{
-        flex-flow: column;
-        margin-left: 0px;
-        margin-right: 0px;  
-        margin-top: 30px;
-        margin-bottom: 0px;
 
-    }
-    .card{
-        margin-bottom: 20px !important;
-    }
-}
-@media only screen and (min-width:600px) {
-    .yael{
-        flex-flow: row;
-        margin-left: 0px;
-        margin-right: 0px;  
-        margin-top: 30px;
-        margin-bottom: 0px;
+    @media only screen and (max-width:600px) {
+        .learing-facilities {
+            margin-top: 20px;
+            margin-left: 0px !important;
+        }
     }
 
-}
-@media only screen and (min-width:600px) {
-    .title{
-        font-size: 15px !important;
-        line-height: 10px !important;
-    }
-    .card-text{
-        font-size: 13px !important;
+    @media only screen and (max-width:600px) {
+        .learing-facilities p {
+            font-size: 18px !important;
+        }
     }
 
-}
-@media only screen and (min-width:768px) {
-    .learing-facilities{
-        margin-top: 30px;
-        margin-left: 5px !important;   
-    }
-    .custom-heading0{
-        font-size: 10px !important;  
-    }
-    .custom-heading00{
-        font-size: 15px !important;
-    }
-    .custom-heading000{
-        margin-right: 50px;
-        font-size: 15px;
-    }
-}
-@media only screen and (min-width:768px) {
-    .yael{
-        flex-flow: row;
-        margin-left: 0px;
-        margin-right: 0px;  
-        margin-top: 30px;
-        margin-bottom: 0px; 
-    }
     
-}
-@media only screen and (min-width:992px) {
-    .custom-heading0{
-        font-size: 13px !important; 
-    }
-    .custom-heading00{
-        font-size: 18px !important; 
-    }
-    .title{
-        font-size: 17px !important;
-        line-height: 27px !important;
-    }
-    .card-text{
-        font-size: 15px !important;
-    }
-    
-}
-@media only screen and (min-width:1200px) {
-    .learing-facilities{
-        margin-top: 20px;
-        margin-left: 50px !important;   
-        
-    }
-    .custom-heading000{
-        margin-right: 50px;
-        font-size: 30px;
-    }
-    .custom-heading0{
-        font-size: 14px !important;  
-    }
-    .custom-heading00{
-        font-size: 18px !important;
-        line-height: 29px !important;
-    }
-}
 
-@media  only screen and (min-width:1200px){
-    .yael{
-        margin-bottom: 20px !important;
-        margin-right: -15px !important;
-        margin-left: 40px !important;
-        margin-top: 20px !important;
-    }
-    .title{
-        font-size: 17px !important;  
-    }
-    .card-text{
-        font-size: 15px !important;  
-    }
-}
+    @media only screen and (max-width:320px) {
+        .yael {
+            flex-flow: column;
+            margin-left: 30px;
+            margin-right: 30px;
+            margin-top: 30px;
+            margin-bottom: 0px;
+        }
 
-.custom-heading{
-    margin-top: 0px !important;
-    margin-bottom: 10px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    color: inherit;
-    background-color: #d93ad0;
-}
+        .learing-facilities- {
+            padding-left: 30px;
+            padding-right: 24px;
+            padding-top: 20px;
+        }
 
-.custom-heading1{
-    margin-top: 0px !important;
-    margin-bottom: 10px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    color: inherit;
-    background-color: #6c98e1;
-}
-.custom-heading2{
-    margin-top: 0px !important;
-    margin-bottom: 10px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    color: inherit;
-    background-color: #84c54e;
-
-}
-.custom-heading3{
-    margin-top: 0px !important;
-    margin-bottom: 10px;
-    padding-top: 12px;
-    padding-bottom: 12px;
-    color: inherit;
-    background-color: #e6be1e;
-}
-h6 a{
-    font-weight: normal;
-    font-style: normal;
-    line-height: 24px;
-    
-    
-}
-.custom-heading a,.custom-heading1 a,.custom-heading2 a,.custom-heading3 a,.title a,.custom-heading00 a,.malaika-logo a,.malaika-logo1 a,.children-link ul li a,.entry-title a,.tab-item a,.tab-item0 a,.tab-item1 a,.tab-item3 a,.tab-item4 a,.tab-item2 a,.data h3 a,
-.logo-copyright a,.tribe-events a{
-    border: none;
-    text-decoration: none!important;
-    color: inherit;
-}
-/*-------------------------info and news--------------------*/
-.learing-facilities0{
-    margin-top: 50px;
-    margin-bottom: 30px;
-    margin-left: 50px;
-}
-.tab-item{
-    margin-left: -20px;
-}
-.tab-item1{
-    margin-left: 0px;
-}
-.tab-item0{
-    
-    margin-left: 5px;
-}
-
-@media only screen and (max-width:600px) {
-    .jael{
-        flex-flow: column;
-        margin-left: -60px;
-        margin-right: -105px;  
-        margin-top: 0px;
-        margin-bottom: 0px;
-
+        .card {
+            margin-bottom: 20px !important;
+        }
     }
-    .learing-facilities0{
-        margin-left: 10px !important;
+
+    @media only screen and (min-width:600px) {
+        .yael {
+            flex-flow: row;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 30px;
+            margin-bottom: 0px;
+        }
     }
-    
-}
-@media only screen and (max-width:480px) {
-    .jael {
-        flex-flow: column;
-        margin-left: -60px !important;
-        margin-right: -105px !important;
-        margin-top: 0px;
-        margin-bottom: 0px;
+
+    @media only screen and (min-width:600px) {
+        .title {
+            font-size: 15px !important;
+            line-height: 10px !important;
+        }
+
+        .card-text {
+            font-size: 13px !important;
+        }
+    }
+
+    @media only screen and (min-width:768px) {
+        .learing-facilities {
+            margin-top: 30px;
+            margin-left: 5px !important;
+        }
+
+        .custom-heading0 {
+            font-size: 10px !important;
+        }
+
+        .custom-heading00 {
+            font-size: 15px !important;
+        }
+
+        .custom-heading000 {
+            margin-right: 50px;
+            font-size: 15px;
+        }
+    }
+
+    @media only screen and (min-width:768px) {
+        .yael {
+            flex-flow: row;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 30px;
+            margin-bottom: 0px;
+        }
+    }
+
+    @media only screen and (min-width:992px) {
+        .custom-heading0 {
+            font-size: 13px !important;
+        }
+
+        .custom-heading00 {
+            font-size: 18px !important;
+        }
+
+        .title {
+            font-size: 17px !important;
+            line-height: 27px !important;
+        }
+
+        .card-text {
+            font-size: 15px !important;
+        }
+    }
+
+    @media only screen and (min-width:1200px) {
+        .learing-facilities {
+            margin-top: 20px;
+            margin-left: 50px !important;
+        }
+
+        .custom-heading000 {
+            margin-right: 50px;
+            font-size: 30px;
+        }
+
+        .custom-heading0 {
+            font-size: 14px !important;
+        }
+
+        .custom-heading00 {
+            font-size: 18px !important;
+            line-height: 29px !important;
+        }
+    }
+
+    @media only screen and (min-width:1200px) {
+        .yael {
+            margin-bottom: 20px !important;
+            margin-right: -15px !important;
+            margin-left: 40px !important;
+            margin-top: 20px !important;
+        }
+
+        .title {
+            font-size: 17px !important;
+        }
+
+        .card-text {
+            font-size: 15px !important;
+        }
+    }
+
+    .custom-heading {
+        margin-top: 0px !important;
+        margin-bottom: 10px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        color: inherit;
+        background-color: #d93ad0;
+    }
+
+    .custom-heading1 {
+        margin-top: 0px !important;
+        margin-bottom: 10px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        color: inherit;
+        background-color: #6c98e1;
+    }
+
+    .custom-heading2 {
+        margin-top: 0px !important;
+        margin-bottom: 10px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        color: inherit;
+        background-color: #84c54e;
+    }
+
+    .custom-heading3 {
+        margin-top: 0px !important;
+        margin-bottom: 10px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        color: inherit;
+        background-color: #e6be1e;
+    }
+
+    h6 a {
+        font-weight: normal;
+        font-style: normal;
+        line-height: 24px;
+    }
+
+    .custom-heading a, .custom-heading1 a, .custom-heading2 a, .custom-heading3 a, .title a, .flex a, .table-nowrap a, .media-body a, .custom-heading00 a, .malaika-logo a, .malaika-logo1 a, .children-link ul li a, .entry-title a, .tab-item a, .tab-item0 a, .tab-item1 a, .tab-item3 a, .tab-item4 a, .tab-item2 a, .data h3 a,
+    .logo-copyright a, .tribe-events a {
+        border: none;
+        text-decoration: none !important;
+        color: inherit;
+    }
+    /*-------------------------info and news--------------------*/
+    .welcome-content---- {
+        background-color: #37383a;
     }
 
     .learing-facilities0 {
-        margin-left: 10px !important;
+        margin-top: 50px;
+        margin-bottom: 30px;
+        margin-left: 50px;
     }
-}
-@media only screen and (min-width:600px) {
-    .jael{
-        flex-flow: row;
-        margin-left: -65px;
-        margin-right: -50px;  
-        margin-top: 0px;
-        margin-bottom: 0px;
 
+    .tab-item {
+        margin-left: 5px;
     }
-    .date{
-        font-size: 10px !important;
-        padding-left: 15px !important;
-    }
-    
-}
-@media only screen and (min-width:768px) {
-    .jael{
-        flex-flow: row;
-        margin-left: -50px;
-        margin-right: -20px;  
-        margin-top: 0px;
-        margin-bottom: 0px;
 
+    .tab-item1 {
+        margin-left: 0px;
     }
-    .date{
-        font-size: 14px !important;
-        padding-left: 20px !important;
-    }
-    
-    
-}
-@media only screen and (min-width:1200px) {
-    .jael{
-        flex-flow: row;
-        margin-left: -20px;
-        margin-right: 0px;  
-        margin-top: 0px;
-        margin-bottom: 0px;
 
+    .tab-item0 {
+        margin-left: 5px;
     }
-    .date{
-        font-size: 14px !important;
-        padding-left: 20px !important;
-    }
-    
-    
-}
 
 
-.tab-item2{
-    
-    margin-left:5px;
-}
-.tab-item3{
-    
-    margin-left:0px;
-}
-.custom-heading001{
-    margin-bottom: 5px !important;
-}
-.nav-tabs-wrapper0{
-    background-color: #37383a;
-    margin-right: -11px;
-    margin-left: -10px;
-    padding-left: 80px;  
-}
-@media only screen and (max-width:600px) {
-    
-    .nav-tabs-wrapper0{
-        padding-left: 35px;  
-    }
-    
-}
-@media only screen and (max-width:440px) {
-    
-    .nav-tabs-wrapper0{
-        
-        padding-left: 35px;  
-    }
-    
-}
-@media only screen and (max-width:465px) {
-    
-    .malaika-logo{
-        font-size: 15px !important;
-    }
-    
-}
-@media only screen and (max-width:447px) {
-    
-    .malaika-logo{
-        font-size: 15px !important;
-    }
-    
-}
-@media only screen and (max-width:420px) {
-    
-    .nav-tabs-wrapper0{
-        
-        padding-left: 20px;  
-    }
-    
-}
-@media only screen and (max-width:400px) {
-    
-    .nav-tabs-wrapper0{
-        
-        padding-left: 14px;  
-    }
-    .malaika-logo{
-        font-size: 14px !important;
-    }
-    
-}
+    @media only screen and (max-width:320px) {
+        .jael {
+            flex-flow: column;
+            margin-left: -30px;
+            margin-right: -41px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
 
-.post-image{
-    max-width: 100%;
-}
+        .nav-tabs-wrapper0 {
+            margin-right: 19px;
+            margin-left: 20px;
+        }
+
+        .tab-item {
+            margin-left: 5px;
+        }
 
 
-.meta-data{
-    margin-bottom: 12px;
-    font-weight: 500;
-}
-.date{
-    font-size: 13px;
-    color: #878787;
-    text-align: left;
-    padding-left: 25px;
-}
-.data h3 a{
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: bold;
-    text-align: left;
-    display: inline;color: #555;
-    padding-left: 0px;
-}
-.col-inner-event{
-    margin-top: 2px;
-    margin-right: -10px;
-    margin-left: 0px;
-    margin-bottom: 0px;
-    padding-right: 35px;
-    padding-bottom: 40px;
-    padding-left: 20px;
-    background-color: #eeeeee;
-}
-@media (max-width:480px) {
-    .col-inner-event{
+
+        .learing-facilities0 {
+            margin-left: 10px !important;
+        }
+    }
+
+    @media only screen and (min-width:600px) {
+        .jael {
+            flex-flow: row;
+            margin-left: -65px;
+            margin-right: -50px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .date {
+            font-size: 10px !important;
+            padding-left: 15px !important;
+        }
+    }
+
+    @media only screen and (min-width:768px) {
+        .jael {
+            flex-flow: row;
+            margin-left: -50px;
+            margin-right: -20px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .date {
+            font-size: 14px !important;
+            padding-left: 20px !important;
+        }
+    }
+
+    @media only screen and (min-width:1200px) {
+        .jael {
+            flex-flow: row;
+            margin-left: -20px;
+            margin-right: 0px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        .date {
+            font-size: 14px !important;
+            padding-left: 20px !important;
+        }
+    }
+
+
+    .tab-item2 {
+        margin-left: 5px;
+    }
+
+    .tab-item3 {
+        margin-left: 0px;
+    }
+
+    .custom-heading001 {
+        margin-bottom: 5px !important;
+    }
+
+    .nav-tabs-wrapper0 {
+        background-color: #37383a;
+        padding-bottom: 0px;
+    }
+
+
+
+
+    .post-image {
+        max-width: 100%;
+    }
+
+
+    .meta-data {
+        margin-bottom: 12px;
+        font-weight: 500;
+    }
+
+    .date {
+        font-size: 13px;
+        color: #878787;
+        text-align: left;
+        padding-left: 25px;
+    }
+
+    .data h3 a {
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: bold;
+        text-align: left;
+        display: inline;
+        color: #555;
+        padding-left: 0px;
+    }
+
+    .col-inner-event {
         margin-top: 2px;
         margin-right: -10px;
-        margin-left: -40px;
+        margin-left: 0px;
         margin-bottom: 0px;
         padding-right: 35px;
         padding-bottom: 40px;
+        padding-left: 20px;
         background-color: #eeeeee;
     }
-    
-    
-}
-.event{
-    display: table;
-    width: 100%;
-    margin-bottom: 15px;
-    background-color: #fff;
-    box-shadow: 0px 0px 4px 1px ;
-}
-.tarehe{
-    display: table-cell;
-    vertical-align: middle;
-    width: 60px;
-    background-color: #6c98e1;
-    padding-top: 9px;
-    padding-bottom: 9px;
-    color: #fff;
-}
-.month,.day{
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 11px;
-    text-align: center;
-    line-height: 21px;
-}
-.info{
-    display: table-cell;
-    padding: 17px;
-}
-.title-info{
-    font-size: 14px;
-    line-height: 19px;
-    font-weight: bold;
-    text-align: center;
-    margin-left: 60px;
-}
-@media (max-width:480px) {
-    .title-info{
+
+    @media (max-width:480px) {
+        .col-inner-event {
+            margin-top: 2px;
+            margin-right: -10px;
+            margin-left: -40px;
+            margin-bottom: 0px;
+            padding-right: 35px;
+            padding-bottom: 40px;
+            background-color: #eeeeee;
+        }
+    }
+
+    .event {
+        display: table;
+        width: 100%;
+        margin-bottom: 15px;
+        background-color: #fff;
+        box-shadow: 0px 0px 4px 1px;
+    }
+
+    .tarehe {
+        display: table-cell;
+        vertical-align: middle;
+        width: 60px;
+        background-color: #6c98e1;
+        padding-top: 9px;
+        padding-bottom: 9px;
+        color: #fff;
+    }
+
+    .month, .day {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 11px;
+        text-align: center;
+        line-height: 21px;
+    }
+
+    .info {
+        display: table-cell;
+        padding: 17px;
+    }
+
+    .title-info {
         font-size: 14px;
         line-height: 19px;
         font-weight: bold;
         text-align: center;
-        margin-left: 90px;
+        margin-left: 60px;
     }
-    
-}
-.title-info a{
-    color: #555;
-    margin-left: -115px;
-}
-.tribe-events{
-    margin-left:-38px;
-}
-.tab-content{
-    margin-left: 30px;
-}
-.teacher-title001{
-    margin-top: 5px !important;
-    margin-bottom: 7px !important;
-    line-height: 24px;
-    font-weight: 700;
-    font-style: normal;
-    color: #555555;
-    font-size: 17px;
-    
-}
-.teacher-text001{
-    color: #555555;
-    margin-bottom: 35px;
 
-}
-.image-tell{
-    text-align: left;
-}
-.tell{
-    margin-top: -15px;
-    margin-right: -10px;
-    padding-top: 20px;
-    padding-right: 35px;
-    padding-bottom: 13px;
-    padding-left: 35px;
-    background-color: #eeeeee;
-}
-.image-tell{
-    margin-bottom: 2px;
-}
-/*---------------------------------Prize Sports Activities----------------------*/
-.content-box{
-    margin-left: 50px;
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
-@media only screen and (max-width: 600px) {
-    .content-box{
-        margin-left: 15px;
+    @media (max-width:480px) {
+        .title-info {
+            font-size: 14px;
+            line-height: 19px;
+            font-weight: bold;
+            text-align: center;
+            margin-left: 90px;
+        }
+    }
+
+    .title-info a {
+        color: #555;
+        margin-left: -115px;
+    }
+
+    .tribe-events {
+        margin-left: -38px;
+    }
+
+    .tab-content {
+        margin-left: 30px;
+    }
+
+    .teacher-title001 {
+        margin-top: 5px !important;
+        margin-bottom: 7px !important;
+        line-height: 24px;
+        font-weight: 700;
+        font-style: normal;
+        color: #555555;
+        font-size: 17px;
+    }
+
+    .teacher-text001 {
+        color: #555555;
+        margin-bottom: 35px;
+    }
+
+    .image-tell {
+        text-align: left;
+    }
+
+    .tell {
+        margin-top: -15px;
+        margin-right: -10px;
+        padding-top: 20px;
+        padding-right: 35px;
+        padding-bottom: 13px;
+        padding-left: 35px;
+        background-color: #eeeeee;
+    }
+
+    .image-tell {
+        margin-bottom: 2px;
+    }
+    /*---------------------------------Prize Sports Activities----------------------*/
+    .content-box {
+        margin-left: 50px;
         margin-top: 50px;
         margin-bottom: 50px;
     }
-    .activities{
-        font-size: 20px !important;
-    }
-}
-@media only screen and (min-width: 600px) {
-    .activities{
-        font-size: 20px !important;
-        
-    }
-    .content-box{
-        margin-left: 15px;
-        margin-top: 50px;
-        margin-bottom: 50px;
-    }
-}
-@media only screen and (min-width: 768px) {
-    .content-box{
-        margin-left: 15px !important;
-        margin-top: 50px !important;
-        margin-bottom: 50px !important;
-    }
-    .activities{
-        font-size: 27px !important;
-    }
-}
-@media only screen and (min-width: 1200px) {
-    .content-box{
-        margin-left: 15px !important;
-        margin-top: 50px !important;
-        margin-bottom: 50px !important;
-    }
-    .activities{
-        font-size: 40px !important;
-    }
-}
 
-@media only screen and (max-width: 575px) {
-    .content-box{
-        margin-left: 15px;
-        margin-top: 50px;
-        margin-bottom: 50px;
+    @media only screen and (max-width: 600px) {
+        .content-box {
+            margin-left: 15px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .activities {
+            font-size: 20px !important;
+        }
     }
-    .activities{
-        font-size: 40px !important;
+
+    @media only screen and (min-width: 600px) {
+        .activities {
+            font-size: 20px !important;
+        }
+
+        .content-box {
+            margin-left: 15px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
     }
-}
+
+    @media only screen and (min-width: 768px) {
+        .content-box {
+            margin-left: 15px !important;
+            margin-top: 50px !important;
+            margin-bottom: 50px !important;
+        }
+
+        .activities {
+            font-size: 27px !important;
+        }
+    }
+
+    @media only screen and (min-width: 1200px) {
+        .content-box {
+            margin-left: 15px !important;
+            margin-top: 50px !important;
+            margin-bottom: 50px !important;
+        }
+
+        .activities {
+            font-size: 40px !important;
+        }
+    }
+
+    @media only screen and (max-width: 575px) {
+        .content-box {
+            margin-left: 15px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .activities {
+            font-size: 40px !important;
+        }
+    }
 
 
-/*--------------------------------footer-------------------------*/
+    /*--------------------------------footer-------------------------*/
 
-.alt-button{
-    background-color: #6c98e1;
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 14px;
-    border:2px solid #6c98e1;
-    color:#ffffff;
-    padding: 14px 21px 14px 21px;
-    text-transform: uppercase;
-    letter-spacing: inherit;
-    text-align: left;
-}
-.logo-copyright{
-    margin-top: 25px;
-    margin-bottom: 20px;
-    margin-left: 50px;
-}
-.anim{
-    transform: translateY(-50%) translateX(-50%);
-    position: absolute;
-    top: 50%;
-    left: 50%;
-}
-.col-xs-6{
-    width: 50%;
-    float: left;
-}
-.address,.phone{
-    margin-top: 0px;
-    margin-left: 50px;
-}
-.phone1{
-    margin-left: 25px;
-}
-@media (min-width:480px) {
-    .address,.phone,.logo-copyright,.address-{
-        
-        margin-left: 0px !important;
-        margin-top: 20px;
+    .alt-button {
+        background-color: #6c98e1;
+        border-radius: 3px;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 14px;
+        border: 2px solid #6c98e1;
+        color: #ffffff;
+        padding: 14px 21px 14px 21px;
+        text-transform: uppercase;
+        letter-spacing: inherit;
+        text-align: left;
     }
-    .logo-copyright{
-        font-size: 12px !important;
-    }
-    .address- h6,.address- p,.address h6,.address,.phone{
-        font-size: 22px !important;
-        line-height: 28px !important;
-        
-    }
-    .address,.phone{
 
-        margin-left: 30px !important;
+    .logo-copyright {
+        margin-top: 25px;
+        margin-bottom: 20px;
+        margin-left: 50px;
     }
-    .phone1{
-        margin-left: 11px;
+
+    .anim {
+        transform: translateY(-50%) translateX(-50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
     }
-    
-}
-@media (min-width:1200px) {
-    .address, .phone, .logo-copyright, .address- {
-        margin-left: 15px !important;
-        
+
+    .col-xs-6 {
+        width: 50%;
+        float: left;
     }
-}
+
+    .address, .phone {
+        margin-top: 0px;
+        margin-left: 50px;
+    }
+
+    .phone1 {
+        margin-left: 25px;
+    }
+
+    @media (min-width:480px) {
+        .address, .phone, .logo-copyright, .address- {
+            margin-left: 0px !important;
+            margin-top: 20px;
+        }
+
+        .logo-copyright {
+            font-size: 12px !important;
+        }
+
+        .address- h6, .address- p, .address h6, .address, .phone {
+            font-size: 22px !important;
+            line-height: 28px !important;
+        }
+
+        .address, .phone {
+            margin-left: 30px !important;
+        }
+
+        .phone1 {
+            margin-left: 11px;
+        }
+    }
+
+    @media (min-width:1200px) {
+        .address, .phone, .logo-copyright, .address- {
+            margin-left: 15px !important;
+        }
+    }
 
     @media (max-width:600px) {
-        .address, .phone, .logo-copyright, .address-{
+        .address, .phone, .logo-copyright, .address- {
             margin-left: 40px !important;
-            margin-right:0px !important;
+            margin-right: 0px !important;
             margin-top: 20px;
         }
 
@@ -1045,11 +1136,7 @@ h6 a{
         margin-bottom: 40px;
     }
 
-    .heading-wrapper {
-        padding-left: 15px;
-        margin-top: 15px;
-        margin-bottom: 10px;
-    }
+
 
     .vision {
         margin-left: -50px;
@@ -1104,9 +1191,27 @@ h6 a{
         color: #fff;
     }
 
-        .tab-item a:hover, .tab-item0 a:hover, .tab-item2 a:hover, .tab-item1 a:hover, .tab-item3 a:hover, .tab-item4 a:hover {
-            background-color: #6c98e1;
+    @media (max-width:320px) {
+        .tab-item1 a, .tab-item3 a, .tab-item4 a, .tab-item a, .tab-item0 a, .tab-item2 a {
+            text-align: center;
+            display: block;
+            padding: 3px 3px;
+            box-sizing: border-box;
+            position: relative;
+            transition: color .2s ease-in-out;
+            border: none;
+            box-shadow: none;
+            color: #fff;
         }
+
+        .nav-link1 h4 {
+            font-size: 15px;
+        }
+    }
+
+    .tab-item a:hover, .tab-item0 a:hover, .tab-item2 a:hover, .tab-item1 a:hover, .tab-item3 a:hover, .tab-item4 a:hover {
+        background-color: #6c98e1;
+    }
 
     .card {
         background: #fff;
@@ -1161,81 +1266,91 @@ h6 a{
     /*----------------primaryschool-----------*/
 
     @media (max-width:480px) {
-        .col-sm-6 {
-            flex: none;
-            max-width: none;
-        }
-
-        .heading-wrapper-paragraph, .teacher-one-third, .facult-heading {
-            margin-right: 15px !important;
+        h1.library001, .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p, .teacher-one-third- {
             margin-left: 0px !important;
+            margin-right: 0px !important;
+        }
+
+        .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p {
+            margin-bottom: 30px !important;
+        }
+
+        .teacher-one-third- {
+            margin-bottom: 40px;
         }
     }
 
-    @media (max-width:600px) {
+    @media (min-width:480px) {
+        h1.library001, .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p, .teacher-one-third- {
+            margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p {
+            margin-bottom: 30px;
+        }
+
+        .teacher-one-third- {
+            margin-bottom: 40px;
+        }
+    }
+
+
+    @media (min-width:575px) {
         .col-sm-6, .container {
             flex: none;
             max-width: none;
         }
 
-        .ok00 {
-            margin-left: 50px;
-            margin-right: -110px;
-        }
-
-        .heading-wrapper-paragraph p, .teacher-one-third {
-            margin-right: -100px !important;
-            margin-left: 50px !important;
-        }
-
         .custome-fucult-text {
-            margin-left: 50px;
-            margin-right: -110px;
+            margin-left: 0px;
+            margin-right: 0px;
         }
 
-        .heading-wrapper {
-            margin-left: 38px !important;
+        .heading-wrapper-paragraph p, .heading-wrapper, .teacher-one-third- {
+            margin-left: 0px;
+            margin-right: 0px;
         }
 
-        h1.library001 {
-            margin-left: 45px;
-        }
-
-        .content-element {
-            margin-left: 50px;
-            margin-right: -120px;
+        .teacher-one-third- {
+            margin-bottom: 40px;
         }
     }
 
-    @media (max-width:575px) {
+    @media (min-width:576px) {
         .col-sm-6, .container {
             flex: none;
             max-width: none;
         }
 
-        .heading-wrapper-paragraph p, .teacher-one-third {
-            margin-right: 40px !important;
-            margin-left: 50px !important;
-        }
-
         .custome-fucult-text {
-            margin-left: 50px;
-            margin-right: 40px;
+            margin-left: 0px;
+            margin-right: -150px;
         }
 
-        .content-element {
-            margin-left: 50px;
-            margin-right: 40px;
+        .heading-wrapper-paragraph p, .heading-wrapper, .teacher-one-third- {
+            margin-left: 0px;
+            margin-right: -80px;
         }
 
-        .heading-wrapper {
-            margin-left: 38px !important;
+        .teacher-one-third- {
+            margin-left: 70px;
+            margin-right: 0px;
+            width: 140%;
+            margin-top: 60px;
         }
 
-        h1.library001 {
-            margin-left: 45px;
+        .heading-wrapper- {
+            margin-left: 0px;
+            margin-right: -180px;
+        }
+
+        .heading-wrapper-paragraph- {
+            margin-left: 0px;
+            margin-right: -250px;
         }
     }
+
 
     @media (min-width:600px) {
         .col-sm-6, .container {
@@ -1243,32 +1358,22 @@ h6 a{
             max-width: none;
         }
 
-        .ok00 {
-            margin-left: 50px;
-            margin-right: -120px;
+        h1.library001, .custome-fucult-text {
+            margin-left: 0px;
+            margin-right: -135px;
+            margin-bottom: 15px !important;
         }
 
-        .heading-wrapper-paragraph p, .teacher-one-third {
-            margin-right: -120px !important;
-            margin-left: 50px !important;
+        .teacher-one-third- {
+            margin-left: 70px;
+            margin-right: 0px;
+            width: 140%;
+            margin-top: 60px;
         }
 
-        .custome-fucult-text {
-            margin-left: 50px;
-            margin-right: -120px;
-        }
-
-        .heading-wrapper {
-            margin-left: 38px !important;
-        }
-
-        h1.library001 {
-            margin-left: 45px;
-        }
-
-        .content-element {
-            margin-left: 50px;
-            margin-right: -120px;
+        .heading-wrapper- {
+            margin-left: 0px;
+            margin-right: -180px;
         }
     }
 
@@ -1277,7 +1382,42 @@ h6 a{
             flex: 0 0 50%;
         }
 
-        .heading-wrapper-paragraph p, .teacher-one-third {
+        .heading-wrapper-paragraph p {
+            margin-right: 0px !important;
+            margin-left: 0px !important;
+        }
+
+        .custome-fucult-text {
+            margin-left: 50px;
+            margin-right: -150px;
+        }
+
+        h1.library001 {
+            margin-left: 50px;
+            margin-right: 0px;
+        }
+
+        .heading-wrapper {
+            margin-left: 50px !important;
+        }
+
+        .heading-wrapper-paragraph {
+            margin-left: 50px;
+            margin-right: 0px;
+        }
+
+        .heading-wrapper-paragraph- {
+            margin-left: 50px;
+            margin-right: -400px;
+        }
+    }
+
+    @media (min-width:769px) {
+        .col-sm-6 {
+            flex: 0 0 50%;
+        }
+
+        .heading-wrapper-paragraph p {
             margin-right: 0px !important;
             margin-left: 0px !important;
         }
@@ -1287,12 +1427,23 @@ h6 a{
             margin-right: 0px;
         }
 
-        .heading-wrapper {
-            margin-left: 0px !important;
-        }
-
         h1.library001 {
             margin-left: 0px;
+            margin-right: 0px;
+        }
+
+        .heading-wrapper {
+            margin-left: 50px !important;
+        }
+
+        .heading-wrapper-paragraph {
+            margin-left: 50px;
+            margin-right: 0px;
+        }
+
+        .heading-wrapper-paragraph- {
+            margin-left: 50px;
+            margin-right: -400px;
         }
     }
 
@@ -1336,37 +1487,49 @@ h6 a{
         }
 
         .heading-wrapper-paragraph p {
-            margin-right: -90px !important;
-            margin-left: 85px !important;
+            margin-right: 0px !important;
+            margin-left: 0px !important;
             font-size: 15px;
         }
 
         .heading-wrapper-paragraph00 p {
-            margin-left: 120px !important;
+            margin-left: 0px !important;
             margin-right: 0px;
         }
 
         .teacher-one-third {
-            margin-left: 80px !important;
+            margin-left: 0px !important;
             margin-top: 40px !important;
         }
 
+        .teacher-one-third- {
+            margin-left: 0px !important;
+            margin-top: 40px !important;
+            margin-bottom: 40px !important;
+        }
+
         .custome-fucult-text {
-            margin-left: 80px;
+            margin-left: 0px;
             margin-right: 0px;
             font-size: 15px;
         }
 
         .heading-wrapper {
-            margin-left: 70px !important;
+            margin-left: 0px !important;
+        }
+
+        .heading-wrapper {
+            padding-left: 0px;
+            margin-top: 40px;
+            margin-bottom: 10px;
         }
 
         h1.library001 {
-            margin-left: 80px;
+            margin-left: 0px;
         }
 
         .site-nav {
-            margin-right: 50px !important;
+            margin-right: 0px !important;
         }
 
         .content-element {
@@ -1420,7 +1583,7 @@ h6 a{
         box-sizing: border-box;
     }
 
-    
+
 
     textarea[name="message"] {
         background-color: #f9f9f9;
@@ -1640,5 +1803,5 @@ h6 a{
     .weekdays {
         margin-left: 20px;
     }
-    /*--------------------------------------mobile responsive - welcome malaika-------------------------*/
+    
 

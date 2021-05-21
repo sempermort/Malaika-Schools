@@ -39,9 +39,8 @@ namespace MalaikaSchool.Data
         public DbSet<AccountList> AccountList { get; set; }
         public DbSet<DefaultSetting> DefaultSetting { get; set; }
         public DbSet<School> School { get; set; }
-        public DbSet<News> News { get; set; }
         public DbSet<Event> Events { get; set; }     
-        public DbSet<Category> Category { get; set; }
+        public DbSet<Category> Categories { get; set; }
         public DbSet<Gallery> Gallery { get; set; }
         public DbSet<PhoneNumber> PhoneNumber { get; set; }
         public DbSet<StudentAttendance> StudentAttendances { get; set; }
