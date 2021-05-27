@@ -1,7 +1,7 @@
 /*---------------body----------------------*/
 @media only screen and (max-width: 768px) {
-    .people {
-      display: none !important;
+    .people, .element-populeted {
+        display: none !important;
     }
 }
 
@@ -15,7 +15,7 @@ body{
 /*--------------welcome malaika nav----------------*/
 
 .malaika-logo1{
-    padding-left: 30px;
+    padding-left: 25px;
     margin-bottom: 5px;
     margin-top: 5px;  
 }
@@ -194,128 +194,32 @@ body{
         margin-right: 0px;
     }
 }
+@media only screen and (min-width:768px) {
+    .col-md-3 {
+        flex: 0 0 100% ;
+        max-width: 100% ;
+    }
+    .col-md-9 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
 
+}
+ 
+    @media only screen and (min-width:992px) {
+        .col-md-3 {
+            flex:0 0 25% !important;
+            max-width: 25% !important;
+        }
+        .col-md-9{
+            flex:0 75% !important;
+            max-width:75% !important;
+        }
+    }
+
+   
 
     
-
-    @media only screen and (min-width:768px) {
-        .welcome-content {
-            margin-left: -60px;
-            padding-top: 40px;
-            margin-bottom: 40px !important;
-        }
-    }
-
-    @media (min-width:768px) {
-        .malaika-heading {
-            font-size: 15px !important;
-            margin-left: -20px !important;
-            line-height: 23px !important;
-        }
-    }
-
-    @media (min-width:768px) {
-        .malaika-text {
-            margin-left: 5px !important;
-            margin-top: 20px !important;
-        }
-    }
-
-    @media (min-width:768px) {
-        .welcome-content {
-            margin-left: -58px;
-            padding-top: 70px;
-            margin-bottom: 40px;
-        }
-    }
-
-    @media (min-width:768px) {
-        .welcome-content1 {
-            margin-left: -58px;
-            padding-top: 70px;
-            margin-bottom: 40px;
-        }
-    }
-
-    @media only screen and (min-width:992px) {
-        .welcome-content1 {
-            margin-left: -50px ;
-            padding-top: 70px ;
-            margin-bottom: 40px ;
-        }
-    }
-
-    @media only screen and (min-width:992px) {
-        .welcome-content {
-            margin-left: -50px;
-            padding-top: 70px;
-            margin-bottom: 40px;
-        }
-    }
-
-    @media only screen and (min-width:1200px) {
-        .welcome-content {
-            margin-left: 0px;
-            padding-top: 70px;
-            margin-bottom: 40px;
-        }
-    }
-
-    @media only screen and (min-width:1200px) {
-        .welcome-content1 {
-            margin-left: 0px;
-            padding-top: 70px;
-            margin-bottom: 40px;
-        }
-    }
-
-    @media (min-width:768px) {
-        .theme-icon {
-            padding-top: 5px !important;
-            padding-right: 5px !important;
-            padding-bottom: 5px !important;
-            padding-left: 5px !important;
-            margin-left: 50px !important;
-            position: absolute !important;
-            background-color: #ffffff !important;
-        }
-    }
-
-    @media (min-width:768px) {
-        .theme-icon1 {
-            padding-top: 6px !important;
-            padding-right: 6px !important;
-            padding-bottom: 6px !important;
-            padding-left: 6px !important;
-            margin-left: 50px !important;
-            position: absolute !important;
-            background-color: #6c98e1 !important;
-        }
-    }
-
-    @media (min-width:768px) {
-        .theme-icon2 {
-            padding-top: 6px !important;
-            padding-right: 6px !important;
-            padding-bottom: 6px !important;
-            padding-left: 6px !important;
-            margin-left: 50px !important;
-            position: absolute !important;
-            background-color: #d93ad0 !important;
-        }
-    }
-
-    @media (min-width:768px) {
-        .theme-icon3 {
-            padding-top: 6px !important;
-            padding-right: 6px !important;
-            padding-bottom: 6px !important;
-            padding-left: 6px !important;
-            margin-left: 50px !important;
-            position: absolute !important;
-            background-color: #84c54e !important;
-        }
-    }
 
     .theme-icon {
         padding-top: 13px;
@@ -393,23 +297,18 @@ body{
     }
 
     .learing-facilities {
-        margin-top: 20px;
+        margin-top: 30px;
         
     }
 
     @media only screen and (max-width:600px) {
         .learing-facilities {
-            margin-top: 20px;
+            margin-top: 30px;
             margin-left: 0px !important;
         }
     }
 
-    @media only screen and (max-width:600px) {
-        .learing-facilities p {
-            font-size: 18px !important;
-        }
-    }
-
+    
     
 
     @media only screen and (max-width:320px) {
@@ -431,6 +330,63 @@ body{
             margin-bottom: 20px !important;
         }
     }
+@media only screen and (min-width:320px) {
+    .yael {
+        flex-flow: column;
+        margin-left: 30px;
+        margin-right: 30px;
+        margin-top: 30px;
+        margin-bottom: 0px;
+    }
+
+    .learing-facilities- {
+        padding-left: 20px;
+        padding-right: 0px;
+        padding-top: 0px;
+    }
+
+    .card {
+        margin-bottom: 20px !important;
+    }
+}
+@media only screen and (min-width:375px) {
+    .yael {
+        flex-flow: column;
+        margin-left: 40px;
+        margin-right: 40px;
+        margin-top: 30px;
+        margin-bottom: 0px;
+    }
+
+    .learing-facilities- {
+        padding-left: 30px;
+        padding-right: 24px;
+        padding-top: 20px;
+    }
+
+    .card {
+        margin-bottom: 20px !important;
+    }
+}
+@media only screen and (min-width:425px) {
+    .yael {
+        flex-flow: column;
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-top: 30px;
+        margin-bottom: 0px;
+    }
+
+    .learing-facilities- {
+        padding-left: 40px;
+        padding-right: 0px;
+        padding-top: 0px;
+    }
+
+    .card {
+        margin-bottom: 20px !important;
+    }
+}
 
     @media only screen and (min-width:600px) {
         .yael {
@@ -440,6 +396,7 @@ body{
             margin-top: 30px;
             margin-bottom: 0px;
         }
+
     }
 
     @media only screen and (min-width:600px) {
@@ -454,18 +411,9 @@ body{
     }
 
     @media only screen and (min-width:768px) {
-        .learing-facilities {
-            margin-top: 30px;
-            margin-left: 5px !important;
-        }
+       
 
-        .custom-heading0 {
-            font-size: 10px !important;
-        }
-
-        .custom-heading00 {
-            font-size: 15px !important;
-        }
+        
 
         .custom-heading000 {
             margin-right: 50px;
@@ -484,8 +432,15 @@ body{
     }
 
     @media only screen and (min-width:992px) {
+        .yael {
+            flex-flow: row;
+            margin-left: 0px !important;
+            margin-right: 0px;
+            margin-top: 30px;
+            margin-bottom: 0px;
+        }
         .custom-heading0 {
-            font-size: 13px !important;
+            font-size: 15px !important;
         }
 
         .custom-heading00 {
@@ -503,10 +458,7 @@ body{
     }
 
     @media only screen and (min-width:1200px) {
-        .learing-facilities {
-            margin-top: 20px;
-            margin-left: 50px !important;
-        }
+       
 
         .custom-heading000 {
             margin-right: 50px;
@@ -525,10 +477,10 @@ body{
 
     @media only screen and (min-width:1200px) {
         .yael {
-            margin-bottom: 20px !important;
-            margin-right: -15px !important;
-            margin-left: 40px !important;
-            margin-top: 20px !important;
+            margin-bottom: 20px ;
+            margin-right: -15px;
+            margin-left: 40px ;
+            margin-top: 20px ;
         }
 
         .title {
@@ -636,6 +588,102 @@ body{
             margin-left: 10px !important;
         }
     }
+@media only screen and (min-width:320px) {
+    .jael {
+        flex-flow: column;
+        margin-left: -29px;
+        margin-right: -51px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .nav-tabs-wrapper0 {
+        margin-right: 19px;
+        margin-left: 20px;
+    }
+
+    .tab-item {
+        margin-left: 5px;
+    }
+
+
+
+    .learing-facilities0 {
+        margin-left: 10px !important;
+    }
+}
+@media only screen and (min-width:375px) {
+    .jael {
+        flex-flow: column;
+        margin-left: -20px;
+        margin-right: -51px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .nav-tabs-wrapper0 {
+        margin-right: 29px;
+        margin-left: 30px;
+    }
+
+    .tab-item {
+        margin-left: 5px;
+    }
+
+
+
+    .learing-facilities0 {
+        margin-left: 10px !important;
+    }
+}
+@media only screen and (min-width:425px) {
+    .jael {
+        flex-flow: column;
+        margin-left: -10px;
+        margin-right: -53px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .nav-tabs-wrapper0 {
+        margin-right: 39px;
+        margin-left: 40px;
+    }
+
+    .tab-item {
+        margin-left: 5px;
+    }
+
+
+
+    .learing-facilities0 {
+        margin-left: 10px !important;
+    }
+}
+@media only screen and (min-width:576px) {
+    .jael {
+        flex-flow: column;
+        margin-left: -74px !important;
+        margin-right: -153px !important;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .nav-tabs-wrapper0 {
+        margin-right: -11px;
+        margin-left: -10px;
+    }
+
+    .tab-item {
+        margin-left: 5px;
+    }
+
+
+
+    .learing-facilities0 {
+        margin-left: 10px !important;
+    }
+}
 
     @media only screen and (min-width:600px) {
         .jael {
@@ -645,20 +693,38 @@ body{
             margin-top: 0px;
             margin-bottom: 0px;
         }
+        .nav-tabs-wrapper0 {
+            margin-right: -10px;
+            margin-left: -11px;
+        }
 
         .date {
             font-size: 10px !important;
             padding-left: 15px !important;
+        }
+        .learing-facilities- {
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 0px;
         }
     }
 
     @media only screen and (min-width:768px) {
         .jael {
             flex-flow: row;
-            margin-left: -50px;
-            margin-right: -20px;
+            margin-left: -74px !important;
+            margin-right: -207px !important;
             margin-top: 0px;
             margin-bottom: 0px;
+        }
+        .learing-facilities-{
+            padding-left:0px;
+            padding-right:0px;
+            padding-top:0px;
+        }
+        .nav-tabs-wrapper0 {
+            margin-right: -11px;
+            margin-left: -10px;
         }
 
         .date {
@@ -666,6 +732,25 @@ body{
             padding-left: 20px !important;
         }
     }
+@media only screen and (min-width:992px) {
+    .jael {
+        flex-flow: row;
+        margin-left: -74px !important;
+        margin-right: -280px !important;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .nav-tabs-wrapper0 {
+        margin-right: -11px;
+        margin-left: -10px;
+    }
+
+    .date {
+        font-size: 14px !important;
+        padding-left: 20px !important;
+    }
+}
 
     @media only screen and (min-width:1200px) {
         .jael {
@@ -958,9 +1043,9 @@ body{
         margin-left: 25px;
     }
 
-    @media (min-width:480px) {
+    @media (max-width:480px) {
         .address, .phone, .logo-copyright, .address- {
-            margin-left: 0px !important;
+            margin-left: 40px !important;
             margin-top: 20px;
         }
 
@@ -973,48 +1058,81 @@ body{
             line-height: 28px !important;
         }
 
-        .address, .phone {
-            margin-left: 30px !important;
-        }
+        
 
         .phone1 {
             margin-left: 11px;
         }
     }
-
-    @media (min-width:1200px) {
-        .address, .phone, .logo-copyright, .address- {
-            margin-left: 15px !important;
-        }
+@media (min-width:480px) {
+    .address, .phone, .logo-copyright, .address- {
+        margin-left: 40px !important;
+        margin-top: 20px;
     }
 
-    @media (max-width:600px) {
-        .address, .phone, .logo-copyright, .address- {
-            margin-left: 40px !important;
-            margin-right: 0px !important;
-            margin-top: 20px;
-        }
-
-        .logo-copyright {
-            font-size: 11px !important;
-        }
-
-        .address- h6, .address- p, .address h6, .address, .phone {
-            font-size: 18px !important;
-            line-height: 20px !important;
-        }
-
-        .address, .phone {
-            margin-left: 40px !important;
-        }
-
-        .phone1 {
-            margin-left: 11px;
-        }
+    .logo-copyright {
+        font-size: 12px !important;
     }
 
-    /*---------------------------------facult and staff----------------*/
-    .children-link {
+    .address- h6, .address- p, .address h6, .address, .phone {
+        font-size: 22px !important;
+        line-height: 28px !important;
+    }
+
+
+
+    .phone1 {
+        margin-left: 11px;
+    }
+}
+
+@media (min-width:992px){
+    .address-{
+        margin-left: 15px !important;
+    }
+    .address{
+        margin-left:50px!important;
+    }
+   
+}
+.address-- {
+    background-color: #f2f2f2;
+}
+.adoret {
+    background-color: #2d2d2d;
+    margin-left:0px!important;
+    margin-right:0px!important;
+}
+@media (min-width:1200px) {
+    .address, .phone, .logo-copyright, .address- {
+                margin-left: 50px !important;
+            }
+        }
+
+        @media (min-width:600px) {
+            .address, .phone, .logo-copyright, .address- {
+                margin-left: 30px;
+                margin-right: 0px !important;
+                margin-top: 20px;
+            }
+
+            .logo-copyright {
+                font-size: 11px !important;
+            }
+
+            .address- h6, .address- p, .address h6, .address, .phone {
+                font-size: 18px !important;
+                line-height: 20px !important;
+            }
+
+
+
+            .phone1 {
+                margin-left: 11px;
+            }
+        }
+        /*---------------------------------facult and staff----------------*/
+        .children-link {
         border-top-color: #6c98e1;
     }
 
@@ -1025,10 +1143,16 @@ body{
     .site-nav {
         margin-top: -90px;
     }
+    @media (min-width:600px){
+        .teacher-one-{
+            
+        }
+    }
 
     @media (min-width:768px) {
-        .site-nav {
-            margin-top: -60px;
+        
+        .teacher-one-third,.table{
+            margin-left:50px;
         }
     }
 
@@ -1208,7 +1332,40 @@ body{
             font-size: 15px;
         }
     }
+@media (min-width:320px) {
+    .tab-item1 a, .tab-item3 a, .tab-item4 a, .tab-item a, .tab-item0 a, .tab-item2 a {
+        text-align: center;
+        display: block;
+        padding: 3px 3px;
+        box-sizing: border-box;
+        position: relative;
+        transition: color .2s ease-in-out;
+        border: none;
+        box-shadow: none;
+        color: #fff;
+    }
 
+    .nav-link1 h4 {
+        font-size: 15px;
+    }
+}
+@media (min-width:425px) {
+    .tab-item1 a, .tab-item3 a, .tab-item4 a, .tab-item a, .tab-item0 a, .tab-item2 a {
+        text-align: center;
+        display: block;
+        padding: 13px 13px !important;
+        box-sizing: border-box;
+        position: relative;
+        transition: color .2s ease-in-out;
+        border: none;
+        box-shadow: none;
+        color: #fff;
+    }
+
+    .nav-link1 h4 {
+        font-size: 15px;
+    }
+}
     .tab-item a:hover, .tab-item0 a:hover, .tab-item2 a:hover, .tab-item1 a:hover, .tab-item3 a:hover, .tab-item4 a:hover {
         background-color: #6c98e1;
     }
@@ -1266,32 +1423,42 @@ body{
     /*----------------primaryschool-----------*/
 
     @media (max-width:480px) {
-        h1.library001, .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p, .teacher-one-third- {
-            margin-left: 0px !important;
-            margin-right: 0px !important;
+        h1.library001, .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p, .teacher-one-third,.content-element {
+            margin-left: 20px !important;
+            margin-right: 20px !important;
+        }
+        .custome-fucult-text, .heading-wrapper-paragraph p {
+            font-size: 19px;
+        }
+        .ok00{
+            margin-left:10px !important;
+            margin-right:10px !important;
         }
 
         .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p {
             margin-bottom: 30px !important;
         }
 
-        .teacher-one-third- {
-            margin-bottom: 40px;
-        }
+        
     }
 
     @media (min-width:480px) {
-        h1.library001, .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p, .teacher-one-third- {
-            margin-left: 0px;
-            margin-right: 0px;
+        h1.library001, .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p, .teacher-one-third, .content-element {
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+        .ok00 {
+            margin-left:20px !important;
+            margin-right:20px !important;
         }
 
         .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p {
             margin-bottom: 30px;
         }
 
-        .teacher-one-third- {
-            margin-bottom: 40px;
+        
+        .custome-fucult-text, .heading-wrapper-paragraph p {
+            font-size: 19px;
         }
     }
 
@@ -1302,94 +1469,80 @@ body{
             max-width: none;
         }
 
-        .custome-fucult-text {
-            margin-left: 0px;
-            margin-right: 0px;
+        h1.library001, .custome-fucult-text, .heading-wrapper, .heading-wrapper-paragraph p, .teacher-one-third {
+            margin-left: 30px;
+            margin-right: 30px;
         }
-
-        .heading-wrapper-paragraph p, .heading-wrapper, .teacher-one-third- {
-            margin-left: 0px;
-            margin-right: 0px;
-        }
-
-        .teacher-one-third- {
-            margin-bottom: 40px;
+        .custome-fucult-text, .heading-wrapper-paragraph p {
+            font-size: 19px;
         }
     }
 
     @media (min-width:576px) {
-        .col-sm-6, .container {
-            flex: none;
-            max-width: none;
+        .col-sm-6{
+            flex:0 0 100% !important;
+            max-width:100% !important
         }
+        
 
         .custome-fucult-text {
-            margin-left: 0px;
-            margin-right: -150px;
+            margin-left: 30px;
+            margin-right: -115px;
+        }
+        .custome-fucult-text, .heading-wrapper-paragraph p {
+            font-size: 19px;
         }
 
-        .heading-wrapper-paragraph p, .heading-wrapper, .teacher-one-third- {
-            margin-left: 0px;
-            margin-right: -80px;
+        .heading-wrapper-paragraph p, .heading-wrapper, .teacher-one-third {
+            margin-left: 30px;
+            margin-right: -115px;
         }
-
-        .teacher-one-third- {
-            margin-left: 70px;
-            margin-right: 0px;
-            width: 140%;
-            margin-top: 60px;
-        }
-
-        .heading-wrapper- {
-            margin-left: 0px;
-            margin-right: -180px;
-        }
-
-        .heading-wrapper-paragraph- {
-            margin-left: 0px;
-            margin-right: -250px;
+        .table{
+            margin-left:30px;
+            width:125%!important;
         }
     }
 
 
     @media (min-width:600px) {
-        .col-sm-6, .container {
-            flex: none;
-            max-width: none;
-        }
+        
 
         h1.library001, .custome-fucult-text {
-            margin-left: 0px;
-            margin-right: -135px;
-            margin-bottom: 15px !important;
+            margin-left: 30px;
+            
+            
         }
-
-        .teacher-one-third- {
-            margin-left: 70px;
-            margin-right: 0px;
-            width: 140%;
-            margin-top: 60px;
+        .content-element{
+            margin-left:30px;
         }
-
-        .heading-wrapper- {
-            margin-left: 0px;
-            margin-right: -180px;
+        
+        .heading-wrapper {
+            margin-left: 30px;
+            
         }
     }
 
     @media (min-width:768px) {
         .col-sm-6 {
-            flex: 0 0 50%;
+            flex: 0 0 50%!important;
+            max-width:100% !important;
         }
 
         .heading-wrapper-paragraph p {
-            margin-right: 0px !important;
-            margin-left: 0px !important;
+            margin-right: -17px;
+            margin-left: 0px ;
+        }
+        .ok00 {
+            margin-left: 20px !important;
+            margin-right: -120px !important;
         }
 
         .custome-fucult-text {
             margin-left: 50px;
             margin-right: -150px;
+        }
+        .content-element {
+            margin-left: 50px;
         }
 
         h1.library001 {
@@ -1398,17 +1551,31 @@ body{
         }
 
         .heading-wrapper {
-            margin-left: 50px !important;
+            margin-left: 50px;
+        }
+        .teacher-one-- {
+            margin-left: 50px;
+            margin-right: 0px;
+            width: 100% !important;
         }
 
+            .teacher-one-- img {
+                margin-top: -40px;
+            }
         .heading-wrapper-paragraph {
             margin-left: 50px;
             margin-right: 0px;
         }
 
-        .heading-wrapper-paragraph- {
+        .heading-wrapper-paragraph {
             margin-left: 50px;
-            margin-right: -400px;
+            
+        }
+        .teacher-one-third {
+            margin-top:50px;
+        }
+        .teacher-one-third-{
+            margin-top:300px;
         }
     }
 
@@ -1421,10 +1588,37 @@ body{
             margin-right: 0px !important;
             margin-left: 0px !important;
         }
-
+        .ok00 {
+            margin-left: 0px !important;
+            margin-right: 0px !important;
+        }
         .custome-fucult-text {
             margin-left: 0px;
             margin-right: 0px;
+        }
+        .teacher-one-third {
+            margin-left: 0px;
+            margin-right:0px;
+            width:175%!important;
+        }
+        .teacher-one-third-one {
+            width: 100% !important;
+            margin-top: 0px;
+        }
+        .teacher-one-- {
+            margin-left: 0px;
+            margin-right: 0px;
+            width: 100% !important;
+        }
+            .teacher-one-- img {
+                margin-top: -40px;
+            }
+
+        .table{
+            margin-left:0px;
+        }
+        .teacher-one-third-{
+            margin-top:170px;
         }
 
         h1.library001 {
@@ -1433,17 +1627,18 @@ body{
         }
 
         .heading-wrapper {
-            margin-left: 50px !important;
+            margin-left: 0px !important;
         }
 
         .heading-wrapper-paragraph {
-            margin-left: 50px;
+            margin-left: 0px;
             margin-right: 0px;
         }
+        
 
         .heading-wrapper-paragraph- {
-            margin-left: 50px;
-            margin-right: -400px;
+            margin-left: 0px;
+            margin-right: 0px;
         }
     }
 
@@ -1451,16 +1646,47 @@ body{
         .col-sm-6 {
             flex: 0 0 50%;
         }
-
+        .teacher-one-third img{
+            margin-left: 70px;
+            width:65%!important;
+        }
+        .ok00 {
+            margin-left: 50px !important;
+            margin-right: 0px !important;
+        }
+        .content-element{
+            margin-left:100px;
+        }
         .heading-wrapper-paragraph p {
             margin-right: -70px !important;
             margin-left: 50px !important;
         }
-
-        .teacher-one-third {
-            margin-left: 50px !important;
+        .heading-wrapper-paragraph- {
+            margin-right: 0px !important;
+            margin-left: 0px !important;
         }
 
+        .teacher-one-third- img {
+           
+            margin-left: 70px !important;
+            margin-top:-110px;
+        }
+        .teacher-one-third-one {
+            margin-left:-20px!important;
+            width: 140% !important;
+            margin-top:0px;
+        }
+        .teacher-one-- img ,.item{
+            margin-left: 50px;
+            margin-right: 0px;
+            width: 85% !important;
+        }
+        .teacher-one-- img {
+            margin-top: -40px;
+        }
+        .table {
+            margin-left: 50px;
+        }
         .custome-fucult-text {
             margin-left: 50px;
             margin-right: 0px;
@@ -1489,29 +1715,54 @@ body{
         .heading-wrapper-paragraph p {
             margin-right: 0px !important;
             margin-left: 0px !important;
-            font-size: 15px;
+            font-size: 19px;
+        }
+        .ok00 {
+            margin-left: 0px !important;
+            margin-right: 0px !important;
         }
 
         .heading-wrapper-paragraph00 p {
             margin-left: 0px !important;
             margin-right: 0px;
         }
-
-        .teacher-one-third {
+        .teacher-one-third img{
+            margin-left: 0px ;
+            margin-top:0px;
+            width:60% !important;
+        }
+        .teacher-one-third-one {
             margin-left: 0px !important;
-            margin-top: 40px !important;
+            width: 167% !important;
+            margin-top: 0px;
         }
 
-        .teacher-one-third- {
+        .teacher-one-third- img {
             margin-left: 0px !important;
-            margin-top: 40px !important;
-            margin-bottom: 40px !important;
+            margin-top: -150px !important;
+            width: 60% !important;
+            
+
+        }
+        .teacher-one-- img, .item {
+            margin-left: 0px;
+            margin-right: 0px;
+            width: 95% !important;
+            margin-top: 0px;
+        }
+        .teacher-one-- img {
+           
+            margin-top:-40px;
         }
 
+        .table {
+            margin-left: 0px;
+        }
+        
         .custome-fucult-text {
             margin-left: 0px;
             margin-right: 0px;
-            font-size: 15px;
+            font-size: 19px;
         }
 
         .heading-wrapper {
@@ -1520,7 +1771,7 @@ body{
 
         .heading-wrapper {
             padding-left: 0px;
-            margin-top: 40px;
+            margin-top: 60px;
             margin-bottom: 10px;
         }
 
@@ -1533,13 +1784,11 @@ body{
         }
 
         .content-element {
-            margin-left: 200px !important;
+            margin-left: 130px !important;
             margin-right: 0px !important;
         }
 
-        .ok00 {
-            margin-left: 70px !important;
-        }
+        
     }
 
 
@@ -1662,7 +1911,7 @@ body{
         font-style: normal;
         color: #ffffff;
         font-size: 60px;
-        margin-left: -15px;
+        margin-left: -20px;
     }
 
     @media (max-width:768px) {
@@ -1802,6 +2051,9 @@ body{
 
     .weekdays {
         margin-left: 20px;
+    }
+    .library-img{
+        margin-top:-150px!important;
     }
     
 
