@@ -26,7 +26,7 @@ namespace MalaikaSchool.Data.Models
         public string MotherName { get; set; }
 
 
-        [Required(ErrorMessage = "Required!")]
+        [Required(ErrorMessage = "Date Of Birth Required!")]
         [Display(Name = "Date of Birth")]
         public DateTime DateOfBirth { get; set; } = DateTime.Now;
           
@@ -35,26 +35,31 @@ namespace MalaikaSchool.Data.Models
         public virtual AppUser UserStudent { get; set; }
 
         [MaxLength(50)]
-        [Required(ErrorMessage = "Required!")]
+        [Required(ErrorMessage = "PresentAddress is Required!")]
         [Display(Name = "Present Address")]
         public string PresentAddress { get; set; }
 
         [MaxLength(50)]
-        [Required(ErrorMessage = "Required!")]
+        [Required(ErrorMessage = " Nationality is Required!")]
         public string Nationality { get; set; }
 
         [MaxLength(50)]
-        [Required(ErrorMessage = "Required!")]
+        [Required(ErrorMessage = "ParmanentAddress is  Required!")]
         [Display(Name = "Parmanent Address")]
         public string ParmanentAddress { get; set; }
-
+        [Required(ErrorMessage = "Student Class is  Required!")]
         public int? StudentClassId { get; set; }
         public virtual StudentClass StudentClass { get; set; }
-       [MaxLength(15)]
+
+        [Required(ErrorMessage = "Religion Field Required!")]
+        [MaxLength(15)]
         public string Religion { get; set; }
 
+        [Required(ErrorMessage = "Student image Required!")]
         public byte[] Image { get; set; }
+
         [MaxLength(10)]
+        [Required(ErrorMessage = "Gender Required!")]
         public string Gender { get; set; }
 
         public ICollection<PhoneNumber> PhoneNumber { get; set; }

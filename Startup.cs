@@ -1,8 +1,5 @@
 using Blazored.Modal;
 using Blazored.Toast;
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
 using MalaikaSchool.Areas.Identity;
 using MalaikaSchool.Data;
 using MalaikaSchool.Data.Models;
@@ -31,7 +28,7 @@ namespace MalaikaSchool
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-           
+
             services.AddDbContext<MalaikaDbContext>(options =>
              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -44,13 +41,8 @@ namespace MalaikaSchool
             services.AddScoped<StudentsService>();
             services.AddBlazoredToast();
             services.AddBlazoredModal();
-            services.AddBlazorise(option => {
-                     option.ChangeTextOnKeyPress = true;})
-                    .AddBootstrapProviders()
-                    .AddFontAwesomeIcons();
 
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -20,37 +20,41 @@
 @code {
     private StudentClass Model = new StudentClass();
 
+    [Parameter]
+    public EventCallback<StudentClass> AddedChanged { get; set; }
+    private async Task OnAddedClass()
+    {
+        await AddedChanged.InvokeAsync(Model);
 
+    }
     public async Task HandleValidSubmit()
     {
-
         StudentClass StudentClass = new StudentClass();
+
+        StudentClass = Model;
         try
         {
-            StudentClass = Model;
-            try
+            var result = await Service.CreateStudentClass(StudentClass);
+
+            if (result!=null)
             {
-                var result = await Service.CreateStudentClass(StudentClass);
+                toastService.ShowInfo("StudentClass Added");
+                await OnAddedClass();
                 // Clear the form.
-            
+
                 Model = new StudentClass();
 
-
             }
-            catch (Exception ex)
-            {
-
-            }
-            // Show the Toast.
-
-
-            toastService.ShowInfo("StudentClass Added");
+            toastService.ShowInfo("Class Creation Failed");
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //ToastContent = ex.GetBaseException().Message;
 
-            //await this.ToastObj.Show();
         }
+        // Show the Toast.
+
+
+
+
     }
 }

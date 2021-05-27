@@ -17,11 +17,11 @@
     <div class="box box-block bg-white ">
         <hr>
         <EditForm OnValidSubmit="@HandleValidSubmit" Model="@dent" Id="studentForm" class="col-md-7 m-auto">
-            @*<DataAnnotationsValidator />*@
-
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+
                 <div class="form-group">
                     <label for="Name" class="control-label">Student's Name</label>
                     <InputText for="Name" class="form-control" @bind-Value="@dent.Name" />

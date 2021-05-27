@@ -129,9 +129,11 @@ namespace MalaikaSchool.Data.Services
             Registering registering = new Registering();
             try
             {
-                InputModel modelInput = new InputModel();
-                modelInput.Email = Guardian.Email;
-                modelInput.Password = Guardian.StudentId.ToString();
+                InputModel modelInput = new InputModel
+                {
+                    Email = Guardian.Email,
+                    Password = Guardian.StudentId.ToString()
+                };
 
                 await registering.Custum_Register(modelInput);
                 _context.Guardian.Add(Guardian);
@@ -334,10 +336,11 @@ namespace MalaikaSchool.Data.Services
             }
         }
 
-        public async Task<StudentClass> GetStudentClass(int? id)
-        {
-            var g = await _context.StudentClass.AsNoTracking().Where(n => n.Id == id).FirstOrDefaultAsync();
-            return g;
+        public async Task<StudentClass> GetStudentClass(int id)
+        {  
+            
+            return await _context.StudentClass.AsNoTracking().Where(n => n.Id == id).FirstOrDefaultAsync();
+
         }
 
         public Task<bool> EditStudentClass(StudentClass StudentClass)
@@ -773,10 +776,15 @@ namespace MalaikaSchool.Data.Services
 
         public async Task<List<Exam>> ExamIndex()
         {
-            var Exam = _context.Exams.Include(n=>n.Student).Include(m=>m.StudentClass).AsNoTracking();
+
+            var Exam = _context.Exams.Include(n=>n.Student).Include(m=>m.StudentClass).Include(b=>b.Subject).AsNoTracking();
             return await Task.FromResult((Exam.ToList()));
         }
         //Create Exam
+
+
+
+     
         public async Task<Exam> CreateExam(Exam Exam)
         {
             try
@@ -795,7 +803,7 @@ namespace MalaikaSchool.Data.Services
 
         public async Task<Exam> GetExam(int? id)
         {
-            var g = await _context.Exams.AsNoTracking().Where(n => n.Id == id).FirstOrDefaultAsync();
+            var g = await _context.Exams.AsNoTracking().Include(m=>m.Student).Where(n => n.Id == id).FirstOrDefaultAsync();
             return g;
         }
 
