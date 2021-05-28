@@ -1,49 +1,79 @@
 ﻿@page "/Exam/Details/{Id:int}"
 @inherits OwningComponentBase<StudentsService>
 
-
-
-
-@if (Model!=null)
+@if (ShowConfirmationD)
 {
+    <div class="modal fade show d-block" id="DetailsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">@ConfirmationTitle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => noShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                @if (ModelDet.Student != null)
+                {
 
 
-    <div class="row">
-        <div class="box box-block bg-white col-md-6">
-            <h3>Details</h3>
-            <div>
+                    <div class="row">
+                        <div class="box box-block bg-white col-md-6">
+                         
+                            <div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"> Student Name:@ModelDet.Student.Name </li>
+                                    <li class="list-group-item"> Mark: @ModelDet.Mark </li>
+                                    <li class="list-group-item"> Grade: @ModelDet.Grade </li>
+                                </ul>
+                            </div>
+                        </div>
 
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"> Student Name:@Model.Student.Name </li>
-                    <li class="list-group-item"> Mark: @Model.Mark </li>
-                    <li class="list-group-item"> Grade: @Model.Grade </li>
-                </ul>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+
+                        <button href="/Exam/Edit/{Id:int}" class="btn btn-warning">Edit</button>
+                        <button class="btn btn-warning"       @onclick="() => noShow()">Back to List</button>
+
+                    </div>
+                }
             </div>
         </div>
-
-    </div>
-
-    <div class="d-flex justify-content-between">
-
-        <NavLink href="/Exam/Edit/{Id:int}" class="btn btn-warning">Edit</NavLink>
-        <NavLink href="/Exam/Index" class="btn btn-warning">Back to List</NavLink>
-
     </div>
 }
-    @code {
+@code {
 
-        [Parameter]
-        public int Id { get; set; }
-private Exam Model ;
+    [Parameter]
+    public Exam ModelDet { get; set; }
 
+    [Parameter]
+    public string ConfirmationTitle { get; set; } = "Show Details";
+    
 
-    protected override async Task OnInitializedAsync()
+    protected bool ShowConfirmationD { get; set; }
+
+    protected override Task OnInitializedAsync()
     {
-        Model = await Service.GetExam(Id);
+        
 
+        return base.OnInitializedAsync();
 
     }
 
+    public void noShow()
+    {
+        ShowConfirmationD = false;
+        StateHasChanged();
+
     }
+    public void Showing()
+    {
+        ShowConfirmationD = true;
+        StateHasChanged();
+
+    }
+}
 
 

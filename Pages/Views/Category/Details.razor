@@ -51,13 +51,15 @@
 
 
 
-    protected override async Task OnInitializedAsync()
+    protected override  Task OnInitializedAsync()
     {
         if (Id > 0)
         {
            
             imgUrl = $"data:png;base64,{Convert.ToBase64String(Model.Image)}";
         }
+        return base.OnInitializedAsync();
+
     }
 
 }

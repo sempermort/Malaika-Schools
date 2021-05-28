@@ -1,96 +1,167 @@
-﻿@page "/Events/Index"
-@using MalaikaSchool.Data.Models
+﻿
+@page "/Events/Index"
+@inherits OwningComponentBase<StudentsService>
 
-<h2>Index</h2>
 
-<p>
-    <NavLink href="/Events/Create">Create New</NavLink>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Event Type
-        </th>
 
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-<tr>
-    <td>
-        @item.Name
-    </td>
-    <td>
-        <NavLink href="@($"/Events/Edit/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>|
-        <NavLink href="@($"/Events/Details/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>|
-        <NavLink href="@($"/Events/Delete/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
-    </td>
 
-  
-</tr>
-    }
 
+
+<table id="" class="table b-datagrid">
+    <thead>
+        <tr>
+            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button></th>
+            <th style="cursor: pointer">Title</th>
+            <th style="cursor: pointer">Content</th>
+        </tr>
+        <tr>
+            <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td></td>
+                <td>
+                    @item.Title
+                </td>
+
+                <td>
+                    @item.Massege
+                </td>
+
+                
+
+                <td>
+                    <NavLink class=" btn btn-primary" href="@($"/Event/Edit/{item.Id}")" @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>
+                    <NavLink class=" btn btn-info" href="@($"/Event/Details/{item.Id}")" @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>
+                    <NavLink class=" btn btn-danger" href="@($"/Event/Delete/{item.Id}")" @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
+                </td>
+
+
+            </tr>
+
+
+
+        }
+    </tbody>
 </table>
-<div class="modal fade" id="GuardianTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="EventpleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content p-2">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                <h5 class="modal-title" id="EventpleModalLabel">Add New Class</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <Edit />
+                <Create />
             </div>
 
         </div>
     </div>
 </div>
-<div class="modal fade" id="GuardianTypeModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EventpleModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => NoShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
             </div>
-            <div class="modal-body">
-                <Details />
-            </div>
-
         </div>
     </div>
-</div>
-<div class="modal fade" id="GuardianTypeModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <Delete />
-            </div>
+}
 
-        </div>
-    </div>
-</div>
+
+
+<Details @ref="ShowingDetails" ModelDet="pepaDet"></Details>
+
+@*<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Event :\"{pepaDel.Title}\"")>
+</ConfirmDelete>*@
+
 @code {
 
-    private List<GuardianType> Model;
 
 
-    protected override Task OnInitializedAsync()
+    private List<Event> Model = new List<Event>();
+
+
+
+
+    //initial view
+    protected override async Task OnInitializedAsync()
     {
-        Model = new List<GuardianType>();
-
-
-        return base.OnInitializedAsync();
+        Model = await Service.EventIndex();
     }
+
+    protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
+    protected MalaikaSchool.Pages.Views.Events.Details ShowingDetails { get; set; }
+    protected bool ShowConfirmation { get; set; } = false;
+    private Event pepaDel = new Event();
+    private Event pepaDet = new Event();
+    private Event pepaEd = new Event();
+ 
+    //show Edit Dialog
+    private void show(Event pep)
+    {
+        pepaEd = pep;
+        ShowConfirmation = true;
+        StateHasChanged();
+    }
+    //close Edit Dialog
+    private void NoShow()
+    {
+        ShowConfirmation = false;
+        StateHasChanged();
+    }
+    //show Details
+    public void ShowDetails(Event pep)
+    {
+        pepaDet = pep;
+        //ShowingDetails.Showing();
+
+    }
+
+    //Show delete dialog
+    private void ClickDeleted(Event pep)
+    {
+        pepaDel = pep;
+        DeletedConfirmation.Show();
+        StateHasChanged();
+    }
+
+    //Confirm Deletion
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        if (deleteConfirmed)
+        {
+            await Service.EventDeleteConfirmed(pepaDel.Id);
+            Model = await Service.EventIndex();
+        }
+    }
+
+    //Confirm Edition
+    protected async Task ConfirmEdit_Event(bool value)
+    {
+        ShowConfirmation = value;
+        Model = await Service.EventIndex();
+
+    }
+ 
 
 }

@@ -9,7 +9,7 @@
 <div class="">
     <div class="box box-block bg-white ">
         <EditForm Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
-            @*<DataAnnotationsValidator />*@
+            <DataAnnotationsValidator />
             <div class="page-header">
                 <h1>
                     Add Class
@@ -20,7 +20,7 @@
 
             </div>
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
 
                 <div class="form-group">
                     <label for="StudentClass" class="control-label">Student Class</label>
@@ -131,7 +131,9 @@
             }
         }
         catch (Exception ex)
-        { }
+        {
+            Console.WriteLine(ex);
+        }
 
 
     }

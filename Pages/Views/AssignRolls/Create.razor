@@ -1,88 +1,89 @@
 ﻿@page "/AssignRolls/Create"
-@using MalaikaSchool.Data.Models
+
 
 
 <div class="row">
     <div class="box box-block bg-white col-md-6">
-        <form action="/AssignRolls/Create" method="post" id="SubmitForm"></form>
-            @*<DataAnnotationsValidator />*@
-        <div class="page-header">
-            <h1>
-                Roll Assigning of Student
-                <small>
-                    <i class="ace-icon fa fa-angle-double-right"></i>
-                    <NavLink href="/AssignRolls/Index" class="btn btn-warning">Back to List</NavLink>
-                </small>
-            </h1>
-        </div>
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="DesignatonForm" class="col-md-7 m-auto">
 
-        <div class="form-horizontal">
-               @*<ValidationSummary />*@
-
-
-
-            <div class="form-group">
-                <label for="Roll" class="control-label">Date</label>
-                <InputText for="Roll" class="form-control" bind="@Model.Roll" />
+            <DataAnnotationsValidator />
+            <div class="page-header">
+                <h1>
+                    Roll Assigning of Student
+                    <small>
+                        <i class="ace-icon fa fa-angle-double-right"></i>
+                        <NavLink href="/AssignRolls/Index" class="btn btn-warning">Back to List</NavLink>
+                    </small>
+                </h1>
             </div>
-            <div class="form-group">
-                <label for="SessionId" class="control-label">Session</label>
-                <select for="SessionId" class="form-control" bind="@Model.SessionId">
-                    <option value="">-- Select Class --</option>
-                    @if (sessions != null)
-                    {
-                        @foreach (var stc in sessions)
+
+            <div class="form-horizontal">
+                <ValidationSummary />
+
+
+
+                <div class="form-group">
+                    <label for="Roll" class="control-label">Date</label>
+                    <InputText for="Roll" class="form-control" bind="@Model.Roll" />
+                </div>
+                <div class="form-group">
+                    <label for="SessionId" class="control-label">Session</label>
+                    <select for="SessionId" class="form-control" bind="@Model.SessionId">
+                        <option value="">-- Select Class --</option>
+                        @if (sessions != null)
                         {
+                            @foreach (var stc in sessions)
+                            {
 
-                            <option value="@stc.Id">@stc.Name</option>
+                                <option value="@stc.Id">@stc.Name</option>
+                            }
                         }
-                    }
-                </select>
-
-            </div>
-
-            <div class="form-group">
-                <label for="StudentClassId" class="control-label">Student Class</label>
-                <select for="StudentClassId" class="form-control" bind="@Model.StudentClassId">
-                    <option value="">-- Select Class --</option>
-                    @if (studentClasses != null)
-                    {
-                        @foreach (var stc in studentClasses)
-                        {
-
-                            <option value="@stc.Id">@stc.ClassName</option>
-                        }
-                    }
-                </select>
-
-            </div>
-
-            <div class="form-group">
-                <label for="StudentId" class="control-label">Student</label>
-                <select for="StudentId" class="form-control" bind="@Model.StudentId">
-                    <option value="">-- Select Class --</option>
-                    @if (students != null)
-                    {
-                        @foreach (var stc in students)
-                        {
-                            <option value="@stc.Id">@stc.UserStudent.UserName</option>
-                        }
-                    }
-                </select>
-
-            </div>
-
-
-
-
-            <div class="form-group row">
-                <div class="col-md-offset-4 col-md-8">
-                    <input type="submit" class="btn btn-info" value="Create" onclick="SubmitData(this, event);" />
+                    </select>
 
                 </div>
-            </div>
-        </div>
 
+                <div class="form-group">
+                    <label for="StudentClassId" class="control-label">Student Class</label>
+                    <select for="StudentClassId" class="form-control" bind="@Model.StudentClassId">
+                        <option value="">-- Select Class --</option>
+                        @if (studentClasses != null)
+                        {
+                            @foreach (var stc in studentClasses)
+                            {
+
+                                <option value="@stc.Id">@stc.ClassName</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="StudentId" class="control-label">Student</label>
+                    <select for="StudentId" class="form-control" bind="@Model.StudentId">
+                        <option value="">-- Select Class --</option>
+                        @if (students != null)
+                        {
+                            @foreach (var stc in students)
+                            {
+                                <option value="@stc.Id">@stc.UserStudent.UserName</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+
+
+
+
+                <div class="form-group row">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" class="btn btn-info" value="Create" onclick="SubmitData(this, event);" />
+
+                    </div>
+                </div>
+            </div>
+        </EditForm>
     </div>
 </div>
 
@@ -96,7 +97,7 @@
     private List<Session> sessions;
     private List<Student> students;
     private List<StudentClass> studentClasses;
-
+    @inject RoleManager<IdentityRole> _userRole
     protected override Task OnInitializedAsync()
     {
         Model = new AssignRoll();
@@ -106,4 +107,34 @@
 
         return base.OnInitializedAsync();
     }
+    public async Task HandleValidSubmit(EditContext context)
+    {
+        IdentityRole role = new IdentityRole();
+        role.Name = Model.Roll;
+        AssignRoll AssignRoll = new AssignRoll();
+        try
+        {
+            AssignRoll = Model;
+            if (AssignRoll != null)
+            {
+                IdentityResult result = await _userRole.CreateAsync(role);
+
+
+                if (result != null)
+                {
+                    //NavigationManager.NavigateTo("/Designations/Index");
+                }
+            }
+            Model = new AssignRoll();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
+    }
+
 }

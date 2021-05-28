@@ -11,7 +11,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @ConfirmationMessage
+                  
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
@@ -35,8 +35,7 @@
     [Parameter]
     public string ConfirmationTitle { get; set; } = "Confirm Delete";
 
-    [Parameter]
-    public string ConfirmationMessage { get; set; } = "Are you sure you want to delete";
+
 
 
     [Parameter]
@@ -50,7 +49,6 @@
     public void Show()
     {
         ShowConfirmation = true;
-        //    StateHasChanged();
-        //
+        StateHasChanged();
     }
 }

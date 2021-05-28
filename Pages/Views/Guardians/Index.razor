@@ -1,84 +1,168 @@
 ﻿@page "/Guardians/Index"
-@using MalaikaSchool.Data.Models
 @inherits OwningComponentBase<StudentsService>
-@inject IModalService Modal
 
-<p>
-    <NavLink href="/Guardians/Create">Create New</NavLink>
-</p>
-<table class="table">
+<table id="" class="table b-datagrid">
     <thead>
         <tr>
-            <th>Guardian Name</th>
-            <th>Student Name</th>
-            <th> Relation</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>NID Number</th>
-            <th></th>
+          
+            <th scope="col"><input type="text" placeholder=" Search" class="form-control float-right"></th>
+
         </tr>
+        <tr>
+            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button></th>
+
+            <th style="cursor: pointer">Guardian Name</th>
+            <th style="cursor: pointer">Student Name</th>
+            <th style="cursor: pointer"> Relation</th>
+            <th style="cursor: pointer">Phone Number</th>
+            <th style="cursor: pointer">Email</th>
+            <th style="cursor: pointer">NID Number</th>
+        </tr>
+
     </thead>
-   
     <tbody>
-        @if (Model == null ||  students == null)
-        {
-            <div class="ace-spinner"></div>
-        }
-        else
-        {
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Name</td>
-                    <td>
 
-                        @foreach (var student in students)
-                        {
-                            @if (student.Id == item.StudentId)
-                            {
-                                @student.Name
-                            }
-                        }
-                    </td>
-                    <td>@item.GuardianType</td>
-                    <td>@item.PhoneNumber</td>
-                    <td>@item.Email</td>
-                    <td>@item.NID</td>
+        @foreach (var item in Model)
+{
 
-                    <td>
-                        <NavLink href="@($"/Guardians/Edit/{item.Id}")">Edit</NavLink> |
-                        <button class="btn btn-link" @onclick="()=>ClickDetailed(item.Id)">Details</button> |
-                        <button class="btn btn-link" @onclick="()=>ClickDeleted(item.Id)">Delete</button>
-                    </td>
-                </tr>
-            }
-        }
+        <tr>
+            <td></td>
+            <td>@item.Name</td>
+            <td>
+
+                @foreach (var student in item.Student)
+                                        {
+                @if (student.Id == item.StudentId)
+                                            {
+                @student.Name
+                                            }
+}
+            </td>
+            <td>@item.GuardianType</td>
+            <td>@item.PhoneNumber</td>
+            <td>@item.Email</td>
+            <td>@item.NID</td>
+
+            <td>
+                <button class=" btn btn-primary"  @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</button>
+                <button class=" btn btn-info"  @onclick="()=>ShowDetailsg(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</button>
+                <button class=" btn btn-danger"  @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</button>
+            </td>
+
+
+        </tr>
+
+
+
+}
     </tbody>
-
 </table>
+<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="GuardianpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="GuardianpleModalLabel">Add Guardian</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <GuardianCreate />
+            </div>
+
+        </div>
+    </div>
+</div>
+@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="GuardianpleModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => NoShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<Details @ref="GuardDetails"   ModelGuard="guardDet"/>
+
+<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Guardian:\"{pepaDel.Name}\"")/>
 
 @code {
 
     private List<Guardian> Model = new List<Guardian>();
-    private List<Student> students = new List<Student>();
 
-    private void ClickDetailed(int id)
-    {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Details.Id), id);
-        Modal.Show<Details>("Detail of Student", parameters);
-    }
 
-    private void ClickDeleted(int id)
-    {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Delete.Id), id);
-        Modal.Show<Delete>("Delete Student", parameters);
-    }
-
+    //initial view
     protected override async Task OnInitializedAsync()
     {
         Model = await Service.GuardianIndex();
-        students = await Service.Index();
+
     }
+
+    protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
+    protected MalaikaSchool.Pages.Views.Guardians.Details GuardDetails { get; set; }
+    protected bool ShowConfirmation { get; set; } = false;
+    private Guardian pepaDel = new Guardian();
+    private Guardian guardDet = new Guardian();
+    private Guardian pepaEd = new Guardian();
+
+    private void show(Guardian pep)
+    {
+        pepaEd = pep;
+        ShowConfirmation = true;
+        StateHasChanged();
+    }
+    //close Edit Dialog
+    private void NoShow()
+    {
+        ShowConfirmation = false;
+        StateHasChanged();
+    }
+    //show Details
+    public void ShowDetailsg(Guardian pep)
+    {
+        guardDet = pep;
+        //ShowingDetails.Showing();
+
+    }
+
+    //Show delete dialog
+    private void ClickDeleted(Guardian pep)
+    {
+
+        pepaDel = pep;
+        DeletedConfirmation.Show();
+        StateHasChanged();
+    }
+
+    //Confirm Deletion
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        if (deleteConfirmed)
+        {
+            await Service.GuardianDeleteConfirmed(pepaDel.Id);
+            Model = await Service.GuardianIndex();
+        }
+    }
+
+    //Confirm Edition
+    protected async Task ConfirmEdit_Click(bool value)
+    {
+        ShowConfirmation = value;
+        Model = await Service.GuardianIndex();
+
+    }
+
+
 }

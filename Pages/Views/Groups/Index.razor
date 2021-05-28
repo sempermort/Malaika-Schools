@@ -1,48 +1,151 @@
 ﻿@page "/Groups/Index"
-@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
 
-<h2>Index</h2>
 
-<p>
-    <NavLink href="/Groups/Create">Create New</NavLink>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Intake Name
-        </th>
-       
-        <th></th>
-    </tr>
+<table id="" class="table b-datagrid">
+    <thead>
+        <tr>
+            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button></th>
+            <th style="cursor: pointer">Intake</th>
+        </tr>
+        <tr>
+            <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+            <th scope="col"><input type="text" class="form-control"></th>>
+        </tr>
+    </thead>
+    <tbody>
 
-    @foreach (var item in Model)
-    {
-<tr>
-    <td>
-        @item.Name
-    </td>
-   
+        @foreach (var item in Model)
+        {
 
-    <td>
-        <NavLink href="/Groups/Edit/{Id:int}" @key="@item.Id">Edit</NavLink>|
-        <NavLink href="/Groups/Details" @key="@item.Id">Details</NavLink>|
-        <NavLink href="/Groups/Delete" @key="@item.Id">Delete</NavLink>
-    </td>
-</tr>
-    }
+            <tr>
+                <td></td>
+                <td>
+                    @item.Name
+                </td>
 
+                <td>
+                    <button class=" btn btn-primary"  @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</button>
+                    <button class=" btn btn-info"  @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</button>
+                    <button class=" btn btn-danger"  @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</button>
+                </td>
+
+
+            </tr>
+
+
+
+        }
+    </tbody>
 </table>
+<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="GrouppleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="GrouppleModalLabel">Add New Group</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <Create />
+            </div>
+
+        </div>
+    </div>
+</div>
+@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="GrouppleModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => NoShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<Details @ref="ShowingDetails" ModelDet="pepaDet"></Details>
+
+<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Group :\"{pepaDel.Name}\"")>
+</ConfirmDelete>
+
 @code {
 
-    private List<Group> Model;
+    private List<Group> Model=new List<Group>();
 
 
-    protected override  Task OnInitializedAsync()
+
+    //initial view
+    protected override async Task OnInitializedAsync()
     {
-        Model = new List<Group>();
-
-
-        return base.OnInitializedAsync();
+        Model = await Service.GroupIndex();
     }
+
+    protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
+    protected MalaikaSchool.Pages.Views.Groups.Details ShowingDetails { get; set; }
+    protected bool ShowConfirmation { get; set; } = false;
+    private Group pepaDel = new Group();
+    private Group pepaDet = new Group();
+    private Group pepaEd = new Group();
+
+    //show Edit Dialog
+    private void show(Group pep)
+    {
+        pepaEd = pep;
+        ShowConfirmation = true;
+        StateHasChanged();
+    }
+    //close Edit Dialog
+    private void NoShow()
+    {
+        ShowConfirmation = false;
+        StateHasChanged();
+    }
+    //show Details
+    public void ShowDetails(Group pep)
+    {
+        pepaDet = pep;
+        //ShowingDetails.Showing();
+
+    }
+
+    //Show delete dialog
+    private void ClickDeleted(Group pep)
+    {
+
+        pepaDel = pep;
+        DeletedConfirmation.Show();
+        StateHasChanged();
+    }
+
+    //Confirm Deletion
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        if (deleteConfirmed)
+        {
+            await Service.GroupDeleteConfirmed(pepaDel.Id);
+            Model = await Service.GroupIndex();
+        }
+    }
+
+    //Confirm Edition
+    protected async Task ConfirmEdit_Click(bool value)
+    {
+        ShowConfirmation = value;
+        Model = await Service.GroupIndex();
+
+    }
+    //filter classes
 
 }

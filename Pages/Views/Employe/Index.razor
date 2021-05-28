@@ -1,111 +1,204 @@
-﻿@using MalaikaSchool.Data.Services
+﻿
 @inherits OwningComponentBase<StudentsService>
-@using MalaikaSchool.Data.Models
 @page "/Employee/Index"
 
 
-<h2>Index</h2>
 
-<p>
-    <NavLink href="/Employee/Create">Create New</NavLink>
-</p>
-@if (@Model.Count > 0)
-{
-    <table class="table">
 
+<table id="" class="table b-datagrid">
+    <thead>
         <tr>
-
-            <th>
+            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button></th>
+     
+            <th style="cursor: pointer">
                 Name of Employee
             </th>
-            <th>
+            <th style="cursor: pointer">
                 Date of Birth
             </th>
-            <th>
+            <th style="cursor: pointer">
                 Religion
             </th>
-            <th>
+            <th style="cursor: pointer">
                 Marital Status
             </th>
-            <th>
+            <th style="cursor: pointer">
                 Nationality
             </th>
-            <th>
+            <th style="cursor: pointer">
                 NIDA
             </th>
             <th>
                 Current Address
             </th>
 
-            <th>
+            <th style="cursor: pointer">
                 Parmanent Address
             </th>
-
-
-            <th></th>
         </tr>
+        <tr>
+            <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+        </tr>
+    </thead>
+    <tbody>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.DOB
-                </td>
-                <td>
-                    @item.Religion
-                </td>
-                <td>
-                    @item.MaritalStatus
-                </td>
-                <td>
-                    @item.Nationality
-                </td>
-                <td>
-                    @item.NID
-                </td>
-                <td>
-                    @item.PresentAddress
-                </td>
 
-                <td>
-                    @item.PermanentAddress
-                </td>
+        <tr>
+            <td></td>
+
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.DOB
+            </td>
+            <td>
+                @item.Religion
+            </td>
+            <td>
+                @item.MaritalStatus
+            </td>
+            <td>
+                @item.Nationality
+            </td>
+            <td>
+                @item.NID
+            </td>
+            <td>
+                @item.PresentAddress
+            </td>
+
+            <td>
+                @item.PermanentAddress
+            </td>
+
+            <td>
+                <button class=" btn btn-primary" @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</button>
+                <button class=" btn btn-info" @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</button>
+                <button class=" btn btn-danger" @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</button>
+            </td>
 
 
-                <td>
-                    <NavLink href="@($"/Employee/Edit/{item.Id}")">Edit</NavLink> |
-                    <NavLink href="@($"/Employee/Details/{item.Id}")">Details</NavLink> |
-                    <NavLink href="@($"/Employee/Delete/{item.Id}")">Delete</NavLink> 
-                </td>
-            </tr>
+        </tr>
+
+
+
         }
+    </tbody>
+</table>
+<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="EmployeepleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EmployeepleModalLabel">Add New Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <Create />
+            </div>
 
-    </table>
-
-}
-else
-{
-
-    <div class="d-flex justify-content-center">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
         </div>
     </div>
-
+</div>
+@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EmployeepleModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => NoShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
+            </div>
+        </div>
+    </div>
 }
 
 
+
+<Details @ref="ShowingDetails" ModelDet="pepaDet"></Details>
+
+@*<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Class Period :\"{pepaDel.Name}\"")>
+</ConfirmDelete>*@
+
 @code {
+
 
     private List<Employee> Model = new List<Employee>();
 
 
+
+
+    //initial view
     protected override async Task OnInitializedAsync()
     {
         Model = await Service.EmployeeIndex();
     }
 
+    protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
+    protected MalaikaSchool.Pages.Views.Employe.Details ShowingDetails { get; set; }
+    protected bool ShowConfirmation { get; set; } = false;
+    private Employee pepaDel = new Employee();
+    private Employee pepaDet = new Employee();
+    private Employee pepaEd = new Employee();
+
+    //show Edit Dialog
+    private void show(Employee pep)
+    {
+        pepaEd = pep;
+        ShowConfirmation = true;
+        StateHasChanged();
+    }
+    //close Edit Dialog
+    private void NoShow()
+    {
+        ShowConfirmation = false;
+        StateHasChanged();
+    }
+    //show Details
+    public void ShowDetails(Employee pep)
+    {
+        pepaDet = pep;
+        //ShowingDetails.Showing();
+
+    }
+
+    //Show delete dialog
+    private void ClickDeleted(Employee pep)
+    {
+        pepaDel = pep;
+        DeletedConfirmation.Show();
+        StateHasChanged();
+    }
+
+    //Confirm Deletion
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        if (deleteConfirmed)
+        {
+            await Service.EmployeeDeleteConfirmed(pepaDel.Id);
+            Model = await Service.EmployeeIndex();
+        }
+    }
+
+    //Confirm Edition
+    protected async Task ConfirmEdit_Click(bool value)
+    {
+        ShowConfirmation = value;
+        Model = await Service.EmployeeIndex();
+
+    }
+
+
 }
+

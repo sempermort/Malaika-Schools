@@ -8,10 +8,10 @@
       
         <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianTypeForm" class="col-md-7 m-auto">
 
-
+            <DataAnnotationsValidator />
 
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
 
                 <div class="form-Group">
                     <label for="Name" class="control-label">Guardian Type</label>
@@ -22,9 +22,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Save " data-dismiss="modal" @onclick="@(() => toastService.ShowSuccess("Yor Guardian Type is added Successfuly!"))"/>
+                <input type="submit" class="btn btn-primary" value="Save " data-dismiss="modal" @onclick="@(() => toastService.ShowSuccess("Yor Guardian Type is added Successfuly!"))" />
             </div>
-          
+
         </EditForm>
     </div>
 </div>

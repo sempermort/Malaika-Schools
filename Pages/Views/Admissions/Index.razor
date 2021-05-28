@@ -1,8 +1,8 @@
-﻿@page "/Exam/Index"
+﻿@page "/Admissions/Index"
 @inherits OwningComponentBase<StudentsService>
 
 
-@if (Classes.Count > 0)
+@*@if (Classes.Count > 0)
 {
     <div class="d-flex justify-content-around">
         <div class="form-group w-25">
@@ -42,10 +42,10 @@
             </div>
         </div>
         <div class="form-group w-25">
-            <label for="StudentClass" class="control-label">Exams</label>
+            <label for="StudentClass" class="control-label">Admissions</label>
             <div class="d-flex">
-                <select class="form-control" @oninput="(e => SomeMethod3(e))" @bind="@ExamTitleId">
-                    <option value="0">Select Exams</option>
+                <select class="form-control" @oninput="(e => SomeMethod3(e))" @bind="@AdmissionTitleId">
+                    <option value="0">Select Admissions</option>
 
                     @if (ETitles != null)
                     {
@@ -59,7 +59,7 @@
             </div>
         </div>
     </div>
-}
+    }*@
 
 
 
@@ -71,6 +71,25 @@
             <th style="cursor: pointer">Name</th>
             <th style="cursor: pointer">Marks</th>
             <th style="cursor: pointer">Grade</th>
+
+            <th style="cursor: pointer">
+                Student Name
+            </th>
+            <th style="cursor: pointer">
+                Admission Date
+            </th>
+            <th style="cursor: pointer">
+                Session
+            </th>
+            <th style="cursor: pointer">
+                Previous School
+            </th>
+            <th style="cursor: pointer">
+                Previous School Address
+            </th>
+            <th style="cursor: pointer">
+                PreviousSchoolDocument
+            </th>
         </tr>
         <tr>
             <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
@@ -84,63 +103,60 @@
         @foreach (var item in Model)
         {
 
-            <tr>
-                <td></td>
-                <td>
-                    @item.Student.Name
-                </td>
+        <tr>
+            <td></td>
+            <td>
+                @item.Students.Select(n => n.Name)
+            </td>
+            <td>
+                @item.AdmissionDate
+            </td>
+            <td>
+                @item.Session.Name
+            </td>
+            <td>
+                @item.PreviousSchool
+            </td>
+            <td>
+                @item.PreviousSchoolAddrs
+            </td>
+            <td>
+                @if (item.PreviousSchoolDocument != null)
+                {
+                    var base64 = Convert.ToBase64String(item.PreviousSchoolDocument);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <img src='@imgSrc' style="max-width:100px; max-height:100px;" />
+                }
+            </td>
 
-                <td>
-                    @item.Mark
-                </td>
-
-                <td>
-                    @item.Grade
-                </td>
-
-                <td>
-                    <NavLink class=" btn btn-primary" href="@($"/Exam/Edit/{item.Id}")" @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>
-                    <NavLink class=" btn btn-info" href="@($"/Exam/Details/{item.Id}")" @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>
-                    <NavLink class=" btn btn-danger" href="@($"/Exam/Delete/{item.Id}")" @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
-                </td>
+            <td>
+                <button class=" btn btn-primary"  @onclick="() => show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</button>
+                <button class=" btn btn-info" @onclick="() => ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</button>
+                <button class=" btn btn-danger"  @onclick="() => ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</button>
+            </td>
 
 
-            </tr>
+        </tr>
 
 
 
         }
     </tbody>
 </table>
-<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content p-2">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add New Class</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <Create />
-            </div>
 
-        </div>
-    </div>
-</div>
-@if (ShowConfirmation)
+@*@if (ShowConfirmation)
 {
     <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                    <h5 class="modal-title" id="AdmissionpleModalLabel">Edit</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                             @onclick="() => NoShow()">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
+                <Edit ModelEdt="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
             </div>
         </div>
     </div>
@@ -148,44 +164,31 @@
 
 
 
-<Details @ref="ShowingDetails" ModelDet="pepaDet"></Details>
+<Details @ref="ShowingDetails" ModelAdm="pepaDet"></Details>
 
-<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
-               ConfirmationMessage=@($"Are you sure you want to delete Student : \"{Studenty}\" Subject :\"{Subjecty}\" Mark :\"{pepaDel.Mark}\"")>
-</ConfirmDelete>
+<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDeleteAdm_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Student : \"{pepaDet.StudentId}\"")>
+</ConfirmDelete>*@
 
 @code {
-
-
     private List<StudentClass> Classes = new List<StudentClass>();
-    private List<Exam> Model = new List<Exam>();
-    private List<Subject> ClassSubject;
-
-    private List<ExamType> ETitles;
-    private int StudentClassId;
-    private int ClassSubjectId;
-    private int ExamTitleId;
-
-
+    private List<Admission> Model = new List<Admission>();
 
     //initial view
     protected override async Task OnInitializedAsync()
     {
-        Model = await Service.ExamIndex();
-        ETitles = await Service.ExamTypeIndex();
+        Model = await Service.AdmissionIndex();
         Classes = await Service.StudentClassIndex();
     }
 
     protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
-    protected MalaikaSchool.Pages.Views.Exam.Details ShowingDetails { get; set; }
     protected bool ShowConfirmation { get; set; } = false;
-    private Exam pepaDel = new Exam();
-    private Exam pepaDet = new Exam();
-    private Exam pepaEd = new Exam();
-    private string Studenty;
-    private string Subjecty;
+    private Admission pepaDel = new Admission();
+    private Admission pepaDet = new Admission();
+    private Admission pepaEd = new Admission();
+
     //show Edit Dialog
-    private void show(Exam pep)
+    private void show(Admission pep)
     {
         pepaEd = pep;
         ShowConfirmation = true;
@@ -198,30 +201,28 @@
         StateHasChanged();
     }
     //show Details
-    public void ShowDetails(Exam pep)
+    public void ShowDetails(Admission pep)
     {
         pepaDet = pep;
-        ShowingDetails.Showing();
+        //ShowingDetails.Showing();
 
     }
 
     //Show delete dialog
-    private void ClickDeleted(Exam pep)
+    private void ClickDeleted(Admission pep)
     {
-        Studenty = pep.Student.Name;
-        Subjecty = pep.Subject.Name;
         pepaDel = pep;
         DeletedConfirmation.Show();
         StateHasChanged();
     }
 
     //Confirm Deletion
-    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    protected async Task ConfirmDeleteAdm_Click(bool deleteConfirmed)
     {
         if (deleteConfirmed)
         {
-            await Service.ExamDeleteConfirmed(pepaDel.Id);
-            Model = await Service.ExamIndex();
+            await Service.AdmissionDeleteConfirmed(pepaDel.Id);
+            Model = await Service.AdmissionIndex();
         }
     }
 
@@ -229,32 +230,7 @@
     protected async Task ConfirmEdit_Click(bool value)
     {
         ShowConfirmation = value;
-        Model = await Service.ExamIndex();
-
-    }
-    //filter classes
-    protected async Task SomeMethod(ChangeEventArgs e)
-    {
-        ExamTitleId = 0;
-        ClassSubjectId = 0;
-        var subjects = await Service.SubjectIndex();
-        ClassSubject = subjects.Where(n => n.StudentClassId == Convert.ToInt32(e.Value)).ToList();
-
-    }
-    //filter subjects
-    protected async Task SomeMethod2(ChangeEventArgs e)
-    {
-
-
-        var Exams = await Service.ExamIndex();
-        Model = Exams.Where(n => n.SubjectId == Convert.ToInt32(e.Value)).ToList();
-
-    }
-    //filter Examtypes
-    protected void SomeMethod3(ChangeEventArgs e)
-    {
-
-        Model = Model.Where(n => n.ExamTypeId == Convert.ToInt32(e.Value)).ToList();
+        Model = await Service.AdmissionIndex();
 
     }
 

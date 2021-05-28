@@ -32,15 +32,8 @@ namespace MalaikaSchool.Data.Services
         //Create Student
         public async Task<Student> CreateStudent(Student student)
         {
-         
-         
             try
             {
-                //InputModel modelInput = new InputModel();
-                //modelInput.Email = student.Email;
-                //modelInput.Password = student.StudentId.ToString();
-
-                //await registering.Custum_Register(modelInput);
                 _context.Student.Add(student); 
                 _context.SaveChanges(); 
                 return await Task.FromResult(student);
@@ -126,16 +119,9 @@ namespace MalaikaSchool.Data.Services
         //Create Guardian
         public async Task<Guardian> CreateGuardian(Guardian Guardian)
         {
-            Registering registering = new Registering();
+         
             try
             {
-                InputModel modelInput = new InputModel
-                {
-                    Email = Guardian.Email,
-                    Password = Guardian.StudentId.ToString()
-                };
-
-                await registering.Custum_Register(modelInput);
                 _context.Guardian.Add(Guardian);
                 _context.SaveChanges();
                 return await Task.FromResult(Guardian);
@@ -331,6 +317,7 @@ namespace MalaikaSchool.Data.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 DetachAllEntities();
                 throw;
             }
@@ -395,6 +382,7 @@ namespace MalaikaSchool.Data.Services
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 DetachAllEntities();
                 throw;
             }
@@ -728,6 +716,7 @@ namespace MalaikaSchool.Data.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 DetachAllEntities();
                 throw;
             }
@@ -796,6 +785,7 @@ namespace MalaikaSchool.Data.Services
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 DetachAllEntities();
                 throw;
             }

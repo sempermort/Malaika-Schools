@@ -33,7 +33,7 @@
     protected bool ShowConfirmation { get; set; }
 
     [Parameter]
-    public string ConfirmationTitle { get; set; } = "Confirm Delete";
+    public string ConfirmationTitle { get; set; } = "Edit";
 
     [Parameter]
     public string ConfirmationMessage { get; set; } = "Are you sure you want to delete";
@@ -50,7 +50,6 @@
     public void Show()
     {
         ShowConfirmation = true;
-        //    StateHasChanged();
-        //
+        StateHasChanged();
     }
 }

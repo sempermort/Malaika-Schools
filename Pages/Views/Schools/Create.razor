@@ -17,11 +17,11 @@
     </div>
     <div class="box box-block bg-white col-md-6">
         <form action="/JobInfo/Create" method="post" id="SubmitForm">
-                @*<DataAnnotationsValidator />*@
+                <DataAnnotationsValidator />
 
 
             <div class="form-horizontal">
-                   @*<ValidationSummary />*@
+                   <ValidationSummary />
                 <div class="form-group">
                     <label for="ClassNameId" class="control-label">Student Class</label>
                     <select for="ClassIdNameId" class="form-control" bind="@Model.DesignationId">

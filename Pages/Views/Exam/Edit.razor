@@ -17,11 +17,12 @@
         </h1>
     </div>
     <hr>
+    @if (Model.Student != null) { 
     <div class="box box-block bg-white ">
         <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
             <DataAnnotationsValidator />
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
                 <div class="d-flex justify-content-between">
                     <div class="form-group col-md-6 pl-0">
                         <label for="StudentClassId" class="control-label">Student Class</label>
@@ -120,6 +121,7 @@
             </div>
         </div>
     </div>
+    }
 </div>
 
 
@@ -131,19 +133,19 @@
 
     @inject NavigationManager NavigationManager
     [Parameter]
-    private Exam Model = new Exam();
+    public Exam ModelEd  { get; set; }
     private List<ExamType> ExamTypes = new List<ExamType>();
     private List<StudentClass> studentClasses = new List<StudentClass>();
     private List<Subject> Subjects = new List<Subject>();
     private List<Student> students = new List<Student>();
-
+    private Exam Model = new Exam();
 
 
     [Parameter]
     public EventCallback<bool> ConfirmationChanged { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        Model =  remodel;
+        Model = ModelEd;
         students = await Service.Index();
         studentClasses = await Service.StudentClassIndex();
         Subjects = await Service.SubjectIndex();
@@ -153,8 +155,9 @@
     }
     protected async Task OnConfirmationChange()
     {
-        ShowConfirmation = false;
-        await ConfirmationChanged.InvokeAsync();
+        bool value = false;
+
+        await ConfirmationChanged.InvokeAsync(value);
     }
     private async Task Getclass()
     {
@@ -171,13 +174,11 @@
 
             var result = await Service.EditExam(Exam);
             // Clear the form.
-            if (result != null)
-            {
 
-                toastService.ShowInfo("Exam Added");
-                await  OnConfirmationChange();
+            toastService.ShowInfo("Exam Added");
+            await  OnConfirmationChange();
 
-            }
+
             Model = new Exam();
             // Show the Toast.
 

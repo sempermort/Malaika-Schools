@@ -125,24 +125,23 @@
             </tbody>
         </table>
     }
-    else { 
+    else {
 <div class="text-center text-black-50">
 
     <h3 class="mt-4">No Record Found</h3>
 
 </div>
 
-    
+
     }
 
 </div>
 
 @code {
     private List<ExamType> ETitles;
-    private List<Subject> ClassSubject;
-    private int ClassSubjectId;
-    private int StudentClassId;
-    private int ExamTitleId;
+    private int ClassSubjectId { get; set; }
+    private int StudentClassId { get; set; }
+    private int ExamTitleId { get; set; }
     private List<Exam> Models = new List<Exam>();
     private List<StudentClass> Classes = new List<StudentClass>();
 

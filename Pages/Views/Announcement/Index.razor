@@ -1,96 +1,263 @@
 ﻿@page "/Announcement/Index"
-@using MalaikaSchool.Data.Models
 
-<h2>Index</h2>
+@inherits OwningComponentBase<StudentsService>
 
-<p>
-    <NavLink href="/Announcement/Create">Create New</NavLink>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Guardian Type
-        </th>
 
-        <th></th>
-    </tr>
+@if (Classes.Count > 0)
+{
+<div class="d-flex justify-content-around">
+    <div class="form-group w-25">
+        <label for="StudentClass" class="control-label">Student Class</label>
+        <div class="d-flex">
+            <select class="form-control" @oninput="(e => SomeMethod(e))" @bind="@StudentClassId">
+                <option value="0">Class Room</option>
 
-    @foreach (var item in Model)
-    {
-<tr>
-    <td>
-        @item.Name
-    </td>
-    <td>
-        <NavLink href="@($"/Announcement/Edit/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>|
-        <NavLink href="@($"/Announcement/Details/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>|
-        <NavLink href="@($"/Announcement/Delete/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
-    </td>
+                @if (Classes != null)
+                                                    {
+                @foreach (var stc in Classes)
+                                                        {
+                <option value="@stc.Id">@stc.ClassName</option>
+                                                        }
+}
+            </select>
 
-  
-</tr>
-    }
+        </div>
+    </div>
 
-</table>
-<div class="modal fade" id="GuardianTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <Edit />
-            </div>
+
+    <div class="form-group w-25">
+        <label for="StudentClass" class="control-label">Subject</label>
+        <div class="d-flex">
+            <select class="form-control" @oninput="(e => SomeMethod2(e))" @bind="@ClassSubjectId">
+                <option value="0">Select Subject</option>
+
+                @if (ClassSubject != null)
+{
+                    @foreach (var stc in ClassSubject)
+                    {
+                        <option value="@stc.Id">@stc.Name  Code: @stc.Code</option>
+                    }
+}
+            </select>
+
+        </div>
+    </div>
+    <div class="form-group w-25">
+        <label for="StudentClass" class="control-label">Exams</label>
+        <div class="d-flex">
+            <select class="form-control" @oninput="(e => SomeMethod3(e))" @bind="@ExamTitleId">
+                <option value="0">Select Exams</option>
+
+                @if (ETitles != null)
+{
+                    @foreach (var stc in ETitles)
+                    {
+                        <option value="@stc.Id">@stc.ExType</option>
+                    }
+}
+            </select>
 
         </div>
     </div>
 </div>
-<div class="modal fade" id="GuardianTypeModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <Details />
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="GuardianTypeModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <Delete />
-            </div>
-
-        </div>
-    </div>
-</div>
-@code {
-
-    private List<GuardianType> Model;
+}
 
 
-    protected override Task OnInitializedAsync()
-    {
-        Model = new List<GuardianType>();
 
 
-        return base.OnInitializedAsync();
-    }
+<table id="" class="table b-datagrid">
+    <thead>
+        <tr>
+            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button></th>
+            <th style="cursor: pointer">Name</th>
+            <th style="cursor: pointer">Marks</th>
+            <th style="cursor: pointer">Grade</th>
+        </tr>
+        <tr>
+            <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+{
+
+            <tr>
+                <td></td>
+                <td>
+                    @item.Student.Name
+                </td>
+
+                <td>
+                    @item.Mark
+                </td>
+
+                <td>
+                    @item.Grade
+                </td>
+
+                <td>
+                    <button class=" btn btn-primary"  @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</button>
+                    <button class=" btn btn-info"  @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</button>
+                    <button class=" btn btn-danger"  @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</button>
+                </td>
+
+
+            </tr>
+
+
 
 }
+    </tbody>
+</table>
+<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <Create />
+            </div>
+
+        </div>
+    </div>
+</div>
+@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => NoShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<Details @ref="ShowingAnnouncement" ModelDet="pepaDet"></Details>
+
+<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Student : \"{Studenty}\" Subject :\"{Subjecty}\" Mark :\"{pepaDel.Mark}\"")>
+</ConfirmDelete>
+
+@code {
+
+private List<StudentClass> Classes = new List<StudentClass>();
+private List<Exam> Model = new List<Exam>();
+private List<Subject> ClassSubject;
+
+private List<ExamType> ETitles;
+private int StudentClassId;
+private int ClassSubjectId;
+private int ExamTitleId;
+
+
+
+//initial view
+protected override async Task OnInitializedAsync()
+{
+        Model = await Service.ExamIndex();
+        ETitles = await Service.ExamTypeIndex();
+        Classes = await Service.StudentClassIndex();
+}
+
+protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
+protected MalaikaSchool.Pages.Views.Announcement.Details ShowingAnnouncement { get; set; }
+protected bool ShowConfirmation { get; set; } = false;
+private Exam pepaDel = new Exam();
+private Exam pepaDet = new Exam();
+private Exam pepaEd = new Exam();
+private string Studenty;
+private string Subjecty;
+//show Edit Dialog
+private void show(Exam pep)
+{
+        pepaEd = pep;
+        ShowConfirmation = true;
+        StateHasChanged();
+}
+//close Edit Dialog
+private void NoShow()
+{
+        ShowConfirmation = false;
+        StateHasChanged();
+}
+//show Details
+public void ShowDetails(Exam pep)
+{
+        pepaDet = pep;
+        ShowingAnnouncement.Showing();
+
+}
+
+//Show delete dialog
+private void ClickDeleted(Exam pep)
+{
+        Studenty = pep.Student.Name;
+        Subjecty = pep.Subject.Name;
+        pepaDel = pep;
+        DeletedConfirmation.Show();
+        StateHasChanged();
+}
+
+//Confirm Deletion
+protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+{
+        if (deleteConfirmed)
+        {
+            await Service.ExamDeleteConfirmed(pepaDel.Id);
+            Model = await Service.ExamIndex();
+        }
+}
+
+//Confirm Edition
+protected async Task ConfirmEdit_Click(bool value)
+{
+        ShowConfirmation = value;
+        Model = await Service.ExamIndex();
+
+}
+//filter classes
+protected async Task SomeMethod(ChangeEventArgs e)
+{
+        ExamTitleId = 0;
+        ClassSubjectId = 0;
+        var subjects = await Service.SubjectIndex();
+        ClassSubject = subjects.Where(n => n.StudentClassId == Convert.ToInt32(e.Value)).ToList();
+
+}
+//filter subjects
+protected async Task SomeMethod2(ChangeEventArgs e)
+{
+
+
+        var Exams = await Service.ExamIndex();
+        Model = Exams.Where(n => n.SubjectId == Convert.ToInt32(e.Value)).ToList();
+
+}
+//filter Examtypes
+protected void SomeMethod3(ChangeEventArgs e)
+{
+
+        Model = Model.Where(n => n.ExamTypeId == Convert.ToInt32(e.Value)).ToList();
+
+}
+
+}
+
+

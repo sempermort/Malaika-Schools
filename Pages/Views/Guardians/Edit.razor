@@ -18,11 +18,11 @@
     </div>
     <div class="box box-block bg-white col-md-6">
         <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
-            @*<DataAnnotationsValidator />*@
+            <DataAnnotationsValidator />
 
 
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
 
                 <input type="hidden" for="Id" @bind="Model.Id">
 
@@ -89,7 +89,10 @@
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public Guardian ModelEd { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ConfirmationChanged { get; set; }
     public bool isLoading;
     string exceptionMessage;
     string imgUrl = string.Empty;
@@ -100,7 +103,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await Service.GetGuardian(Id);
+        Model = ModelEd;
         guardianTypes = new List<GuardianType>();
         students = await Service.Index();
         imgUrl = $"data:png;base64,{Convert.ToBase64String(Model.Image)}";

@@ -1,7 +1,5 @@
 ﻿@page "/Admissions/Edit/{Id:int}"
-@using MalaikaSchool.Data.Models
-@using MalaikaSchool.Data.Enum
-@using MalaikaSchool.Data.Services
+
 @inherits OwningComponentBase<StudentsService>
 
 
@@ -18,15 +16,13 @@
         </h1>
     </div>
     <div class="box box-block bg-white ">
-        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
-            @*<DataAnnotationsValidator />*@
-
-
+        <EditForm OnValidSubmit="@HandleValidSubmit" ModelEdt="@ModelEdt" Id="studentForm" class="col-md-7 m-auto">
+            <DataAnnotationsValidator />
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
                 <div class="form-group">
                     <label for="StudentId" class="control-label">Student</label>
-                    <InputSelect for="StudentId" class="form-control" @bind-Value="@Model.StudentId">
+                    <InputSelect for="StudentId" class="form-control" @bind-Value="@ModelEdt.StudentId">
                         <option value="@dent.Id">@dent.Name</option>
                         @if (students != null)
                         {
@@ -41,14 +37,14 @@
 
                 <div class="form-group">
                     <label for="AdmissionDate" class="control-label">Admission Date</label>
-                    <input for="AdmissionDate" type="date" class="form-control" @bind="@Model.AdmissionDate" />
+                    <input for="AdmissionDate" type="date" class="form-control" @bind="@ModelEdt.AdmissionDate" />
 
                 </div>
 
                 <div class="form-group">
                     <label for="StudentClassid" class="control-label">Student Class</label>
                     <div class=" d-flex">
-                        <InputSelect for="StudentClassId" class="form-control" @bind-Value="@Model.StudentClassId">
+                        <InputSelect for="StudentClassId" class="form-control" @bind-Value="@ModelEdt.StudentClassId">
                             <option value="">-- Select Class --</option>
                             @if (classes != null)
                             {
@@ -66,7 +62,7 @@
                 </div>
                 <div class="form-group">
                     <label for="GroupId" class="control-label">Group</label>
-                    <select for="GroupId" class="form-control" @bind="@Model.GroupId">
+                    <select for="GroupId" class="form-control" @bind="@ModelEdt.GroupId">
                         <option value="">-- Select Group --</option>
                         @if (groups != null)
                         {
@@ -82,12 +78,12 @@
 
                 <div class="form-group">
                     <label for="PreviousSchool" class="control-label">Name of Previous School</label>
-                    <input for="PreviousSchool" class="form-control" @bind="@Model.PreviousSchool" />
+                    <input for="PreviousSchool" class="form-control" @bind="@ModelEdt.PreviousSchool" />
                 </div>
 
                 <div class="form-group">
                     <label for="PreviousSchoolAddrs" class="control-label">Previous School Address</label>
-                    <input for="PreviousSchoolAddrs" class="form-control" @bind="@Model.PreviousSchoolAddrs" />
+                    <input for="PreviousSchoolAddrs" class="form-control" @bind="@ModelEdt.PreviousSchoolAddrs" />
                 </div>
 
                 <div class="form-group">
@@ -104,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            </EditForm>
+        </EditForm>
 
     </div>
 </div>
@@ -114,14 +110,16 @@
 
 @code {
     public int Id { get; set; }
-    private Admission Model = new Admission();
+    [Parameter]
+    public Admission ModelEdt { get; set; }
     private Student dent = new Student();
     private List<Student> students = new List<Student>();
     private List<StudentClass> classes = new List<StudentClass>();
     private List<Group> groups = new List<Group>();
+
     protected override async Task OnInitializedAsync()
     {
-        Model.StudentId = dent.Id;
+        ModelEdt.StudentId = dent.Id;
         classes = await Service.StudentClassIndex();
         groups = await Service.GroupIndex();
         students = await Service.Index();
@@ -134,7 +132,7 @@
         Admission Admission = new Admission();
         try
         {
-            Admission = Model;
+            Admission = ModelEdt;
 
             var result = Service.EditAdmission(Admission);
 

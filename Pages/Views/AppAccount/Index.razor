@@ -1,44 +1,101 @@
-﻿@page "/AppAccount/Index"
-@using MalaikaSchool.Data.Services
+﻿@*@page "/AppAccount/Index"
 @inherits OwningComponentBase<StudentsService>
 @inject IModalService Modal
 
 
-<p>
-    <NavLink href="/AppAccount/Create">Create New</NavLink>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Student Name
-        </th>
-        <th>
-            Class
-        </th>
-        <th>
-            Date
-        </th>
+@if (Classes.Count > 0)
+{
+    <div class="d-flex justify-content-around">
+        <div class="form-group w-25">
+            <label for="StudentClass" class="control-label">Student Class</label>
+            <div class="d-flex">
+                <select class="form-control" @oninput="(e => SomeMethod(e))" @bind="@StudentClassId">
+                    <option value="0">Class Room</option>
 
-        <th>
-            Fee Type
-        </th>
-        <th>
-            Opening Balance
-        </th>
-        <th>
-            Current Balance
-        </th>
-        <th>
-            Total Due
-        </th>
+                    @if (Classes != null)
+                    {
+                        @foreach (var stc in Classes)
+                        {
+                            <option value="@stc.Id">@stc.ClassName</option>
+                        }
+                    }
+                </select>
+
+            </div>
+        </div>
 
 
-        <th></th>
-    </tr>
+        <div class="form-group w-25">
+            <label for="StudentClass" class="control-label">Subject</label>
+            <div class="d-flex">
+                <select class="form-control" @oninput="(e => SomeMethod2(e))" @bind="@ClassSubjectId">
+                    <option value="0">Select Subject</option>
 
-    @foreach (var item in Model)
-    {
+                    @if (ClassSubject != null)
+                    {
+                        @foreach (var stc in ClassSubject)
+                        {
+                            <option value="@stc.Id">@stc.Name  Code: @stc.Code</option>
+                        }
+                    }
+                </select>
+
+            </div>
+        </div>
+        <div class="form-group w-25">
+            <label for="StudentClass" class="control-label">AppAccounts</label>
+            <div class="d-flex">
+                <select class="form-control" @oninput="(e => SomeMethod3(e))" @bind="@AppAccountTitleId">
+                    <option value="0">Select AppAccounts</option>
+
+                    @if (ETitles != null)
+                    {
+                        @foreach (var stc in ETitles)
+                        {
+                            <option value="@stc.Id">@stc.ExType</option>
+                        }
+                    }
+                </select>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+<table id="" class="table b-datagrid">
+    <thead>
         <tr>
+            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button></th>
+            <th style="cursor: pointer">Student Name</th>
+            <th style="cursor: pointer">Class</th>
+            <th style="cursor: pointer">Date</th>
+            <th style="cursor: pointer">Fee Type</th>
+            <th style="cursor: pointer">Opening Balance</th>
+            <th style="cursor: pointer">Current Balance</th>
+            <th style="cursor: pointer">Total Due</th>
+        </tr>
+        <tr>
+            <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+
+        <tr>
+            <td></td>
             <td>
                 @item.Student.Name
             </td>
@@ -59,40 +116,155 @@
             </td>
 
             <td>
-                <NavLink href="@($"/Student/Edit/{item.Id}")">Edit</NavLink> |
-                <NavLink href="" @onclick="() => ClickDetailed(item.Id)">Details</NavLink> |
-                <NavLink href="" @onclick="() => ClickDeleted(item.Id)">Delete</NavLink>
+                <NavLink class=" btn btn-primary" href="@($"/AppAccount/Edit/{item.Id}")" @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>
+                <NavLink class=" btn btn-info" href="@($"/AppAccount/Details/{item.Id}")" @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>
+                <NavLink class=" btn btn-danger" href="@($"/AppAccount/Delete/{item.Id}")" @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
             </td>
-        </tr>
-    }
 
+
+        </tr>
+
+
+
+        }
+    </tbody>
 </table>
+<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="AppAccountpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AppAccountpleModalLabel">Add New Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <Create />
+            </div>
+
+        </div>
+    </div>
+</div>
+@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AppAccountpleModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => NoShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<Details @ref="ShowingDetails" ModelDet="pepaDet"></Details>
+
+<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Student : \"{Studenty}\" Subject :\"{Subjecty}\" Mark :\"{pepaDel.Mark}\"")>
+</ConfirmDelete>
+
 @code {
 
-    private List<AccountList> Model;
-    [CascadingParameter]
-    public IModalService AccModal { get; set; }
 
 
-    protected override Task OnInitializedAsync()
+    private List<AppAccount> Model = new List<AppAccount>();
+   
+
+
+    //initial view
+    protected override async Task OnInitializedAsync()
     {
-        Model = new List<AccountList>();
-
-        return base.OnInitializedAsync();
+        Model = await Service.AppAccountIndex();
     }
 
-    private void ClickDetailed(int id)
+    protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
+    protected MalaikaSchool.Pages.Views.AppAccount.Details ShowingDetails { get; set; }
+    protected bool ShowConfirmation { get; set; } = false;
+    private AppAccount pepaDel = new AppAccount();
+    private AppAccount pepaDet = new AppAccount();
+    private AppAccount pepaEd = new AppAccount();
+    private string Studenty;
+    private string Subjecty;
+    //show Edit Dialog
+    private void show(AppAccount pep)
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Details.Id), id);
-        AccModal.Show<Details>("Detail of Student", parameters);
+        pepaEd = pep;
+        ShowConfirmation = true;
+        StateHasChanged();
+    }
+    //close Edit Dialog
+    private void NoShow()
+    {
+        ShowConfirmation = false;
+        StateHasChanged();
+    }
+    //show Details
+    public void ShowDetails(AppAccount pep)
+    {
+        pepaDet = pep;
+        ShowingDetails.Showing();
+
     }
 
-    private void ClickDeleted(int id)
+    //Show delete dialog
+    private void ClickDeleted(AppAccount pep)
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Delete.Id), id);
-        AccModal.Show<Delete>("Delete Student", parameters);
+        Studenty = pep.Student.Name;
+        Subjecty = pep.Subject.Name;
+        pepaDel = pep;
+        DeletedConfirmation.Show();
+        StateHasChanged();
+    }
+
+    //Confirm Deletion
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        if (deleteConfirmed)
+        {
+            await Service.AppAccountDeleteConfirmed(pepaDel.Id);
+            Model = await Service.AppAccountIndex();
+        }
+    }
+
+    //Confirm Edition
+    protected async Task ConfirmEdit_Click(bool value)
+    {
+        ShowConfirmation = value;
+        Model = await Service.AppAccountIndex();
 
     }
-}
+    //filter classes
+    protected async Task SomeMethod(ChangeEventArgs e)
+    {
+        AppAccountTitleId = 0;
+        ClassSubjectId = 0;
+        var subjects = await Service.SubjectIndex();
+        ClassSubject = subjects.Where(n => n.StudentClassId == Convert.ToInt32(e.Value)).ToList();
+
+    }
+    //filter subjects
+    protected async Task SomeMethod2(ChangeEventArgs e)
+    {
+
+
+        var AppAccounts = await Service.AppAccountIndex();
+        Model = AppAccounts.Where(n => n.SubjectId == Convert.ToInt32(e.Value)).ToList();
+
+    }
+    //filter AppAccounttypes
+    protected void SomeMethod3(ChangeEventArgs e)
+    {
+
+        Model = Model.Where(n => n.AppAccountTypeId == Convert.ToInt32(e.Value)).ToList();
+
+    }
+
+}*@

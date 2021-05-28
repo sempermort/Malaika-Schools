@@ -3,28 +3,28 @@
 @inject IToastService toastService
 
 <div class="">
-   
+
     <div class="box box-block bg-white ">
-      
+
         <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianTypeForm" class="col-md-7 m-auto">
 
-
+            <DataAnnotationsValidator />
 
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
 
                 <div class="form-Group">
                     <label for="Name" class="control-label">Guardian Type</label>
-                    <InputText for="Name" class="form-control" @bind-Value="@Model.Name" />
+                    <InputText for="Name" class="form-control" @bind-Value="Model.Name" />
                 </div>
 
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-primary" value="Save " data-dismiss="modal" @onclick="@(() => toastService.ShowSuccess("Yor Guardian Type is added Successfuly!"))"/>
+                <button type="button" class="btn btn-secondary" @onclick="Noshow">Close</button>
+                <input type="submit" class="btn btn-primary" value="Save"  @onclick="HandleValidSubmit" />
             </div>
-          
+
         </EditForm>
     </div>
 </div>
@@ -34,10 +34,19 @@
 
 
 @code {
+  
 
+    [Parameter]
+    public EventCallback ConfirmTypeAdded { get; set; }
+    [Parameter]
+    public EventCallback CloseDialog { get; set; }
     private GuardianType Model = new GuardianType();
 
-    public async Task HandleValidSubmit(EditContext context)
+    private void Noshow()
+    {
+        CloseDialog.InvokeAsync();
+    }
+    public async Task HandleValidSubmit()
     {
 
         GuardianType GuardianType = new GuardianType();
@@ -45,12 +54,16 @@
         {
             GuardianType = Model;
 
-            var result =await Service.CreateGuardianType(GuardianType);
+            var result = await Service.CreateGuardianType(GuardianType);
+            if (result.Name != null)
+            {
+                toastService.ShowSuccess("Yor Guardian Type is added Successfuly!");
+                await ConfirmTypeAdded.InvokeAsync();
+            }
             // Clear the form.
             Model = new GuardianType();
             // Show the Toast.
-     
-            toastService.ShowInfo("GuardianType Added");
+
         }
         catch (Exception)
         {

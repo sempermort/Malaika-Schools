@@ -1,70 +1,103 @@
-﻿@using MalaikaSchool.Data.Models
-@inherits OwningComponentBase<StudentsService>
+﻿@inherits OwningComponentBase<StudentsService>
 
+@if (ShowConfirmationD)
+{
+    <div class="modal fade show d-block" id="DetailsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">@ConfirmationTitle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => noShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
 
-<div class="">
-    <div class="box box-block bg-white">
-        
-        <div>
-            @if (Model == null || Model.GuardianType == null||students==null)
-            {
-                <div class="spinner"></div>
-            }
-            else
-            {
-                <dl class="dl-horizontal">
-                    <dt>Guardian Name</dt>
-                    <dd>@Model.Name</dd>
-                    <dt>Student Name</dt>
-                    <dd>
-                        @foreach (var student in students)
-                    {
-                        @if (student.Id == Model.StudentId)
-                        {
-                            @student.Name
-                        }
-                    }
+                @if (ModelGuard.Student != null)
+                {
+                       <div class="box box-block bg-white">                            
+                                @if (ModelGuard == null || ModelGuard.GuardianType == null || students == null)
+                                {
+                                    <div class="spinner"></div>
+                                }
+                                else
+                                {
+                                    <div class="card">
+                                        <img class="card-img-top" src="@imgUrl" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Name of Guardian:  @ModelGuard.Name</h5>
+                                            <p class="card-text">
 
-                    </dd>
-                    <dt>GuardianType</dt>
-                    <dd>@Model.GuardianType.Name</dd>
-                    <dt>PhoneNumber</dt>
-                    <dd>@Model.PhoneNumber</dd>
-                    <dt>Email</dt>
-                    <dd>@Model.Email</dd>
-                    <dt>NIDA Number</dt>
-                    <dd>@Model.NID</dd>
+                                            </p>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item">
+                                                Student's Name:
+                                                @foreach (var student in students)
+                                                {
+                                                    @if (student.Id == ModelGuard.StudentId)
+                                                    {
+                                                        @student.Name
+                                                    }
+                                                }
+                                            </li>
+                                            <li class="list-group-item">  GuardianType: @ModelGuard.GuardianType.Name </li>
+                                            <li class="list-group-item">  PhoneNumber: @ModelGuard.PhoneNumber </li>
+                                            <li class="list-group-item">  Email:@ModelGuard.Email </li>
+                                            <li class="list-group-item">  NIDA Number  :@ModelGuard.NID </li>
+                                        </ul>
 
-                </dl>
-            }
+                                    </div>
+                                }
+                                
+                            </div>
+                                           
+                }
             </div>
+        </div>
     </div>
-
-</div>
-
+}
 <div>
     <p>
-        <NavLink href="/Guardians/Edit/{Id:int}" class="btn btn-warning">Edit</NavLink>
-        <NavLink href="/Guardians/Index" class="btn btn-warning">Back to List</NavLink>
+        <button href="/Guardians/Edit/{Id:int}" class="btn btn-warning">Edit</button>
+        <button  @onclick="() => noShow()"class="btn btn-warning">Back to List</button>
     </p>
 </div>
 
 @code {
+    [Parameter]
+    public Guardian ModelGuard{ get; set; }
 
-    private Guardian Model=new Guardian();
     private List<Student> students = new List<Student>();
+    string imgUrl = string.Empty;
+
+
 
     [Parameter]
-    public int Id { get; set; }
+    public string ConfirmationTitle { get; set; } = "Show Details";
+
+
+    protected bool ShowConfirmationD { get; set; }
 
 
     protected override async Task OnInitializedAsync()
     {
-        Model = await Service.GetGuardian(Id);
 
         students = await Service.Index();
     }
 
+    public void noShow()
+    {
+        ShowConfirmationD = false;
+        StateHasChanged();
+
+    }
+    public void Showing()
+    {
+        ShowConfirmationD = true;
+        StateHasChanged();
+
+    }
 }
 
 

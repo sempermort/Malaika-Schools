@@ -983,10 +983,12 @@ namespace MalaikaSchool.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Gender")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
                     b.Property<byte[]>("Image")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("MotherName")
@@ -1015,6 +1017,7 @@ namespace MalaikaSchool.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Religion")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 

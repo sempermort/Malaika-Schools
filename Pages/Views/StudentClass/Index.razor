@@ -1,5 +1,4 @@
 ﻿@page "/StudentClass/Index"
-@using MalaikaSchool.Data.Services
 @inherits OwningComponentBase<StudentsService>
 @inject IModalService Modal
 <h2>List of Classes</h2>
@@ -7,10 +6,10 @@
 <p>
     <NavLink href="/StudentClass/Create">Create New</NavLink>
 </p>
-<table class="table b-datagrid"  >
+<table class="table b-datagrid">
     <thead>
         <tr>
-         
+
             <th>
                 Class Name
             </th>
@@ -30,25 +29,62 @@
                         @item.ClassName
                     </td>
                     <td>
-                        <NavLink href="@($"/StudentClass/Edit/{item.Id}")">Edit</NavLink> |
-                        <button class="btn btn-link" @onclick="()=>ClickDetailed(item.Id)">Details</button> |
-                        <button class="btn btn-link" @onclick="()=>ClickDeleted(item.Id)">Delete</button>
+                        <button class="btn btn-primary" @onclick="()=>show(item)">Edit</button> |
+                        <button class="btn btn-info" @onclick="() => ClickDetailed(item.Id)">Details</button> |
+                        <button class="btn btn-danger" @onclick="() => ClickDeleted(item)">Delete</button>
                     </td>
                 </tr>
-
-                <ConfirmDelete @ref="DeleteConfirmation" ConfirmationChanged="ConfirmDelete_Click"
-                         ConfirmationMessage=@($"Are you sure you want to delete Class: \"{item.ClassName}\"")>
-                </ConfirmDelete>
             }
+
         }
     </tbody>
 </table>
+<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <StudentClassCreate />
+            </div>
 
+        </div>
+    </div>
+</div>
+@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => NoShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
+            </div>
+        </div>
+    </div>
+}
+<ConfirmDelete @ref="DeleteConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Class: \"{Classy.ClassName}\"")>
+</ConfirmDelete>
+}
 
 @code {
-    protected MalaikaSchool.Shared.ConfirmDelete   DeleteConfirmation { get; set; }
+    protected MalaikaSchool.Shared.ConfirmDelete DeleteConfirmation { get; set; }
     private List<StudentClass> Model = new List<StudentClass>();
     private int idDeleted;
+    private StudentClass Classy = new StudentClass();
+    protected bool ShowConfirmation { get; set; } = false;
+    private StudentClass pepaEd = new StudentClass();
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -70,9 +106,26 @@
         Modal.Show<Details>("Detail of Class", parameters);
     }
 
-    private void ClickDeleted(int id)
+    private void ClickDeleted(StudentClass studentClass)
     {
+        Classy = studentClass;
         DeleteConfirmation.Show();
-        idDeleted = id;
+        idDeleted = Classy.Id;
+    }
+
+    //show Edit Dialog
+    private void show(StudentClass pep)
+    {
+        pepaEd = pep;
+        ShowConfirmation = true;
+        StateHasChanged();
+    }
+
+    //close Edit Dialog
+
+    private void NoShow()
+    {
+        ShowConfirmation = false;
+        StateHasChanged();
     }
 }

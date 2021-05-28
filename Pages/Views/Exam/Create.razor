@@ -11,7 +11,7 @@
             <small>
                 <i class="ace-icon fa fa-angle-double-right"></i>
 
-                <NavLink href="/Exam/Index" class="btn btn-warning float-right">Back to List</NavLink>
+                <NavLink href="/Exam/Index" class="btn btn-warning float-right" data-dismiss="modal">Back to List</NavLink>
 
             </small>
         </h1>
@@ -21,7 +21,7 @@
         <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="StudentClassCreate" class="col-md-7 m-auto">
             <DataAnnotationsValidator />
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
                 <div class="d-flex justify-content-between">
                     <div class="form-group col-md-6 pl-0">
                         <label for="StudentClassId" class="control-label">Student Class</label>

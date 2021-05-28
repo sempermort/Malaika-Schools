@@ -18,11 +18,11 @@
         <hr>
         <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianForm" class="col-md-7 m-auto">
 
-            @*<DataAnnotationsValidator />*@
+            <DataAnnotationsValidator />
 
 
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
 
                 <div class="form-group">
                     <label for="Name" class="control-label">Guardian's Name</label>
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     <label for="StudentId" class="control-label">Student</label>
                     <select for="StudentId" class="form-control" @bind="@Model.StudentId">
-                        <option value="@dent.Id">@dent.Name</option>
+
                         @if (students != null)
                         {
                             @foreach (var stc in students)
@@ -57,9 +57,9 @@
 
                 </div>
                 @*<div class="form-group">
-            <label for="Phonenumber" class="control-label">Class</label>
-            <InputText for="Phonenumber" class="form-control" @bind-Value="@Model.PhoneNumber" />
-        </div>*@
+                        <label for="Phonenumber" class="control-label">Class</label>
+                        <InputText for="Phonenumber" class="form-control" @bind-Value="@Model.PhoneNumber" />
+                    </div>*@
                 <div class="form-group">
                     <label for="NID" class="control-label">NIDA Number</label>
                     <InputText for="NID" class="form-control" @bind-Value="@Model.NID" />
@@ -77,7 +77,7 @@
                                 }
                             }
                         </select>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#GuardianTypeModal">
+                        <button type="button" class="btn btn-primary" @onclick="showAddtype">
                             <i class="fa fa-plus">  </i>
                         </button>
                     </div>
@@ -94,23 +94,25 @@
             </div>
         </EditForm>
 
+        @if (ShowAddType)
+        {
+            <div class="modal fade show d-block" id="CreateGuardianType" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                            <button type="button" class="close" @onclick="NoshowAddtype" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <CreateGuardianType ConfirmTypeAdded="UpdateGuardianType" CloseDialog="NoshowAddtype" />
+                        </div>
 
-        <div class="modal fade" id="GuardianTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
-                    <div class="modal-body">
-                       <CreateGuardianType/>
-                    </div>
-                
                 </div>
             </div>
-        </div>
+        }
     </div>
 </div>
 
@@ -119,24 +121,38 @@
 
 
 @code {
+    @inject IHttpContextAccessor httpContextAccessor
+    @inject NavigationManager NavigationManager
+    @inject UserManager<AppUser> _userManager
+    @inject LinkGenerator LinkGenerator
+    @inject IEmailSender _emailSender
+    @inject RoleManager<IdentityRole> roleManager
 
-    [Parameter]
-    public Student dent { get; set; }
-    private Guardian Model=new Guardian();
-    private List<GuardianType> guardianTypes =new List<GuardianType>();
-    private List<Student> students =new List<Student>();
+    private Guardian Model = new Guardian();
+    private List<GuardianType> guardianTypes = new List<GuardianType>();
+    private List<Student> students = new List<Student>();
     public bool isLoading;
     string exceptionMessage;
     string imgUrl = string.Empty;
     const int maxFileSize = 10485760;
+    private bool ShowAddType = false;
+    public List<string> AddIds = new List<string>();
+
 
     protected override async Task OnInitializedAsync()
     {
-        Model.StudentId = dent.Id;
-        guardianTypes = await Service.GuardianTypeIndex();
-        students =await Service.Index();
-    }
 
+        guardianTypes = await Service.GuardianTypeIndex();
+        students = await Service.Index();
+    }
+    public void showAddtype()
+    {
+        ShowAddType = true;
+    }
+    public void NoshowAddtype()
+    {
+        ShowAddType = false;
+    }
     async Task LoadFiles(InputFileChangeEventArgs e)
     {
         isLoading = true;
@@ -170,6 +186,11 @@
 
         isLoading = false;
     }
+    private async Task UpdateGuardianType()
+    {
+        ShowAddType = false;
+        guardianTypes = await Service.GuardianTypeIndex();
+    }
 
     //Submit Data
     public void HandleValidSubmit(EditContext context)
@@ -191,6 +212,41 @@
             //ToastContent = ex.GetBaseException().Message;
 
             //await this.ToastObj.Show();
+        }
+    }
+    private void TakeRol(ChangeEventArgs e)
+    {
+        if (!AddIds.Contains(e.Value.ToString()))
+            AddIds.Add(e.Value.ToString());
+    }
+    private void RemoRol(string rl)
+    {
+        AddIds.Remove(rl);
+    }
+
+    public async Task Custum_Register()
+    {
+        var user = new AppUser { UserName = Model.Name, Email = Model.Email };
+        var result = await _userManager.CreateAsync(user, DateTime.Now.ToString("MMMM dd"));
+        if (result.Succeeded)
+        {
+            foreach (var rol in AddIds)
+            {
+                await _userManager.AddToRoleAsync(user, rol);
+            }
+            //_logger.LogInformation("User created a new account with password.");
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = LinkGenerator.GetUriByPage(
+                httpContextAccessor.HttpContext,
+                "/Account/ConfirmEmail",
+                 null,
+                 new { area = "Identity", userId = user.Id, code = code }
+               );
+
+            await _emailSender.SendEmailAsync(Model.Email, "Confirm your email",
+                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
         }
     }
 

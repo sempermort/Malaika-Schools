@@ -47,7 +47,7 @@ namespace MalaikaSchool.Data.Models
         [Required(ErrorMessage = "ParmanentAddress is  Required!")]
         [Display(Name = "Parmanent Address")]
         public string ParmanentAddress { get; set; }
-        [Required(ErrorMessage = "Student Class is  Required!")]
+
         public int? StudentClassId { get; set; }
         public virtual StudentClass StudentClass { get; set; }
 

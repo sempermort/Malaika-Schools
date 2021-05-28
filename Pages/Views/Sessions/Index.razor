@@ -1,62 +1,154 @@
 ﻿@page "/Sessions/Index"
-@using MalaikaSchool.Data.Services
 @inherits OwningComponentBase<StudentsService>
 
-<h2>Index</h2>
 
-<p>
-    <NavLink href="/Sessions/Create">Create New</NavLink>
-</p>
-<table class="table">
-    <tr>
-        <th>
-          Class  Periods
-        </th>
 
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
+<table id="" class="table b-datagrid">
+    <thead>
         <tr>
-            <td>
-                @item.Name
-            </td>
-
-
-            <td>
-                <NavLink href="@($"/Session/Edit/{item.Id}")">Edit</NavLink> |
-                <NavLink href="" @onclick="()=>ClickDetailed(item.Id)">Details</NavLink> |
-                <NavLink href="" @onclick="()=>ClickDeleted(item.Id)">Delete</NavLink>
-            </td>
+            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button></th>
+            <th style="cursor: pointer">Class Period</th>
         </tr>
-    }
+        <tr>
+            <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+            <th scope="col"><input type="text" class="form-control"></th>>
+        </tr>
+    </thead>
+    <tbody>
 
+        @foreach (var item in Model)
+{
+
+            <tr>
+                <td></td>
+                <td>
+                    @item.Name
+                </td>
+
+                <td>
+                    <button class=" btn btn-primary"  @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</button>
+                    <button class=" btn btn-info"  @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</button>
+                    <button class=" btn btn-danger"  @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</button>
+                </td>
+
+
+            </tr>
+
+
+
+}
+    </tbody>
 </table>
+<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="SessionpleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="SessionpleModalLabel">Add New Class</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <Create />
+            </div>
+
+        </div>
+    </div>
+</div>
+@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="SessionpleModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => NoShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<Details @ref="ShowingDetails" ModelDet="pepaDet"></Details>
+
+<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Class Period :\"{pepaDel.Name}\"")>
+</ConfirmDelete>
+
 @code {
 
-    private List<Session> Model;
-    [CascadingParameter]
-    public IModalService SessionModal { get; set; }
 
-    protected override Task OnInitializedAsync()
+    private List<Session> Model = new List<Session>();
+
+
+
+
+    //initial view
+    protected override async Task OnInitializedAsync()
     {
-        Model = new List<Session>();
-
-        return base.OnInitializedAsync();
+        Model = await Service.SessionIndex();
     }
 
-    private void ClickDetailed(int id)
+    protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
+    protected MalaikaSchool.Pages.Views.Sessions.Details ShowingDetails { get; set; }
+    protected bool ShowConfirmation { get; set; } = false;
+    private Session pepaDel = new Session();
+    private Session pepaDet = new Session();
+    private Session pepaEd = new Session();
+
+    //show Edit Dialog
+    private void show(Session pep)
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Details.Id), id);
-        SessionModal.Show<Details>("Detail of Period", parameters);
+        pepaEd = pep;
+        ShowConfirmation = true;
+        StateHasChanged();
+    }
+    //close Edit Dialog
+    private void NoShow()
+    {
+        ShowConfirmation = false;
+        StateHasChanged();
+    }
+    //show Details
+    public void ShowDetails(Session pep)
+    {
+        pepaDet = pep;
+        //ShowingDetails.Showing();
+
     }
 
-    private void ClickDeleted(int id)
+    //Show delete dialog
+    private void ClickDeleted(Session pep)
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Delete.Id), id);
-        SessionModal.Show<Delete>("Delete Period", parameters);
+        pepaDel = pep;
+        DeletedConfirmation.Show();
+        StateHasChanged();
     }
+
+    //Confirm Deletion
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        if (deleteConfirmed)
+        {
+            await Service.SessionDeleteConfirmed(pepaDel.Id);
+            Model = await Service.SessionIndex();
+        }
+    }
+
+    //Confirm Edition
+    protected async Task ConfirmEdit_Click(bool value)
+    {
+        ShowConfirmation = value;
+        Model = await Service.SessionIndex();
+
+    }
+
+
 }

@@ -23,11 +23,11 @@
     </div>
     <div class="box box-block bg-white ">
         <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="studentForm" class="col-md-7 m-auto">
-            @*<DataAnnotationsValidator />*@
+            <DataAnnotationsValidator />
 
 
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
                 <div class="form-group">
                     <label for="Name" class="control-label">Name</label>
                     <InputText for="Name" class="form-control" @bind-Value="@Model.Name" />

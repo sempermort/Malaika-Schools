@@ -8,11 +8,11 @@
 <div class="">
     <div class="box box-block bg-white ">
         <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianTypeForm" class="col-md-7 m-auto ">
-            @*<DataAnnotationsValidator />*@
+            <DataAnnotationsValidator />
 
 
             <div class="form-horizontal">
-                @*<ValidationSummary />*@
+                <ValidationSummary />
 
                 <div class="form-group">
                     <label for="Name" class="control-label">Fees Name</label>
@@ -67,6 +67,7 @@
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex);
             //ToastContent = ex.GetBaseException().Message;
 
             //await this.ToastObj.Show();

@@ -1,5 +1,6 @@
 ﻿@page "/AssignRolls/Edit/{Id:int}"
-@using MalaikaSchool.Data.Models
+@inherits OwningComponentBase<StudentsService>
+
 
 
 <div class="row">
@@ -15,77 +16,78 @@
         </h1>
     </div>
     <div class="box box-block bg-white col-md-6">
-        <form action="/AssignRolls/Edit/{Id:int}" method="post" id="SubmitForm"></form>
-            @*<DataAnnotationsValidator />*@
+        <EditForm OnValidSubmit="@HandleValidSubmit" Model="@Model" Id="GuardianForm" class="col-md-7 m-auto">
+
+            <DataAnnotationsValidator />
 
 
-        <div class="form-horizontal">
-               @*<ValidationSummary />*@
+            <div class="form-horizontal">
+                <ValidationSummary />
 
 
 
-            <div class="form-group">
-                <label for="Roll" class="control-label">Date</label>
-                <InputText for="Roll" class="form-control" bind-Value="@Model.Roll" />
-            </div>
-            <div class="form-group">
-                <label for="SessionId" class="control-label">Session</label>
-                <select for="SessionId" class="form-control" bind="@Model.SessionId">
-                    <option value="@Model.SessionId">@Model.Session.Name</option>
-                    @if (sessions != null)
-                    {
-                        @foreach (var stc in sessions)
+                <div class="form-group">
+                    <label for="Roll" class="control-label">Date</label>
+                    <InputText for="Roll" class="form-control" bind-Value="@Model.Roll" />
+                </div>
+                <div class="form-group">
+                    <label for="SessionId" class="control-label">Session</label>
+                    <select for="SessionId" class="form-control" bind="@Model.SessionId">
+                        <option value="@Model.SessionId">@Model.Session.Name</option>
+                        @if (sessions != null)
                         {
+                            @foreach (var stc in sessions)
+                            {
 
-                            <option value="@stc.Id">@stc.Name</option>
+                                <option value="@stc.Id">@stc.Name</option>
+                            }
                         }
-                    }
-                </select>
-
-            </div>
-
-            <div class="form-group">
-                <label for="StudentClassId" class="control-label">Student Class</label>
-                <select for="StudentClassId" class="form-control" bind="@Model.StudentClassId">
-                    <option value="@Model.StudentClassId">@Model.StudentClass.ClassName</option>
-                    @if (studentClasses != null)
-                    {
-                        @foreach (var stc in studentClasses)
-                        {
-
-                            <option value="@stc.Id">@stc.ClassName</option>
-                        }
-                    }
-                </select>
-
-            </div>
-
-            <div class="form-group">
-                <label for="StudentId" class="control-label">Student</label>
-                <select for="StudentId" class="form-control" bind="@Model.StudentId">
-                    <option value="@Model.StudentId">@Model.Student.UserStudent.UserName</option>
-                    @if (students != null)
-                    {
-                        @foreach (var stc in students)
-                        {
-                            <option value="@stc.Id">@stc.UserStudent.UserName</option>
-                        }
-                    }
-                </select>
-
-            </div>
-
-
-
-            <div class="form-group row">
-                <div class="col-md-offset-4 col-md-8">
-                    <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+                    </select>
 
                 </div>
-            </div>
-        </div>
-        }
 
+                <div class="form-group">
+                    <label for="StudentClassId" class="control-label">Student Class</label>
+                    <select for="StudentClassId" class="form-control" bind="@Model.StudentClassId">
+                        <option value="@Model.StudentClassId">@Model.StudentClass.ClassName</option>
+                        @if (studentClasses != null)
+                        {
+                            @foreach (var stc in studentClasses)
+                            {
+
+                                <option value="@stc.Id">@stc.ClassName</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="StudentId" class="control-label">Student</label>
+                    <select for="StudentId" class="form-control" bind="@Model.StudentId">
+                        <option value="@Model.StudentId">@Model.Student.UserStudent.UserName</option>
+                        @if (students != null)
+                        {
+                            @foreach (var stc in students)
+                            {
+                                <option value="@stc.Id">@stc.UserStudent.UserName</option>
+                            }
+                        }
+                    </select>
+
+                </div>
+
+
+
+                <div class="form-group row">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
+
+                    </div>
+                </div>
+            </div>
+
+        </EditForm>
     </div>
 </div>
 
@@ -109,6 +111,28 @@
 
 
         return base.OnInitializedAsync();
+    }
+    public void HandleValidSubmit(EditContext context)
+    {
+
+        AssignRoll AssignRoll = new AssignRoll();
+        try
+        {
+            AssignRoll = Model;
+
+            //var result = Service.CreateAssignRoll(AssignRoll);
+
+            // Clear the form.
+            Model = new AssignRoll();
+            // Show the Toast.
+
+        }
+        catch (Exception)
+        {
+            //ToastContent = ex.GetBaseException().Message;
+
+            //await this.ToastObj.Show();
+        }
     }
 
 }

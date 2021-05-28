@@ -1,62 +1,160 @@
 ﻿@page "/ExamType/Index"
-@using MalaikaSchool.Data.Models
-@inject IModalService Modal
+@inherits OwningComponentBase<StudentsService>
 
-<h2>Index</h2>
 
-<p>
-    <NavLink href="/ExamType/Create">Create New</NavLink>
-</p>
-<table class="table">
-    <tr>
-        <th>
-            ExamType
-        </th>
 
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
+
+
+<table id="" class="table b-datagrid">
+    <thead>
         <tr>
+            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button></th>
+            <th style="cursor: pointer">Name</th>
+     
+        </tr>
+        <tr>
+            <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+            <th scope="col"><input type="text" class="form-control"></th>
+        
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+
+        <tr>
+            <td></td>
             <td>
                 @item.ExType
             </td>
 
-
             <td>
-                <NavLink href="@($"/Guardians/Edit/{item.Id}")">Edit</NavLink> |
-                <button class="btn btn-link" @onclick="()=>ClickDetailed(item.Id)">Details</button> |
-                <button class="btn btn-link" @onclick="()=>ClickDeleted(item.Id)">Delete</button>
+                <button class=" btn btn-primary" @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</button>
+                <button class=" btn btn-info" @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</button>
+                <button class=" btn btn-danger" @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</button>
             </td>
-        </tr>
-    }
 
+
+        </tr>
+
+
+
+        }
+    </tbody>
 </table>
+<div class="modal fade" id="NewMark" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Exam</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <CreateExamType />
+            </div>
+
+        </div>
+    </div>
+</div>
+@if (ShowConfirmation)
+{
+    <div class="modal fade show d-block" id="edited" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            @onclick="() => NoShow()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <Edit ModelEd="@pepaEd" ConfirmationChanged="ConfirmEdit_Click" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+<Details @ref="ShowingDetails" ModelDet="pepaDet"></Details>
+
+<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
+               ConfirmationMessage=@($"Are you sure you want to delete Exam : \"{pepaDel.ExType}\"")>
+</ConfirmDelete>
+
 @code {
+
 
     private List<ExamType> Model;
 
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        Model = new List<ExamType>();
+        Model = await Service.ExamTypeIndex();
 
-        return base.OnInitializedAsync();
+
     }
 
-    private void ClickDetailed(int id)
+
+    protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
+    protected MalaikaSchool.Pages.Views.ExamType.Details ShowingDetails { get; set; }
+    protected bool ShowConfirmation { get; set; } = false;
+    private ExamType pepaDel = new ExamType();
+    private ExamType pepaDet = new ExamType();
+    private ExamType pepaEd = new ExamType();
+
+    //show Edit Dialog
+    private void show(ExamType pep)
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Details.Id), id);
-        Modal.Show<Details>("Detail of Exam type", parameters);
+        pepaEd = pep;
+        ShowConfirmation = true;
+        StateHasChanged();
+    }
+    //close Edit Dialog
+    private void NoShow()
+    {
+        ShowConfirmation = false;
+        StateHasChanged();
+    }
+    //show Details
+    public void ShowDetails(ExamType pep)
+    {
+        pepaDet = pep;
+        //ShowingDetails.Showing();
+
     }
 
-    private void ClickDeleted(int id)
+    //Show delete dialog
+    private void ClickDeleted(ExamType pep)
     {
-        var parameters = new ModalParameters();
-        parameters.Add(nameof(Delete.Id), id);
-        Modal.Show<Delete>("Delete Exam type", parameters);
+
+        pepaDel = pep;
+        DeletedConfirmation.Show();
+        StateHasChanged();
     }
+
+    //Confirm Deletion
+    protected async Task ConfirmDelete_Click(bool deleteConfirmed)
+    {
+        if (deleteConfirmed)
+        {
+            await Service.ExamDeleteConfirmed(pepaDel.Id);
+            Model = await Service.ExamTypeIndex();
+        }
+    }
+
+    //Confirm Edition
+    protected async Task ConfirmEdit_Click(bool value)
+    {
+        ShowConfirmation = value;
+        Model = await Service.ExamTypeIndex();
+
+    }
+
+
 
 }
