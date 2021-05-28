@@ -1,0 +1,163 @@
+﻿@page "/AppForm/Index"
+@using MalaikaSchool.Data.Models
+@using MalaikaSchool.Pages.Views.Admisions
+@inherits OwningComponentBase<StudentsService>
+<h2>Index</h2>
+
+<p>
+    <NavLink href="/AppForm/Create">Create New</NavLink>
+</p>
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+
+            <th>
+                Student Name
+            </th>
+            <th>
+                Admission Date
+            </th>
+            <th>
+                Session
+            </th>
+            <th>
+                Previous School
+            </th>
+            <th>
+                Previous School Address
+            </th>
+            <th>
+                PreviousSchoolDocument
+            </th>
+
+            <th></th>
+
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+
+            <th>
+                Student Name
+            </th>
+            <th>
+                Admission Date
+            </th>
+            <th>
+                Session
+            </th>
+            <th>
+                Previous School
+            </th>
+            <th>
+                Previous School Address
+            </th>
+            <th>
+                PreviousSchoolDocument
+            </th>
+
+            <th></th>
+
+        </tr>
+    </tfoot>
+    <tbody>
+        @if (Model.Count > 0)
+        {
+
+            @foreach (var item in Model)
+            {
+        <tr>
+            <td>
+                @item.Students.Select(n => n.Name)
+            </td>
+            <td>
+                @item.AdmissionDate
+            </td>
+            <td>
+                @item.Session.Name
+            </td>
+            <td>
+                @item.PreviousSchool
+            </td>
+            <td>
+                @item.PreviousSchoolAddrs
+            </td>
+            <td>
+                @if (item.PreviousSchoolDocument != null)
+                {
+                    var base64 = Convert.ToBase64String(item.PreviousSchoolDocument);
+                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                    <img src='@imgSrc' style="max-width:100px; max-height:100px;" />
+                }
+            </td>
+            <td>
+                <NavLink href="@($"/AppForm/Edit/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>|
+                <NavLink href="@($"/AppForm/Details/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>|
+                <NavLink href="@($"/AppForm/Delete/{item.Id}")" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
+            </td>
+          
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="GuardianTypeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="GuardianTypeModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="GuardianTypeModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Guardian Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+@code {
+
+    private List<Admission> Model;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.AdmissionIndex();
+    }
+
+
+}

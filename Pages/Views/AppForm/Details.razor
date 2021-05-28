@@ -1,0 +1,73 @@
+﻿@page "/AppForm/detail"
+@using MalaikaSchool.Data.Models
+
+<h2>Details</h2>
+
+<div>
+    <h4>Admission</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Student Name
+        </dt>
+
+        <dd>
+            @model.Students.Select(n=>n.Name)
+        </dd>
+
+        <dt>
+            AdmissionDate
+        </dt>
+
+        <dd>
+            @model.AdmissionDate)
+        </dd>
+
+        <dt>
+            Session
+        </dt>
+
+        <dd>
+            @model.Session.Name
+        </dd>
+
+        <dt>
+            PreviousSchool
+        </dt>
+
+        <dd>
+            @model.PreviousSchool
+        </dd>
+
+        <dt>
+            Previous School Address
+        </dt>
+
+        <dd>
+            @model.PreviousSchoolAddrs
+        </dd>
+
+        <dt>
+            @model.PreviousSchoolDocument
+        </dt>
+    </dl>
+</div>
+<p>
+ 
+    <NavLink href="/AppForm/Edit/{Id:int}">Edit</NavLink> |  
+    <NavLink href="/AppForm/Index">Back to List</NavLink>
+</p>
+@code {
+
+    private Admission model;
+
+
+    protected override Task OnInitializedAsync()
+    {
+        model = new Admission();
+
+
+        return base.OnInitializedAsync();
+    }
+
+}
