@@ -1,5 +1,4 @@
-﻿@page "/AppAccount/Edit/{Id:int}"
-@using MalaikaSchool.Data.Models
+﻿@*@page "/AppAccount/Edit/{Id:int}"
 @inherits OwningComponentBase<StudentsService>
 @inject NavigationManager NavigationManager
 
@@ -108,7 +107,7 @@
     [Parameter]
     public int Id { get; set; }
     private AccountList Model = new AccountList();
-    private List<AccountGroup> accountGroups = new List<AccountGroup>();
+ 
     private List<Student> students = new List<Student>();
     private List<StudentClass> classes = new List<StudentClass>();
 
@@ -141,4 +140,4 @@
             //await this.ToastObj.Show();
         }
     }
-}
+}*@

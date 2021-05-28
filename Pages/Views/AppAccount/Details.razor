@@ -1,5 +1,4 @@
-﻿@page "/AppAccount/Details/{Id:int}"
-@using MalaikaSchool.Data.Models
+﻿@*@page "/AppAccount/Details/{Id:int}"
 @inherits OwningComponentBase<StudentsService>
 @inject NavigationManager NavigationManager
 
@@ -71,6 +70,6 @@
         Model = await Service.GetAccountList(Id);
     }
 
-}
+}*@
 
 

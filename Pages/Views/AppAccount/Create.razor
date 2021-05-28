@@ -1,4 +1,4 @@
-﻿@page "/AppAccount/Create"
+﻿@page "/Accounting/Create"
 @using MalaikaSchool.Data.Models
 @inherits OwningComponentBase<StudentsService>
 @inject NavigationManager NavigationManager
@@ -24,75 +24,51 @@
                 <ValidationSummary />
 
                 <div class="form-group">
+                    <label for="StudentId" class="control-label">Student</label>
+                    <InputSelect for="StudentId" class="form-control" @bind-Value="@Model.StudentId">
+                        <option value="">Students</option>
+                        @if (students != null)
+                        {
+                            @foreach (var stc in students)
+                            {
+                                <option value="@stc.Id">@stc.Name</option>
+                            }
+                        }
+                    </InputSelect>
+
+                </div>
+                <div class="form-group">
                     <label for="Date" class="control-label">Date</label>
                     <input type="Date" for="Date" class="form-control" @bind="@Model.Date" />
                 </div>
 
                 <div class="form-group">
-                    <label for="StudentClassid" class="control-label">Student Class</label>
-                        <InputSelect for="StudentClassId" class="form-control" @bind-Value="@Model.StudentClassId">
-                            <option value=""> Classes </option>
-                            @if (classes != null)
+                    <label for="StudentId" class="control-label">Fee type</label>
+                    <InputSelect for="StudentId" class="form-control" @bind-Value="@Model.StudentId">
+                        <option value="0">Students</option>
+                        @if (feeTypes != null)
+                        {
+                            @foreach (var stc in feeTypes)
                             {
-                                @foreach (var stc in classes)
-                                {
-
-                                    <option value="@stc.Id">@stc.ClassName</option>
-                                }
+                                <option value="@stc.Id">  @stc.Name</option>
                             }
-                        </InputSelect>                   
-                </div>
+                        }
+                    </InputSelect>
 
+                </div>
                 <div class="form-group">
-                        <label for="StudentId" class="control-label">Student</label>
-                        <InputSelect for="StudentId" class="form-control" @bind-Value="@Model.StudentId">
-                            <option value="">Students</option>
-                            @if (students != null)
-                            {
-                                @foreach (var stc in students)
-                                {
-                                    <option value="@stc.Id">@stc.Name</option>
-                                }
-                            }
-                        </InputSelect>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="AccountGroupId" class="control-label">Student Class</label>
-                        <select for="AccountGroupId" class="form-control" @bind="@Model.AccountGroupId">
-                            <option value="">-- Select Class --</option>
-                            @if (Model.AccountGroup != null)
-                            {
-                                @foreach (var stc in accountGroups)
-                                {
-
-                                    <option value="@stc.Id">@stc.Name</option>
-                                }
-                            }
-                        </select>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="OpeningBalance" class="control-label">Opening Balance</label>
-                        <input for="OpeningBalance" class="form-control" @bind="@Model.OpeningBalance" />
-                    </div>
+                    <label for="Amount" class="control-label">Amount</label>
+                    <InputNumber for="Amount" class="form-control" @bind-Value="Model.Amount" />
+                </div>
 
 
-                    <div class="form-group">
-                        <label for="CurrentBalance" class="control-label">Current Balance</label>
-                        <input for="CurrentBalance" class="form-control" @bind="@Model.CurrentBalance" />
-                    </div>
+                <div class="form-group row">
+                    <div class="col-md-offset-4 col-md-8">
+                        <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
 
-
-                    <div class="form-group row">
-                        <div class="col-md-offset-4 col-md-8">
-                            <input type="submit" class="btn btn-primary" value="Save" onclick="SubmitData(this, event);" />
-
-                        </div>
                     </div>
                 </div>
+            </div>
 </EditForm>
 
     </div>
@@ -104,13 +80,13 @@
 @code {
 
     private AccountList Model = new AccountList();
-    private List<AccountGroup> accountGroups=new List<AccountGroup>();
+    private List<ClassFee> feeTypes=new List<ClassFee>();
     private List<Student> students = new List<Student>();
     private List<StudentClass> classes = new List<StudentClass>();
 
     protected override async Task OnInitializedAsync()
     {
-
+        feeTypes = await Service.ClassFeeIndex();
         classes = await Service.StudentClassIndex();
         students = await Service.Index();
 

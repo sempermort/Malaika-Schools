@@ -35,7 +35,6 @@ namespace MalaikaSchool.Data
         public DbSet<EmploymentHistory> EmploymentHistory { get; set; }
         public DbSet<JobInfo> JobInfo { get; set; }
         public DbSet<ClassFee> ClassFee { get; set; }
-        public DbSet<AccountGroup> AccountGroup { get; set; }
         public DbSet<AccountList> AccountList { get; set; }
         public DbSet<DefaultSetting> DefaultSetting { get; set; }
         public DbSet<School> School { get; set; }
