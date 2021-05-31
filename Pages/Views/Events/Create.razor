@@ -9,7 +9,7 @@
             <small>
                 <i class="ace-icon fa fa-angle-double-right"></i>
 
-                <NavLink href="" class="btn btn-warning float-right">Back to List</NavLink>
+                <NavLink href="/Events/Index" class="btn btn-warning float-right">Back to List</NavLink>
 
             </small>
         </h1>
@@ -25,16 +25,16 @@
                 <ValidationSummary />
                 <div class="form-group">
                     <label for="NT" class="control-label">News Title</label>
-                    <input type="text" for="NT" class="form-control" />
+                    <input type="text" for="NT" class="form-control" @bind-value="Model.Title" />
                 </div>
             </div>
             <div class="form-group">
                 <label for="CD" class="control-label">Created Date</label>
-                <input type="date" for="CD" class="form-control" />
+                <input type="date" for="CD" class="form-control" @bind-value="Model.CreatedDate" />
             </div>
             <div class="form-group">
                 <label for="TA" class="control-label">Text Area</label>
-                <input TextArea type="text" for="TA" class="form-control" />
+                <input TextArea type="text" for="TA" class="form-control" @bind-value="Model.Massege"/>
             </div>
             <div class="form-group">
                 <InputSelect for="cat" class="form-control" @bind-Value="@Model.CategoryId">
@@ -62,7 +62,7 @@
             <div class="form-group float-right">
                 <div class="col-md-offset-4 col-md-8">
                     <small>
-                        <input type="submit" class="btn btn-info" value="Create" />
+                        <input type="submit" class="btn btn-info" value="Create" @onclick="HandleValidSubmit" />
                     </small>
                 </div>
             </div>
@@ -91,7 +91,7 @@
 
         Categoryes = await Service.CategoryIndex();
     }
-    public async Task HandleValidSubmit(EditContext context)
+    public async Task HandleValidSubmit()
     {
 
         Event Event = new Event();

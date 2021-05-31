@@ -7,24 +7,19 @@
 
 <div class="row">
     <div class=" col-md-8 pb-3 m-auto">
-        @if (Model != null)
+        @if (ModelDet != null)
         {
-            <div class="card">
-                <img class="card-img-top" src="@imgUrl" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">   News Details  @Model.Name</h5>
+            <div class="card justify-content-center">
+                <img class="card-img-top" src="/assets/images/gallery/05.jpg" alt="Card image cap">
+                <div class="card-body" style="text-align:center" >
+                    <h5 class="card-title">  School Opening</h5>
                     <p class="card-text">
-
+                        Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Maecenas faucibus mollis interdum. Donec ullamcorper
                     </p>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">  News Title:</li>
-                    <li class="list-group-item">  Created Date:</li>
-                    <li class="list-group-item">  Text Area: </li>
-                    
-                </ul>
-                <div class="card-body">
-                    <NavLink href="#" class="btn btn-warning float-left">Back to List</NavLink>
+                
+                <div class="card-body" style="text-align:center">
+                    <NavLink href="/Events/Index" class="btn btn-warning float-center">Back to List</NavLink>
 
                 </div>
             </div>
@@ -40,26 +35,22 @@
     </div>
 </div>
 
-
-
 @code {
     [Parameter]
     public int Id { get; set; }
-    private Student Model = new Student();
+    [Parameter]
+    public Event ModelDet { get; set; }
 
     string imgUrl = string.Empty;
 
 
-
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         if (Id > 0)
         {
 
-            imgUrl = $"data:png;base64,{Convert.ToBase64String(Model.Image)}";
+            imgUrl = $"data:png;base64,{Convert.ToBase64String(ModelDet.Image)}";
         }
-        return base.OnInitializedAsync();
-
     }
 
 }

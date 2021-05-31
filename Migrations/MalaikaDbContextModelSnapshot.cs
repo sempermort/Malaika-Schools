@@ -34,23 +34,6 @@ namespace MalaikaSchool.Migrations
                     b.ToTable("GuardianStudent");
                 });
 
-            modelBuilder.Entity("MalaikaSchool.Data.Models.AccountGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountGroup");
-                });
-
             modelBuilder.Entity("MalaikaSchool.Data.Models.AccountList", b =>
                 {
                     b.Property<int>("Id")
@@ -58,37 +41,21 @@ namespace MalaikaSchool.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccountGroupId")
-                        .HasColumnType("int");
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
 
-                    b.Property<decimal>("CurrentBalance")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("ClassFeeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FeeTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("OpeningBalance")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("StudentClassId")
-                        .HasColumnType("int");
-
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalDue")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountGroupId");
-
-                    b.HasIndex("FeeTypeId");
-
-                    b.HasIndex("StudentClassId");
+                    b.HasIndex("ClassFeeId");
 
                     b.HasIndex("StudentId");
 
@@ -621,21 +588,6 @@ namespace MalaikaSchool.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ExamType");
-                });
-
-            modelBuilder.Entity("MalaikaSchool.Data.Models.FeeType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FeeType");
                 });
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.Gallery", b =>
@@ -1306,21 +1258,9 @@ namespace MalaikaSchool.Migrations
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.AccountList", b =>
                 {
-                    b.HasOne("MalaikaSchool.Data.Models.AccountGroup", "AccountGroup")
+                    b.HasOne("MalaikaSchool.Data.Models.ClassFee", "ClassFee")
                         .WithMany()
-                        .HasForeignKey("AccountGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MalaikaSchool.Data.Models.FeeType", "FeeType")
-                        .WithMany()
-                        .HasForeignKey("FeeTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MalaikaSchool.Data.Models.StudentClass", "StudentClass")
-                        .WithMany()
-                        .HasForeignKey("StudentClassId")
+                        .HasForeignKey("ClassFeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1330,13 +1270,9 @@ namespace MalaikaSchool.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AccountGroup");
-
-                    b.Navigation("FeeType");
+                    b.Navigation("ClassFee");
 
                     b.Navigation("Student");
-
-                    b.Navigation("StudentClass");
                 });
 
             modelBuilder.Entity("MalaikaSchool.Data.Models.Admission", b =>

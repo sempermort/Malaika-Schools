@@ -2,53 +2,55 @@
 @page "/Events/Index"
 @inherits OwningComponentBase<StudentsService>
 
-
-
-
-
-
-
 <table id="" class="table b-datagrid">
-    <thead>
-        <tr>
-            <th><button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button></th>
-            <th style="cursor: pointer">Title</th>
-            <th style="cursor: pointer">Content</th>
-        </tr>
-        <tr>
-            <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
-            <th scope="col"><input type="text" class="form-control"></th>
-            <th scope="col"><input type="text" class="form-control"></th>
-        </tr>
+    
+    <thead >
+        
+            <tr>
+
+                <th>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#NewMark">New</button>
+                </th>
+                <th style="cursor: pointer">Title</th>
+                <th style="cursor: pointer">Content</th>
+            </tr>
+            <tr>
+                <th scope="col"><button type="button" class="btn btn-link">Clear Filter</button></th>
+                <th scope="col"><input type="text" class="form-control"></th>
+                <th scope="col"><input type="text" class="form-control"></th>
+            </tr>
+        
     </thead>
     <tbody>
 
         @foreach (var item in Model)
         {
+            imgUrl = $"data:png;base64,{Convert.ToBase64String(item.Image)}";
 
-            <tr>
-                <td></td>
-                <td>
-                    @item.Title
+        <tr>
+            <td></td>
+            <td>
+              <div class="post-block-style post-float media" style="margin-left:-10rem;" >
+                  <div class="post-thumb d-flex" style="width: 15rem;">
+                      <img class="card-img-top" src="@imgUrl" alt="Card image cap">
+
+                  </div>
+                  <div class="post-content post-body" style="margin-left:15px;width:25rem;">
+                      <h5 class="card-title">Card title</h5>
+                      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+                  </div>
+              </div>                            
+            </td>
+
+                <td >
+                    <div class="" style="margin-left:-10rem;">
+                        <NavLink class=" btn btn-primary" href="@($"/Event/Edit/{item.Id}")" @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>
+                        <NavLink class=" btn btn-info" href="@($"/Event/Details/{item.Id}")" @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>
+                        <NavLink class=" btn btn-danger" href="@($"/Event/Delete/{item.Id}")" @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
+                    </div>
                 </td>
-
-                <td>
-                    @item.Massege
-                </td>
-
-                
-
-                <td>
-                    <NavLink class=" btn btn-primary" href="@($"/Event/Edit/{item.Id}")" @onclick="()=>show(item)" data-toggle="modal" data-target="#GuardianTypeModal">Edit</NavLink>
-                    <NavLink class=" btn btn-info" href="@($"/Event/Details/{item.Id}")" @onclick="()=>ShowDetails(item)" data-toggle="modal" data-target="#GuardianTypeModal1">Details</NavLink>
-                    <NavLink class=" btn btn-danger" href="@($"/Event/Delete/{item.Id}")" @onclick="()=>ClickDeleted(item)" data-toggle="modal" data-target="#GuardianTypeModal2">Delete</NavLink>
-                </td>
-
-
-            </tr>
-
-
-
+        </tr>
         }
     </tbody>
 </table>
@@ -88,7 +90,7 @@
 
 
 
-<Details @ref="ShowingDetails" ModelDet="pepaDet"></Details>
+@*<Details @ref="ShowingDetails" ModelDet="pepaDet"></Details>*@
 
 @*<ConfirmDelete @ref="DeletedConfirmation" ConfirmationChanged="ConfirmDelete_Click"
                ConfirmationMessage=@($"Are you sure you want to delete Event :\"{pepaDel.Title}\"")>
@@ -108,6 +110,7 @@
     {
         Model = await Service.EventIndex();
     }
+    string imgUrl = string.Empty;
 
     protected MalaikaSchool.Shared.ConfirmDelete DeletedConfirmation { get; set; }
     protected MalaikaSchool.Pages.Views.Events.Details ShowingDetails { get; set; }
@@ -115,7 +118,7 @@
     private Event pepaDel = new Event();
     private Event pepaDet = new Event();
     private Event pepaEd = new Event();
- 
+
     //show Edit Dialog
     private void show(Event pep)
     {
@@ -162,6 +165,6 @@
         Model = await Service.EventIndex();
 
     }
- 
+
 
 }
